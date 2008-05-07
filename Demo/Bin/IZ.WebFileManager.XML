@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IZ.WebFileManager</name>
+    </assembly>
+    <members>
+        <member name="P:IZ.WebFileManager.FileManagerController.AllowDelete">
+            <summary>
+            When is set true, Delete, Move and Rename are not allowed, Default value it true.
+            </summary>
+        </member>
+        <member name="P:IZ.WebFileManager.FileManagerControlBase.AllowDelete">
+            <summary>
+            When is set true, Delete, Move and Rename are not allowed, Default value it true.
+            </summary>
+        </member>
+        <member name="T:System.IO.xDirectory">
+            <summary>
+            xDirectory v2.0 - Copy a Source Directory and it's SubDirectories/Files.
+            Coder: John Storer II
+            Date: Thursday, May 18, 2006
+            </summary>
+        </member>
+        <member name="F:System.IO.xDirectory._DefaultOverwrite">
+            <summary>
+            Default Overwrite Value - Change to Preference.
+            </summary>
+        </member>
+        <member name="F:System.IO.xDirectory._DefaultIterationLimit">
+            <summary>
+            Default Folder Iteration Limit - Change to Preference.
+            </summary>
+        </member>
+        <member name="M:System.IO.xDirectory.Copy(System.String,System.String)">
+            <summary>
+            xDirectory.Copy() - Copy a Source Directory and it's SubDirectories/Files
+            </summary>
+            <param name="sSource">The Source Directory</param>
+            <param name="sDestination">The Destination Directory</param>
+        </member>
+        <member name="M:System.IO.xDirectory.Copy(System.String,System.String,System.Boolean)">
+            <summary>
+            xDirectory.Copy() - Copy a Source Directory and it's SubDirectories/Files
+            </summary>
+            <param name="sSource">The Source Directory</param>
+            <param name="sDestination">The Destination Directory</param>
+            <param name="Overwrite">Whether or not to Overwrite a Destination File if it Exists.</param>
+        </member>
+        <member name="M:System.IO.xDirectory.Copy(System.String,System.String,System.String)">
+            <summary>
+            xDirectory.Copy() - Copy a Source Directory and it's SubDirectories/Files
+            </summary>
+            <param name="sSource">The Source Directory</param>
+            <param name="sDestination">The Destination Directory</param>
+            <param name="FileFilter">The File Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
+        </member>
+        <member name="M:System.IO.xDirectory.Copy(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            xDirectory.Copy() - Copy a Source Directory and it's SubDirectories/Files
+            </summary>
+            <param name="sSource">The Source Directory</param>
+            <param name="sDestination">The Destination Directory</param>
+            <param name="FileFilter">The File Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
+            <param name="Overwrite">Whether or not to Overwrite a Destination File if it Exists.</param>
+        </member>
+        <member name="M:System.IO.xDirectory.Copy(System.String,System.String,System.String,System.String)">
+            <summary>
+            xDirectory.Copy() - Copy a Source Directory and it's SubDirectories/Files
+            </summary>
+            <param name="sSource">The Source Directory</param>
+            <param name="sDestination">The Destination Directory</param>
+            <param name="FileFilter">The File Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
+            <param name="DirectoryFilter">The Directory Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
+        </member>
+        <member name="M:System.IO.xDirectory.Copy(System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            xDirectory.Copy() - Copy a Source Directory and it's SubDirectories/Files
+            </summary>
+            <param name="sSource">The Source Directory</param>
+            <param name="sDestination">The Destination Directory</param>
+            <param name="FileFilter">The File Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
+            <param name="DirectoryFilter">The Directory Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
+            <param name="Overwrite">Whether or not to Overwrite a Destination File if it Exists.</param>
+        </member>
+        <member name="M:System.IO.xDirectory.Copy(System.String,System.String,System.String,System.String,System.Boolean,System.Int32)">
+            <summary>
+            xDirectory.Copy() - Copy a Source Directory and it's SubDirectories/Files
+            </summary>
+            <param name="sSource">The Source Directory</param>
+            <param name="sDestination">The Destination Directory</param>
+            <param name="FileFilter">The File Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
+            <param name="DirectoryFilter">The Directory Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
+            <param name="Overwrite">Whether or not to Overwrite a Destination File if it Exists.</param>
+            <param name="FolderLimit">Iteration Limit - Total Number of Folders/SubFolders to Copy</param>
+        </member>
+        <member name="M:System.IO.xDirectory.Copy(System.IO.DirectoryInfo,System.IO.DirectoryInfo)">
+            <summary>
+            xDirectory.Copy() - Copy a Source Directory and it's SubDirectories/Files
+            </summary>
+            <param name="diSource">The Source Directory</param>
+            <param name="diDestination">The Destination Directory</param>
+        </member>
+        <member name="M:System.IO.xDirectory.Copy(System.IO.DirectoryInfo,System.IO.DirectoryInfo,System.Boolean)">
+            <summary>
+            xDirectory.Copy() - Copy a Source Directory and it's SubDirectories/Files
+            </summary>
+            <param name="diSource">The Source Directory</param>
+            <param name="diDestination">The Destination Directory</param>
+            <param name="Overwrite">Whether or not to Overwrite a Destination File if it Exists.</param>
+        </member>
+        <member name="M:System.IO.xDirectory.Copy(System.IO.DirectoryInfo,System.IO.DirectoryInfo,System.String)">
+            <summary>
+            xDirectory.Copy() - Copy a Source Directory and it's SubDirectories/Files
+            </summary>
+            <param name="diSource">The Source Directory</param>
+            <param name="diDestination">The Destination Directory</param>
+            <param name="FileFilter">The File Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
+        </member>
+        <member name="M:System.IO.xDirectory.Copy(System.IO.DirectoryInfo,System.IO.DirectoryInfo,System.String,System.Boolean)">
+            <summary>
+            xDirectory.Copy() - Copy a Source Directory and it's SubDirectories/Files
+            </summary>
+            <param name="diSource">The Source Directory</param>
+            <param name="diDestination">The Destination Directory</param>
+            <param name="FileFilter">The File Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
+            <param name="Overwrite">Whether or not to Overwrite a Destination File if it Exists.</param>
+        </member>
+        <member name="M:System.IO.xDirectory.Copy(System.IO.DirectoryInfo,System.IO.DirectoryInfo,System.String,System.String)">
+            <summary>
+            xDirectory.Copy() - Copy a Source Directory and it's SubDirectories/Files
+            </summary>
+            <param name="diSource">The Source Directory</param>
+            <param name="diDestination">The Destination Directory</param>
+            <param name="FileFilter">The File Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
+            <param name="DirectoryFilter">The Directory Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
+        </member>
+        <member name="M:System.IO.xDirectory.Copy(System.IO.DirectoryInfo,System.IO.DirectoryInfo,System.String,System.String,System.Boolean)">
+            <summary>
+            xDirectory.Copy() - Copy a Source Directory and it's SubDirectories/Files
+            </summary>
+            <param name="diSource">The Source Directory</param>
+            <param name="diDestination">The Destination Directory</param>
+            <param name="FileFilter">The File Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
+            <param name="DirectoryFilter">The Directory Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
+            <param name="Overwrite">Whether or not to Overwrite a Destination File if it Exists.</param>
+        </member>
+        <member name="M:System.IO.xDirectory.Copy(System.IO.DirectoryInfo,System.IO.DirectoryInfo,System.String,System.String,System.Boolean,System.Int32)">
+            <summary>
+            xDirectory.Copy() - Copy a Source Directory and it's SubDirectories/Files
+            </summary>
+            <param name="diSource">The Source Directory</param>
+            <param name="diDestination">The Destination Directory</param>
+            <param name="FileFilter">The File Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
+            <param name="DirectoryFilter">The Directory Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
+            <param name="Overwrite">Whether or not to Overwrite a Destination File if it Exists.</param>
+            <param name="FolderLimit">Iteration Limit - Total Number of Folders/SubFolders to Copy</param>
+        </member>
+        <member name="M:IZ.WebFileManager.RootDirectory.ToString">
+            <summary>
+            Overridden
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IZ.WebFileManager.RootDirectory.ExpandDepth">
+            <summary>
+            Gets or sets the number of levels that are expanded in the folder tree when a FileManager control is displayed for the first time. 
+            </summary>
+            <value>
+            The depth to display in the folder tree when the FileManager is initially displayed. The default is -1, which displays all the nodes.
+            </value>
+        </member>
+        <member name="P:IZ.WebFileManager.RootDirectory.Text">
+            <summary>
+            Gets or sets the text displayed for the node in the folder tree of FileManager control.
+            </summary>
+        </member>
+    </members>
+</doc>

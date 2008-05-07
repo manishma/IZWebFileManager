@@ -1,0 +1,26 @@
+<%@ Register Assembly="IZ.WebFileManager" Namespace="IZ.WebFileManager" TagPrefix="iz" %>
+
+<iz:FileManager runat="server" SkinId="VS2005" 
+    CopyImageUrl="IZWebFileManager.VS2005/Copy.gif"
+    MoveImageUrl="IZWebFileManager.VS2005/Move.gif"
+    DeleteImageUrl="IZWebFileManager.VS2005/Delete.gif"
+    RenameImageUrl="IZWebFileManager.VS2005/Rename.gif"
+    FolderUpImageUrl="IZWebFileManager.VS2005/FolderUp.gif"
+    BackColor = "#E5E5D7"
+    >
+        <ToolbarStyle 
+            BackImageUrl="IZWebFileManager.VS2005/ToolbarBG.gif" 
+            PaddingTop="1px" 
+            PaddingBottom="0px" 
+            PaddingLeft="0px" 
+            PaddingRight="0px" 
+            OuterBorderStyle="LeftAndRight"
+            OuterBorderLeftWidth="7px"
+            OuterBorderLeftImageUrl="IZWebFileManager.VS2005/ToolbarL.gif"
+            OuterBorderRightWidth="12px"
+            OuterBorderRightImageUrl="IZWebFileManager.VS2005/ToolbarR.gif"
+            />
+        <ToolbarButtonStyle BorderStyle="solid" BorderWidth="1px" BorderColor="Transparent" OuterBorderStyle="None" PaddingLeft="2px" PaddingRight="2px" PaddingTop="2px" PaddingBottom="2px" />
+        <ToolbarButtonHoverStyle BorderColor="#316AC5" BackColor="#C1D2EE" />
+        <ToolbarButtonPressedStyle BorderColor="#4B4B6F" BackColor="#98B5E2" />
+</iz:FileManager>    

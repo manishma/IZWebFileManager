@@ -1,0 +1,3 @@
+- FileManager: add multi files upload supports
+
+_ FileManager: upload file size limit

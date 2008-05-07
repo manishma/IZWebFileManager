@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+	<siteMapNode url="" title=""  description="">
+		<siteMapNode url="Default.aspx" title="Default"  description="Default IZWebFileManager Configuration" />
+		<siteMapNode url="Customized.aspx" title="Customized"  description="Custom File Types, Templates &amp; Commands" />
+		<siteMapNode url="Styles.aspx" title="Styles &amp; Icons"  description="Custom or Built-in Styles &amp; Icon sets" >
+			<siteMapNode url="VS2005.aspx" title="VS2005 Style"  description="VS2005 Style" />
+			<siteMapNode url="Office2003.aspx" title="Office2003 Style"  description="Office2003 Style" />
+			<siteMapNode url="Tango.aspx" title="Tango Icons"  description="Tango Icons" />
+			<siteMapNode url="Nuvola.aspx" title="Nuvola Icons"  description="Nuvola Icons" />
+		</siteMapNode>
+		<siteMapNode url="Programming.aspx" title="Programming" description="Create instance of control Programmatically">
+			<siteMapNode url="RootDirectories.aspx" title="Root Directories"  description="Dynamically Setting Root Directories" />
+		</siteMapNode>
+	</siteMapNode>
+</siteMap>

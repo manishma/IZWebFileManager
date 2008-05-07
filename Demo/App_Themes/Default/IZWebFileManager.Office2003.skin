@@ -1,0 +1,31 @@
+<%@ Register Assembly="IZ.WebFileManager" Namespace="IZ.WebFileManager" TagPrefix="iz" %>
+
+<iz:FileManager runat="server" SkinId="Office2003" 
+    CopyImageUrl="IZWebFileManager.Office2003/Copy.gif"
+    MoveImageUrl="IZWebFileManager.Office2003/Move.gif"
+    DeleteImageUrl="IZWebFileManager.Office2003/Delete.gif"
+    RenameImageUrl="IZWebFileManager.Office2003/Rename.gif"
+    FolderUpImageUrl="IZWebFileManager.Office2003/FolderUp.gif"
+    BackColor="#C1D8F9"
+    BorderColor="#002D96"
+    ProcessImageUrl="IZWebFileManager.Office2003/Loader.gif"
+    >
+        <FileViewStyle BorderColor="#002D96" />
+        <FolderTreeStyle BorderColor="#002D96" />
+        <ToolbarStyle 
+            BackColor="#C1D8F9"
+            BackImageUrl="IZWebFileManager.Office2003/ToolbarBG.gif" 
+            PaddingTop="1px" 
+            PaddingBottom="0px" 
+            PaddingLeft="0px" 
+            PaddingRight="0px" 
+            OuterBorderStyle="LeftAndRight"
+            OuterBorderLeftWidth="7px"
+            OuterBorderLeftImageUrl="IZWebFileManager.Office2003/ToolbarL.gif"
+            OuterBorderRightWidth="12px"
+            OuterBorderRightImageUrl="IZWebFileManager.Office2003/ToolbarR.gif"
+            />
+        <ToolbarButtonStyle BorderStyle="solid" BorderWidth="1px" BorderColor="Transparent" OuterBorderStyle="None" PaddingLeft="2px" PaddingRight="2px" PaddingTop="2px" PaddingBottom="2px" />
+        <ToolbarButtonHoverStyle BorderColor="#000080" BackColor="#FFE3AF" />
+        <ToolbarButtonPressedStyle BorderColor="#000080" BackColor="#FFB45F" />
+</iz:FileManager>    

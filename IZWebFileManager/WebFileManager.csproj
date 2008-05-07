@@ -1,0 +1,222 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7B6305F4-FE54-4888-8200-C6D3076FEF0F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IZ.WebFileManager</RootNamespace>
+    <AssemblyName>IZ.WebFileManager</AssemblyName>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\IZ.WebFileManager.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Components\DirectoryProvider.cs" />
+    <Compile Include="Components\FileViewDetailsRender.cs" />
+    <Compile Include="Components\FileViewIconsRender.cs" />
+    <Compile Include="Components\FileViewRender.cs" />
+    <Compile Include="FileManagerControlBase.cs" />
+    <Compile Include="FileManagerController.cs" />
+    <Compile Include="FileManagerItemInfo.cs" />
+    <Compile Include="FileType.cs" />
+    <Compile Include="FileManagerCommand.cs" />
+    <Compile Include="FileViewItem.cs" />
+    <Compile Include="HandlersAndEventArgs.cs" />
+    <Compile Include="NewDocumentTemplate.cs" />
+    <Compile Include="RootDirectory.cs" />
+    <Compile Include="FileView.cs" />
+    <Compile Include="FolderTree.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\FileView.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\FileManagerController.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Components\FileViewThumbnailsRender.cs" />
+    <Compile Include="Components\xDirectory.cs" />
+    <Compile Include="BorderedPanel.cs" />
+    <Compile Include="BorderedPanelStyle.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ContextMenu.cs" />
+    <Compile Include="CustomToolbarButton.cs" />
+    <Compile Include="CustomToolbarButtonCollection.cs" />
+    <Compile Include="ThumbnailHandler.cs" />
+    <Compile Include="OuterBorderStyle.cs" />
+    <Compile Include="SortMode.cs" />
+    <Compile Include="SpecialFolderCollection.cs" />
+    <Compile Include="SpecialFolder.cs" />
+    <Compile Include="FileManager.cs" />
+    <Compile Include="FileManagerCommandCollection.cs" />
+    <Compile Include="FileManagerCommands.cs" />
+    <Compile Include="FileManagerCommandTargets.cs" />
+    <Compile Include="FileManagerController.Events.cs" />
+    <Compile Include="FileTypeCollection.cs" />
+    <Compile Include="NewDocumentTemplateCollection.cs" />
+    <Compile Include="RootDirectoryCollection.cs" />
+    <Compile Include="ToolbarImages.cs" />
+    <Compile Include="ToolbarOptions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\Copy.gif" />
+    <EmbeddedResource Include="resources\Delete.gif" />
+    <EmbeddedResource Include="resources\FolderUp.gif" />
+    <EmbeddedResource Include="resources\Process.gif" />
+    <EmbeddedResource Include="resources\Move.gif" />
+    <EmbeddedResource Include="resources\Rename.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\View.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\toolbarbtndown_B.gif" />
+    <EmbeddedResource Include="resources\toolbarbtndown_L.gif" />
+    <EmbeddedResource Include="resources\toolbarbtndown_LB.gif" />
+    <EmbeddedResource Include="resources\toolbarbtndown_LT.gif" />
+    <EmbeddedResource Include="resources\toolbarbtndown_R.gif" />
+    <EmbeddedResource Include="resources\toolbarbtndown_RB.gif" />
+    <EmbeddedResource Include="resources\toolbarbtndown_RT.gif" />
+    <EmbeddedResource Include="resources\toolbarbtndown_T.gif" />
+    <EmbeddedResource Include="resources\toolbarbtnhover_B.gif" />
+    <EmbeddedResource Include="resources\toolbarbtnhover_L.gif" />
+    <EmbeddedResource Include="resources\toolbarbtnhover_LB.gif" />
+    <EmbeddedResource Include="resources\toolbarbtnhover_LT.gif" />
+    <EmbeddedResource Include="resources\toolbarbtnhover_R.gif" />
+    <EmbeddedResource Include="resources\toolbarbtnhover_RB.gif" />
+    <EmbeddedResource Include="resources\toolbarbtnhover_RT.gif" />
+    <EmbeddedResource Include="resources\toolbarbtnhover_T.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\toolbarbg.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\detailscolumnheader_R.gif" />
+    <EmbeddedResource Include="resources\detailscolumnheader_RB.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\FileLarge.gif" />
+    <EmbeddedResource Include="resources\FileSmall.gif" />
+    <EmbeddedResource Include="resources\FolderLarge.gif" />
+    <EmbeddedResource Include="resources\FolderSmall.gif" />
+    <EmbeddedResource Include="resources\RootFolderLarge.gif" />
+    <EmbeddedResource Include="resources\RootFolderSmall.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\BorderedPanel.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\Empty.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\PopOut.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\PopOutRtl.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\Bullet.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\CheckMark.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\NewFolder.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\Refresh.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\FolderTree.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)*" "$(SolutionDir)Demo\Bin\"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

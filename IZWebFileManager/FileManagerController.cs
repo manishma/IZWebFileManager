@@ -1158,17 +1158,17 @@ namespace IZ.WebFileManager
 		}
 
 		void AddFolderTreeNavigateEventReference (StringBuilder sb, FileManagerItemInfo itemInfo) {
-			sb.AppendLine ("var folderTree = eval('WFM_' + context.ClientID + '_FolderTree');");
+			sb.AppendLine ("var folderTree = window['WFM_' + context.ClientID + '_FolderTree'];");
 			sb.AppendLine ("if(folderTree) {folderTree.Navigate (['" + String.Join ("','", GetPathHashCodes (itemInfo.FileManagerPath)) + "'],0);}");
 		}
 
 		void AddFolderTreeRefreshEventReference (StringBuilder sb, FileManagerItemInfo itemInfo) {
-			sb.AppendLine ("var folderTree = eval('WFM_' + context.ClientID + '_FolderTree');");
+			sb.AppendLine ("var folderTree = window['WFM_' + context.ClientID + '_FolderTree'];");
 			sb.AppendLine ("if(folderTree) {folderTree.Refresh ('" + GetPathHashCode (itemInfo.FileManagerPath) + "');}");
 		}
 
 		void AddFolderTreeRequireRefreshEventReference (StringBuilder sb, FileManagerItemInfo srcInfo, FileManagerItemInfo destInfo) {
-			sb.AppendLine ("var folderTree = eval('WFM_' + context.ClientID + '_FolderTree');");
+			sb.AppendLine ("var folderTree = window['WFM_' + context.ClientID + '_FolderTree'];");
 			sb.AppendLine ("if(folderTree) {folderTree.RequireRefresh (['" + GetPathHashCode (srcInfo.FileManagerPath) + "','" + String.Join ("','", GetPathHashCodes (destInfo.FileManagerPath)) + "']);}");
 		}
 

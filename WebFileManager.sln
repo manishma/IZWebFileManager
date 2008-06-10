@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebFileManager", "IZWebFile
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Demo", "Demo\", "{2A557F20-246A-4175-9A1C-5606693C4699}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFramework = "2.0"
+		TargetFramework = "3.5"
 		Debug.AspNetCompiler.VirtualPath = "/Demo"
 		Debug.AspNetCompiler.PhysicalPath = "..\Demo\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Demo\"

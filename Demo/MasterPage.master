@@ -4,45 +4,47 @@
 
 <script runat="server">
 
-    protected void Page_Load(object sender, EventArgs e)
-    {
-        Page.Title = SiteMap.CurrentNode.Description;
-    }
+	protected void Page_Load (object sender, EventArgs e) {
+		Page.Title = SiteMap.CurrentNode.Description;
+	}
 </script>
 
-<html xmlns="http://www.w3.org/1999/xhtml" >
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Untitled Page</title>
+	<title>Untitled Page</title>
 </head>
 <body>
-    <form id="form1" runat="server">
-    <div>
-        <table>
-            <tr>
-                <td valign="top">
-                <div style="position:relative;z-index:200;">
-                    <asp:Menu ID="Menu1" runat="server" BackColor="#B5C7DE" DataSourceID="SiteMapDataSource1"
-                        DynamicHorizontalOffset="2" Font-Names="Verdana" ForeColor="#284E98"
-                        Orientation="Horizontal" StaticSubMenuIndent="10px">
-                        <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
-                        <DynamicHoverStyle BackColor="#284E98" ForeColor="White" />
-                        <DynamicMenuStyle BackColor="#B5C7DE" />
-                        <StaticSelectedStyle BackColor="#507CD1" ForeColor="White" />
-                        <DynamicSelectedStyle BackColor="#507CD1" ForeColor="White" />
-                        <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
-                        <StaticHoverStyle BackColor="#284E98" ForeColor="White" />
-                    </asp:Menu></div>
-                </td>
-            </tr>
-            <tr>
-                <td valign="top">
-        <asp:contentplaceholder id="ContentPlaceHolder1" runat="server">
-        </asp:contentplaceholder>
-                </td>
-            </tr>
-        </table>
-        <asp:SiteMapDataSource ID="SiteMapDataSource1" runat="server" ShowStartingNode="False" />
-    </div>
-    </form>
+	<form id="form1" runat="server">
+	<asp:ScriptManager runat="server" ID="ScriptManager1">
+	</asp:ScriptManager>
+	<div>
+		<table>
+			<tr>
+				<td valign="top">
+					<div style="position: relative; z-index: 200;">
+						<asp:Menu ID="Menu1" runat="server" BackColor="#B5C7DE" DataSourceID="SiteMapDataSource1"
+							DynamicHorizontalOffset="2" Font-Names="Verdana" ForeColor="#284E98" Orientation="Horizontal"
+							StaticSubMenuIndent="10px">
+							<StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+							<DynamicHoverStyle BackColor="#284E98" ForeColor="White" />
+							<DynamicMenuStyle BackColor="#B5C7DE" />
+							<StaticSelectedStyle BackColor="#507CD1" ForeColor="White" />
+							<DynamicSelectedStyle BackColor="#507CD1" ForeColor="White" />
+							<DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+							<StaticHoverStyle BackColor="#284E98" ForeColor="White" />
+						</asp:Menu>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					<asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+					</asp:ContentPlaceHolder>
+				</td>
+			</tr>
+		</table>
+		<asp:SiteMapDataSource ID="SiteMapDataSource1" runat="server" ShowStartingNode="False" />
+	</div>
+	</form>
 </body>
 </html>

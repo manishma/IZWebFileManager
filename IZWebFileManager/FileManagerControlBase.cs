@@ -57,6 +57,7 @@ namespace IZ.WebFileManager
 		static readonly Color _defaultBorderColor = Color.FromArgb (0xACA899);
 		static readonly Color _defaultBackColor = Color.White;
 		static readonly Color _defaultForeColor = Color.Black;
+		ScriptManager _scriptManager;
 
 		#endregion
 
@@ -177,6 +178,17 @@ namespace IZ.WebFileManager
 				return _defaultForeColor;
 			}
 			set { base.ForeColor = value; }
+		}
+
+		protected ScriptManager ScriptManager {
+			get {
+				if (_scriptManager == null) {
+					_scriptManager = ScriptManager.GetCurrent (Page);
+					if (_scriptManager == null)
+						throw new InvalidOperationException ("The control with ID '" + ID + "' requires a ScriptManager on the page. The ScriptManager must appear before any controls that need it.");
+				}
+				return _scriptManager;
+			}
 		}
 
 		#endregion

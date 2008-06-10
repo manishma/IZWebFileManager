@@ -223,6 +223,7 @@ function WebFileManager_InitCallback() {
 function WebFileManager_Render(result, context) {
     var interval = window.setInterval(function() {
         window.clearInterval(interval);
+        Sys.WebForms.PageRequestManager.getInstance()._destroyTree(context.Element);
         context.Element.innerHTML = result;
         context.Initialize();
         context.SetFocus();

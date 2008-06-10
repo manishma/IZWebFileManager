@@ -1,3 +1,5 @@
+Type.registerNamespace('IZ.WebFileManager');
+
 FileView = function(ClientID, ControllerID, RegularItemStyle, SelectedItemStyle, EditTextBoxStyle) {
     this.ClientID = ClientID;
     this.ControllerID = ControllerID;
@@ -284,6 +286,9 @@ FileView.prototype.SetView = function(arg) {
 }
 
 FileView.prototype.InitItem = function(item, path, isDirectory, canBeRenamed, selected, fileType) {
+	
+	$create(IZ.WebFileManager.FileViewItem, {}, {}, {}, item);
+	
     var ControllerID = this.ControllerID;
     var ClientID = this.ClientID;
     item.OwnerID = ClientID;
@@ -322,4 +327,13 @@ FileView.prototype.OnMenuItemClick = function(sender, arg) {
     eval('WFM_' + ControllerID + '.On'+arg.CommandName+'(WFM_' + ClientID + ',arg.CommandArgument)');
 }
 
+IZ.WebFileManager.FileViewItem = function(element) {
+	IZ.WebFileManager.FileViewItem.initializeBase(this, [element]);
+}
 
+IZ.WebFileManager.FileViewItem.prototype = {
+	initialize : function() {
+	}
+}
+
+IZ.WebFileManager.FileViewItem.registerClass('IZ.WebFileManager.FileViewItem', Sys.UI.Behavior);

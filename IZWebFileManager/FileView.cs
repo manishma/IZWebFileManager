@@ -33,7 +33,7 @@ namespace IZ.WebFileManager
 {
 	[DefaultProperty ("Text")]
 	[ToolboxData ("<{0}:FileView runat=\"server\" width=\"400\" height=\"300\"></{0}:FileView>")]
-	public sealed class FileView : FileManagerControlBase, IScriptControl
+	public sealed class FileView : FileManagerControlBase
 	{
 		#region Constructors
 
@@ -550,7 +550,6 @@ namespace IZ.WebFileManager
 				Page.Header.StyleSheet.CreateStyleRule (selectedItemLinkStyle, this, "." + SelectedItemStyle.RegisteredCssClass + " a." + LinkToOpenItemClass);
 			}
 
-			ScriptManager.RegisterScriptControl (this);
 			ScriptManager.RegisterStartupScript (this, typeof (FileView), ClientID, GetInitInstanceScript (), true);
 
 			CreateContextMenu ();
@@ -979,15 +978,11 @@ namespace IZ.WebFileManager
 		void CreateContextMenuRootItem (Control control) {
 		}
 
-		#endregion
-
-		#region IScriptControl Members
-
-		IEnumerable<ScriptDescriptor> IScriptControl.GetScriptDescriptors () {
+		protected override IEnumerable<ScriptDescriptor> GetScriptDescriptors () {
 			yield break;
 		}
 
-		IEnumerable<ScriptReference> IScriptControl.GetScriptReferences () {
+		protected override IEnumerable<ScriptReference> GetScriptReferences () {
 			yield return new ScriptReference ("IZ.WebFileManager.resources.FileView.js", typeof (FileView).Assembly.FullName);
 		}
 

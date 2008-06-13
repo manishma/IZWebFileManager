@@ -33,7 +33,7 @@ namespace IZ.WebFileManager
 {
 	[PersistChildren (false)]
 	[ParseChildren (true)]
-	public abstract partial class FileManagerControlBase : WebControl, INamingContainer
+	public abstract partial class FileManagerControlBase : WebControl, INamingContainer, IScriptControl
 	{
 		#region Constructors
 
@@ -276,6 +276,11 @@ namespace IZ.WebFileManager
 
 		}
 
+		protected override void OnPreRender (EventArgs e) {
+			base.OnPreRender (e);
+			ScriptManager.RegisterScriptControl (this);
+		}
+
 		protected override HtmlTextWriterTag TagKey {
 			get { return HtmlTextWriterTag.Div; }
 		}
@@ -358,6 +363,14 @@ namespace IZ.WebFileManager
 
 		protected string GetResourceString (string name, string defaultValue) {
 			return Controller.GetResourceString (name, defaultValue);
+		}
+
+		protected virtual IEnumerable<ScriptDescriptor> GetScriptDescriptors () {
+			yield break;
+		}
+
+		protected virtual IEnumerable<ScriptReference> GetScriptReferences () {
+			yield break;
 		}
 
 		#endregion
@@ -623,6 +636,18 @@ namespace IZ.WebFileManager
 		public string RefreshImageUrl {
 			get { return Controller.RefreshImageUrl; }
 			set { Controller.RefreshImageUrl = value; }
+		}
+
+		#endregion
+
+		#region IScriptControl Members
+
+		IEnumerable<ScriptDescriptor> IScriptControl.GetScriptDescriptors () {
+			return GetScriptDescriptors ();
+		}
+
+		IEnumerable<ScriptReference> IScriptControl.GetScriptReferences () {
+			return GetScriptReferences ();
 		}
 
 		#endregion

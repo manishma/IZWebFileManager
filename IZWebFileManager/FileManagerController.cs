@@ -39,7 +39,7 @@ namespace IZ.WebFileManager
 {
 	[PersistChildren (false)]
 	[ParseChildren (true)]
-	public sealed partial class FileManagerController : Control, ICallbackEventHandler, IPostBackEventHandler
+	public sealed partial class FileManagerController : Control, ICallbackEventHandler, IPostBackEventHandler, IScriptControl
 	{
 		#region Fields
 
@@ -74,6 +74,7 @@ namespace IZ.WebFileManager
 		string _callbackCommandArgument;
 		FileManagerCommands _callbackCommand;
 		FileManagerControlBase _callbackControl;
+		ScriptManager _scriptManager;
 
 		#endregion
 
@@ -363,6 +364,17 @@ namespace IZ.WebFileManager
 			set { ViewState ["RefreshImageUrl"] = value; }
 		}
 
+		protected ScriptManager ScriptManager {
+			get {
+				if (_scriptManager == null) {
+					_scriptManager = ScriptManager.GetCurrent (Page);
+					if (_scriptManager == null)
+						throw new InvalidOperationException ("The control with ID '" + ID + "' requires a ScriptManager on the page. The ScriptManager must appear before any controls that need it.");
+				}
+				return _scriptManager;
+			}
+		}
+
 		#endregion
 
 		static FileManagerController () {
@@ -383,10 +395,9 @@ namespace IZ.WebFileManager
 
 		protected override void OnPreRender (EventArgs e) {
 			base.OnPreRender (e);
-
-			Page.ClientScript.RegisterClientScriptBlock (typeof (FileManagerController), "WebFileManager_DoCallback", GetDoCallbackScript (), true);
-			Page.ClientScript.RegisterClientScriptResource (typeof (FileManagerController), "IZ.WebFileManager.resources.FileManagerController.js");
-			Page.ClientScript.RegisterStartupScript (typeof (FileManagerController), ClientID, GetInitInstanceScript (), true);
+			ScriptManager.RegisterScriptControl (this);
+			ScriptManager.RegisterClientScriptBlock (this, typeof (FileManagerController), "WebFileManager_DoCallback", GetDoCallbackScript (), true);
+			ScriptManager.RegisterStartupScript (this, typeof (FileManagerController), ClientID, GetInitInstanceScript (), true);
 
 			RegisterResources ();
 
@@ -1520,5 +1531,17 @@ namespace IZ.WebFileManager
 			return sb.ToString ();
 		}
 
+
+		#region IScriptControl Members
+
+		IEnumerable<ScriptDescriptor> IScriptControl.GetScriptDescriptors () {
+			yield break;
+		}
+
+		IEnumerable<ScriptReference> IScriptControl.GetScriptReferences () {
+			yield return new ScriptReference ("IZ.WebFileManager.resources.FileManagerController.js", typeof (FileManagerController).Assembly.FullName);
+		}
+
+		#endregion
 	}
 }

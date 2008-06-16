@@ -3,6 +3,7 @@ Type.registerNamespace('IZ.WebFileManager');
 FileView = function(ClientID, ControllerID, RegularItemStyle, SelectedItemStyle, EditTextBoxStyle) {
     this.ClientID = ClientID;
     this.ControllerID = ControllerID;
+    this._controller = eval('WFM_' + ControllerID);
     this.RegularItemStyle = RegularItemStyle;
     this.SelectedItemStyle = SelectedItemStyle;
     this.EditTextBoxStyle = EditTextBoxStyle;
@@ -105,6 +106,7 @@ FileView = function(ClientID, ControllerID, RegularItemStyle, SelectedItemStyle,
         return false;
     }
 }
+FileView.prototype.getController = function() {return this._controller;}
 
 FileView.prototype.ShowContextMenu = function(arg) {
     if(this.InProcess)
@@ -287,8 +289,6 @@ FileView.prototype.SetView = function(arg) {
 
 FileView.prototype.InitItem = function(item, path, isDirectory, canBeRenamed, selected, fileType) {
 	
-	$create(IZ.WebFileManager.FileViewItem, {}, {}, {}, item);
-	
     var ControllerID = this.ControllerID;
     var ClientID = this.ClientID;
     item.OwnerID = ClientID;
@@ -299,11 +299,6 @@ FileView.prototype.InitItem = function(item, path, isDirectory, canBeRenamed, se
     item.Selected = selected;
     item.CanBeRenamed = canBeRenamed;
     item.Name = decodeURIComponent(path);
-    
-    item.onclick = function(e) {
-        if(e == null) var e = event;
-        eval('WFM_' + ClientID + '.AddSelectedItem(this, !e.ctrlKey && !e.shiftKey)');
-    }
     
     item.ondblclick = function(e) {
         if(e == null) var e = event;
@@ -319,6 +314,9 @@ FileView.prototype.InitItem = function(item, path, isDirectory, canBeRenamed, se
         eval('WFM_' + ClientID + '.HitInfo = \'SelectedItems\'');
         return false;
     }
+    
+	var fileViewItem = $create(IZ.WebFileManager.FileViewItem, {}, {}, {}, item);
+	fileViewItem.set_owner(eval('WFM_' + ClientID));
 }
 
 FileView.prototype.OnMenuItemClick = function(sender, arg) {
@@ -329,10 +327,97 @@ FileView.prototype.OnMenuItemClick = function(sender, arg) {
 
 IZ.WebFileManager.FileViewItem = function(element) {
 	IZ.WebFileManager.FileViewItem.initializeBase(this, [element]);
+	this._owner = null;
+	this._highlight = false;
+	this._pendDragDrop = false;
 }
 
 IZ.WebFileManager.FileViewItem.prototype = {
 	initialize : function() {
+        IZ.WebFileManager.FileViewItem.callBaseMethod(this, 'initialize');
+        $addHandler(this.get_element(), "mousedown", Function.createDelegate(this, this.mouseDown));
+        $addHandler(this.get_element(), "mouseover", Function.createDelegate(this, this.mouseOver));
+        $addHandler(this.get_element(), "mousemove", Function.createDelegate(this, this.mouseMove));
+        $addHandler(this.get_element(), "mouseout", Function.createDelegate(this, this.mouseOut));
+        $addHandler(this.get_element(), "mouseup", Function.createDelegate(this, this.mouseUp));
+	},
+	
+	get_owner : function() {return this._owner;},
+	set_owner : function(value) {this._owner = value;},
+	getController : function() {return this._owner.getController();},
+	
+	highlight : function(bool) {
+		if(this._highlight == bool) return;
+		this._highlight = bool;
+		if(bool) WebForm_AppendToClassName(this.get_element(), this.get_owner().SelectedItemStyle);
+		else WebForm_RemoveClassName(this.get_element(), this.get_owner().SelectedItemStyle);
+	},
+	
+	setCursor : function(cursor){
+		this.get_element().style.cursor = cursor;
+		var name = WebForm_GetElementById(this.get_element().id+'_Name');
+		if(name) name.style.cursor = cursor;
+	},
+	
+	isSelected : function() {return this.get_element().Selected;},
+	
+	select : function(bool) {this.get_owner().AddSelectedItem(this.get_element(), bool);},
+
+	mouseOver : function(ev) {
+		ev.preventDefault();
+		if(this.getController().isDragDrop()) {
+			if(this.isSelected()){
+				this.setCursor("not-allowed");
+			}
+			else {
+				this.highlight(true);
+				this.setCursor("pointer");
+			}
+		}
+	},
+
+	mouseMove : function(ev) {
+		ev.preventDefault();
+		if(this._pendDragDrop) {
+			this._pendDragDrop = false;
+			if(!this.isSelected()) {
+				this.select(true)
+			}
+			this.getController().startDragDrop(this);
+		}
+	},
+
+	mouseOut : function(ev) {
+		ev.preventDefault();
+		if(this.getController().isDragDrop()) {
+			if(!this.isSelected()){
+				this.highlight(false);
+			}
+			this.setCursor("default");
+		}
+	},
+		
+	mouseDown : function(ev) {
+		ev.preventDefault();
+		this._pendDragDrop = true;
+	},
+		
+	mouseUp : function(ev) {
+		ev.preventDefault();
+		this._pendDragDrop = false;
+		if(this.getController().isDragDrop()) {
+			if(this.isSelected()) {
+				this.getController().stopDragDrop(this);
+			}
+			else {
+				this.getController().drop(this);
+				this.highlight(false);
+			}
+			this.setCursor("default");
+		}
+		else if(!this.isSelected()) {
+			this.select(!ev.ctrlKey && !ev.shiftKey)
+		}
 	}
 }
 

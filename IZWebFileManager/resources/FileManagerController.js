@@ -214,6 +214,34 @@ FileManagerController.prototype.OnFileViewNavigate = function(sender, arg) {
     WebFileManager_DoCallback(this.UniqueID, sender.ClientID + this.EventArgumentSplitter + 'FileViewNavigate' + this.EventArgumentSplitter + encodeURIComponent(arg), WebFileManager_Eval, sender, WebFileManager_OnError)
 }
 
+FileManagerController.prototype.getDndVisual = function() {
+	if(this._dndVisual == null){
+		this._dndVisual = document.createElement('div');
+		this._dndVisual.style.visibility="hidden";
+		this._dndVisual.style.display="none";
+		document.body.appendChild(this._dndVisual);
+	}
+	return this._dndVisual;
+}
+
+FileManagerController.prototype.startDragDrop = function(dragSource) {
+	this._dragSource = dragSource;
+}
+
+FileManagerController.prototype.stopDragDrop = function() {
+	this._dragSource = null;
+}
+
+FileManagerController.prototype.isDragDrop = function() {
+	if(this._dragSource) return true;
+	return false;
+}
+
+FileManagerController.prototype.drop = function(target) {
+	this._dragSource = null;
+	Sys.Debug.trace("drop:" + target.get_element().Path);
+}
+
 function WebFileManager_InitCallback() {
     __theFormPostData = "";
     __theFormPostCollection = new Array();

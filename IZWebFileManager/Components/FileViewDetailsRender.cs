@@ -132,9 +132,8 @@ namespace IZ.WebFileManager.Components
 
 			output.AddStyleAttribute (HtmlTextWriterStyle.Width, FileManagerController.SmallImageWidth.ToString (CultureInfo.InstalledUICulture));
 			output.AddStyleAttribute (HtmlTextWriterStyle.Height, FileManagerController.SmallImageHeight.ToString (CultureInfo.InstalledUICulture));
-			output.AddAttribute (HtmlTextWriterAttribute.Src, item.SmallImage);
-			output.AddAttribute (HtmlTextWriterAttribute.Alt, item.Info);
-			output.RenderBeginTag (HtmlTextWriterTag.Img);
+			output.AddStyleAttribute (HtmlTextWriterStyle.BackgroundImage, item.SmallImage);
+			output.RenderBeginTag (HtmlTextWriterTag.Div);
 			output.RenderEndTag ();
 
 			output.RenderEndTag ();

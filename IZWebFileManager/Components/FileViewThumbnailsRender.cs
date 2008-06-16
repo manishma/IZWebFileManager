@@ -61,11 +61,10 @@ namespace IZ.WebFileManager.Components
 			output.AddStyleAttribute (HtmlTextWriterStyle.Height, "92px");
 			output.AddStyleAttribute (HtmlTextWriterStyle.TextAlign, "center");
 			output.AddStyleAttribute (HtmlTextWriterStyle.VerticalAlign, "middle");
+			output.AddStyleAttribute (HtmlTextWriterStyle.BackgroundImage, item.ThumbnailImage);
+			output.AddStyleAttribute ("background-position", "center center");
+			output.AddStyleAttribute ("background-repeat", "no-repeat");
 			output.RenderBeginTag (HtmlTextWriterTag.Td);
-			output.AddAttribute (HtmlTextWriterAttribute.Src, item.ThumbnailImage);
-			output.AddAttribute (HtmlTextWriterAttribute.Alt, item.Info);
-			output.RenderBeginTag (HtmlTextWriterTag.Img);
-			output.RenderEndTag ();
 			output.RenderEndTag ();
 			output.RenderEndTag ();
 			output.RenderEndTag ();

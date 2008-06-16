@@ -46,16 +46,10 @@ namespace IZ.WebFileManager.Components
 			output.AddStyleAttribute (HtmlTextWriterStyle.TextAlign, "center");
 			output.AddStyleAttribute (HtmlTextWriterStyle.VerticalAlign, "middle");
 			output.AddStyleAttribute (HtmlTextWriterStyle.Height, "41px");
+			output.AddStyleAttribute (HtmlTextWriterStyle.BackgroundImage, item.LargeImage);
+			output.AddStyleAttribute ("background-position", "center center");
+			output.AddStyleAttribute ("background-repeat", "no-repeat");
 			output.RenderBeginTag (HtmlTextWriterTag.Td);
-			//output.AddStyleAttribute(HtmlTextWriterStyle.Width, "70px");
-			//output.RenderBeginTag(HtmlTextWriterTag.Div);
-			output.AddStyleAttribute (HtmlTextWriterStyle.Width, FileManagerController.LargeImageWidth.ToString (CultureInfo.InstalledUICulture));
-			output.AddStyleAttribute (HtmlTextWriterStyle.Height, FileManagerController.LargeImageHeight.ToString (CultureInfo.InstalledUICulture));
-			output.AddAttribute (HtmlTextWriterAttribute.Src, item.LargeImage);
-			output.AddAttribute (HtmlTextWriterAttribute.Alt, item.Info);
-			output.RenderBeginTag (HtmlTextWriterTag.Img);
-			output.RenderEndTag ();
-			//output.RenderEndTag();
 			output.RenderEndTag ();
 			output.RenderEndTag ();
 

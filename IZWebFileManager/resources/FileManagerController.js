@@ -20,6 +20,8 @@ FileManagerController = function(ClientID, UniqueID, EventArgumentSplitter) {
         }
     }
     
+	this._mouseUpHandler = Function.createDelegate(this, this._onMouseUp);
+	this._keyPressHandler = Function.createDelegate(this, this._onKeyPress);
 }
 
 FileManagerController.prototype.evalDocumentOnClick = function(e) {
@@ -229,22 +231,52 @@ FileManagerController.prototype._dropCopyCursor = 'url("<% = WebResource("IZ.Web
 FileManagerController.prototype._dropMoveCursor = 'url("<% = WebResource("IZ.WebFileManager.resources.drag_move.cur") %>"), default';
 
 FileManagerController.prototype.startDragDrop = function(dragSource) {
+	Sys.Debug.trace("start dnd");
+	this._wireEvents();
 	this._dragSource = dragSource;
 }
 
 FileManagerController.prototype.stopDragDrop = function() {
+	Sys.Debug.trace("stop dnd");
+	this._unwireEvents();
 	this._dragSource = null;
+	if(this._dropTarget){
+		this._dropTarget.onDragLeaveTarget();
+		this._dropTarget=null;
+	}
 }
 
-FileManagerController.prototype.isDragDrop = function() {
+FileManagerController.prototype.isDragging = function() {
 	if(this._dragSource) return true;
 	return false;
 }
 
 FileManagerController.prototype.drop = function(target, move) {
-	this._dragSource = null;
 	Sys.Debug.trace("drop:" + move + target.get_element().Path);
+	this.stopDragDrop();
 }
+
+FileManagerController.prototype._wireEvents = function() {
+	$addHandler(document, "mouseup", this._mouseUpHandler);
+	$addHandler(document, "keypress", this._keyPressHandler);
+}
+
+FileManagerController.prototype._unwireEvents = function() {
+	$removeHandler(document, "keypress", this._keyPressHandler);
+	$removeHandler(document, "mouseup", this._mouseUpHandler);
+}
+    
+FileManagerController.prototype._onMouseUp = function (e) {
+    this.stopDragDrop();
+};
+
+FileManagerController.prototype._onKeyPress = function (e) {
+    // Escape.
+    var k = e.keyCode ? e.keyCode : e.rawEvent.keyCode;
+    if (k == 27) {
+        this.stopDragDrop();
+    }
+};
 
 function WebFileManager_InitCallback() {
     __theFormPostData = "";

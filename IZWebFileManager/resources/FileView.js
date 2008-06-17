@@ -331,6 +331,7 @@ IZ.WebFileManager.FileViewItem = function(element) {
 	this._highlight = false;
 	this._cursor = null;
 	this._pendDragDrop = false;
+	this._pendSelect = false;
 	this._dropMove = true;
 }
 
@@ -365,61 +366,80 @@ IZ.WebFileManager.FileViewItem.prototype = {
 	isSelected : function() {return this.get_element().Selected;},
 	
 	select : function(bool) {this.get_owner().AddSelectedItem(this.get_element(), bool);},
+	
+	_canDrop : function() {
+		return this.get_element().FileType == -2 && !this.isSelected();
+	},
 
 	mouseMove : function(ev) {
 		ev.preventDefault();
 		if(this._pendDragDrop) {
 			this._pendDragDrop = false;
-			if(!this.isSelected()) {
-				this.select(true)
-			}
+			this._pendSelect = false;
+			if(!this.isSelected())
+				this.select(!ev.ctrlKey && !ev.shiftKey)
 			this.getController().startDragDrop(this);
 		}
-		else if(this.getController().isDragDrop()) {
-			if(this.isSelected()){
-				this.setCursor(this.getController()._dropNotAllowedCursor);
-			}
-			else {
-				this.highlight(true);
-				this._dropMove = !ev.ctrlKey && !ev.shiftKey;
-				if(this._dropMove)
-					this.setCursor(this.getController()._dropMoveCursor);
-				else
-					this.setCursor(this.getController()._dropCopyCursor);
-			}
+		if(this.getController().isDragging()) {
+			this._dropMove = !ev.ctrlKey && !ev.shiftKey;
+			this.getController()._dropTarget = this;
+			this.onDragInTarget();
 		}
 	},
 
 	mouseOut : function(ev) {
 		ev.preventDefault();
-		if(this.getController().isDragDrop()) {
-			if(!this.isSelected()){
-				this.highlight(false);
-			}
-			this.setCursor("default");
+		if(this.getController().isDragging()) {
+			this.getController()._dropTarget = null;
+			this.onDragLeaveTarget();
 		}
 	},
 		
 	mouseDown : function(ev) {
+		Sys.Debug.trace("mouseDown");
 		ev.preventDefault();
 		this._pendDragDrop = true;
+		this._pendSelect = true;
 	},
 		
 	mouseUp : function(ev) {
+		Sys.Debug.trace("mouseUp");
 		ev.preventDefault();
+		var pendSelect = this._pendSelect;
 		this._pendDragDrop = false;
-		if(this.getController().isDragDrop()) {
-			if(this.isSelected()) {
-				this.getController().stopDragDrop(this);
-			}
-			else {
+		this._pendSelect = false;
+		if(this.getController().isDragging()) {
+			if(this._canDrop()) {
 				this.getController().drop(this, this._dropMove);
 				this.highlight(false);
 			}
+			else {
+				this.getController().stopDragDrop(this);
+			}
 			this.setCursor("default");
 		}
-		else if(!this.isSelected()) {
+		else if(pendSelect) {
 			this.select(!ev.ctrlKey && !ev.shiftKey)
+		}
+	},
+	
+	onDragLeaveTarget : function() {
+		if(this._canDrop()){
+			this.highlight(false);
+		}
+		this.setCursor("default");
+	},
+	
+	onDragInTarget : function() {
+		if(this._canDrop()){
+			this.highlight(true);
+			if(this._dropMove)
+				this.setCursor(this.getController()._dropMoveCursor);
+			else
+				this.setCursor(this.getController()._dropCopyCursor);
+		}
+		else {
+			this.setCursor(this.getController()._dropNotAllowedCursor);
 		}
 	}
 }

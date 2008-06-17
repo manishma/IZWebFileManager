@@ -329,14 +329,15 @@ IZ.WebFileManager.FileViewItem = function(element) {
 	IZ.WebFileManager.FileViewItem.initializeBase(this, [element]);
 	this._owner = null;
 	this._highlight = false;
+	this._cursor = null;
 	this._pendDragDrop = false;
+	this._dropMove = true;
 }
 
 IZ.WebFileManager.FileViewItem.prototype = {
 	initialize : function() {
         IZ.WebFileManager.FileViewItem.callBaseMethod(this, 'initialize');
         $addHandler(this.get_element(), "mousedown", Function.createDelegate(this, this.mouseDown));
-        $addHandler(this.get_element(), "mouseover", Function.createDelegate(this, this.mouseOver));
         $addHandler(this.get_element(), "mousemove", Function.createDelegate(this, this.mouseMove));
         $addHandler(this.get_element(), "mouseout", Function.createDelegate(this, this.mouseOut));
         $addHandler(this.get_element(), "mouseup", Function.createDelegate(this, this.mouseUp));
@@ -354,6 +355,8 @@ IZ.WebFileManager.FileViewItem.prototype = {
 	},
 	
 	setCursor : function(cursor){
+		if(this._cursor == cursor) return;
+		this._cursor = cursor;
 		this.get_element().style.cursor = cursor;
 		var name = WebForm_GetElementById(this.get_element().id+'_Name');
 		if(name) name.style.cursor = cursor;
@@ -363,19 +366,6 @@ IZ.WebFileManager.FileViewItem.prototype = {
 	
 	select : function(bool) {this.get_owner().AddSelectedItem(this.get_element(), bool);},
 
-	mouseOver : function(ev) {
-		ev.preventDefault();
-		if(this.getController().isDragDrop()) {
-			if(this.isSelected()){
-				this.setCursor("not-allowed");
-			}
-			else {
-				this.highlight(true);
-				this.setCursor("pointer");
-			}
-		}
-	},
-
 	mouseMove : function(ev) {
 		ev.preventDefault();
 		if(this._pendDragDrop) {
@@ -384,6 +374,19 @@ IZ.WebFileManager.FileViewItem.prototype = {
 				this.select(true)
 			}
 			this.getController().startDragDrop(this);
+		}
+		else if(this.getController().isDragDrop()) {
+			if(this.isSelected()){
+				this.setCursor(this.getController()._dropNotAllowedCursor);
+			}
+			else {
+				this.highlight(true);
+				this._dropMove = !ev.ctrlKey && !ev.shiftKey;
+				if(this._dropMove)
+					this.setCursor(this.getController()._dropMoveCursor);
+				else
+					this.setCursor(this.getController()._dropCopyCursor);
+			}
 		}
 	},
 
@@ -410,7 +413,7 @@ IZ.WebFileManager.FileViewItem.prototype = {
 				this.getController().stopDragDrop(this);
 			}
 			else {
-				this.getController().drop(this);
+				this.getController().drop(this, this._dropMove);
 				this.highlight(false);
 			}
 			this.setCursor("default");

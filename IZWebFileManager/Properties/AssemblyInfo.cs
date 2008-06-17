@@ -56,7 +56,7 @@ using System.Security;
 
 [assembly: AllowPartiallyTrustedCallers]
 
-[assembly: WebResource("IZ.WebFileManager.resources.FileManagerController.js", "application/x-javascript")]
+[assembly: WebResource("IZ.WebFileManager.resources.FileManagerController.js", "application/x-javascript", PerformSubstitution=true)]
 [assembly: WebResource("IZ.WebFileManager.resources.FileView.js", "application/x-javascript")]
 [assembly: WebResource("IZ.WebFileManager.resources.BorderedPanel.js", "application/x-javascript")]
 [assembly: WebResource ("IZ.WebFileManager.resources.FolderTree.js", "application/x-javascript")]
@@ -106,3 +106,5 @@ using System.Security;
 
 [assembly: WebResource("IZ.WebFileManager.resources.detailscolumnheader_R.gif", "image/gif")]
 [assembly: WebResource("IZ.WebFileManager.resources.detailscolumnheader_RB.gif", "image/gif")]
+[assembly: WebResource ("IZ.WebFileManager.resources.drag_copy.cur", "application/octet-stream")]
+[assembly: WebResource ("IZ.WebFileManager.resources.drag_move.cur", "application/octet-stream")]

@@ -223,6 +223,10 @@ FileManagerController.prototype.getDndVisual = function() {
 	}
 	return this._dndVisual;
 }
+	
+FileManagerController.prototype._dropNotAllowedCursor = "not-allowed";
+FileManagerController.prototype._dropCopyCursor = 'url("<% = WebResource("IZ.WebFileManager.resources.drag_copy.cur") %>"), default';
+FileManagerController.prototype._dropMoveCursor = 'url("<% = WebResource("IZ.WebFileManager.resources.drag_move.cur") %>"), default';
 
 FileManagerController.prototype.startDragDrop = function(dragSource) {
 	this._dragSource = dragSource;
@@ -237,9 +241,9 @@ FileManagerController.prototype.isDragDrop = function() {
 	return false;
 }
 
-FileManagerController.prototype.drop = function(target) {
+FileManagerController.prototype.drop = function(target, move) {
 	this._dragSource = null;
-	Sys.Debug.trace("drop:" + target.get_element().Path);
+	Sys.Debug.trace("drop:" + move + target.get_element().Path);
 }
 
 function WebFileManager_InitCallback() {

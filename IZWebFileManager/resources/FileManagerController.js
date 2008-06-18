@@ -140,6 +140,10 @@ FileManagerController.prototype.OnSelectedItemsCopyTo = function(sender, arg) {
         return;
     var directory = decodeURIComponent(sender.GetDirectory());
     arg = this.PromptDirectory(directory);
+    this._SelectedItemsCopyTo(sender, arg);
+}
+
+FileManagerController.prototype._SelectedItemsCopyTo = function(sender, arg) {
     if(arg) {
         sender.ShowProgress();
         WebFileManager_InitCallback();
@@ -154,6 +158,10 @@ FileManagerController.prototype.OnSelectedItemsMoveTo = function(sender, arg) {
         return;
     var directory = decodeURIComponent(sender.GetDirectory());
     arg = this.PromptDirectory(directory);
+    this._SelectedItemsMoveTo(sender, arg);
+}
+
+FileManagerController.prototype._SelectedItemsMoveTo = function(sender, arg) {
     if(arg) {
         sender.ShowProgress();
         WebFileManager_InitCallback();
@@ -229,16 +237,20 @@ FileManagerController.prototype.getDndVisual = function() {
 FileManagerController.prototype._dropNotAllowedCursor = "not-allowed";
 FileManagerController.prototype._dropCopyCursor = 'url("<% = WebResource("IZ.WebFileManager.resources.drag_copy.cur") %>"), default';
 FileManagerController.prototype._dropMoveCursor = 'url("<% = WebResource("IZ.WebFileManager.resources.drag_move.cur") %>"), default';
+FileManagerController.prototype._isDragging = false;
+FileManagerController.prototype._dragSource = null;
 
 FileManagerController.prototype.startDragDrop = function(dragSource) {
 	Sys.Debug.trace("start dnd");
 	this._wireEvents();
+	this._isDragging = true;
 	this._dragSource = dragSource;
 }
 
 FileManagerController.prototype.stopDragDrop = function() {
 	Sys.Debug.trace("stop dnd");
 	this._unwireEvents();
+	this._isDragging = false;
 	this._dragSource = null;
 	if(this._dropTarget){
 		this._dropTarget.onDragLeaveTarget();
@@ -247,13 +259,17 @@ FileManagerController.prototype.stopDragDrop = function() {
 }
 
 FileManagerController.prototype.isDragging = function() {
-	if(this._dragSource) return true;
-	return false;
+	return this._isDragging;
 }
 
 FileManagerController.prototype.drop = function(target, move) {
-	Sys.Debug.trace("drop:" + move + target.get_element().Path);
+	Sys.Debug.trace("drop " + (move?"move":"copy") + ": " + target.getFullPath());
+	var dragSource = this._dragSource;
 	this.stopDragDrop();
+	if(move)
+		this._SelectedItemsMoveTo(dragSource, target.getFullPath());
+	else
+		this._SelectedItemsCopyTo(dragSource, target.getFullPath())
 }
 
 FileManagerController.prototype._wireEvents = function() {

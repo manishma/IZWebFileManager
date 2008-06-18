@@ -331,6 +331,7 @@ IZ.WebFileManager.FileViewItem = function(element) {
 	this._highlight = false;
 	this._cursor = null;
 	this._pendDragDrop = false;
+	this._moveCounter = 0;
 	this._pendSelect = false;
 	this._dropMove = true;
 }
@@ -347,6 +348,14 @@ IZ.WebFileManager.FileViewItem.prototype = {
 	get_owner : function() {return this._owner;},
 	set_owner : function(value) {this._owner = value;},
 	getController : function() {return this._owner.getController();},
+	
+	getFullPath : function() {
+		var dirPath = decodeURIComponent(this.get_owner().GetDirectory());
+		var name = decodeURIComponent(this.get_element().Path);
+		var spliter = '/';
+		if(dirPath.charAt(dirPath.length-1) == '/') spliter = '';
+		return dirPath + spliter + name;
+	},
 	
 	highlight : function(bool) {
 		if(this._highlight == bool) return;
@@ -368,17 +377,20 @@ IZ.WebFileManager.FileViewItem.prototype = {
 	select : function(bool) {this.get_owner().AddSelectedItem(this.get_element(), bool);},
 	
 	_canDrop : function() {
-		return this.get_element().FileType == -2 && !this.isSelected();
+		return this.get_element().IsDirectory && !this.isSelected();
 	},
 
 	mouseMove : function(ev) {
 		ev.preventDefault();
 		if(this._pendDragDrop) {
-			this._pendDragDrop = false;
-			this._pendSelect = false;
-			if(!this.isSelected())
-				this.select(!ev.ctrlKey && !ev.shiftKey)
-			this.getController().startDragDrop(this);
+			this._moveCounter++;
+			if(this._moveCounter>2) {
+				this._pendDragDrop = false;
+				this._pendSelect = false;
+				if(!this.isSelected())
+					this.select(!ev.ctrlKey && !ev.shiftKey)
+				this.getController().startDragDrop(this.get_owner());
+			}
 		}
 		if(this.getController().isDragging()) {
 			this._dropMove = !ev.ctrlKey && !ev.shiftKey;
@@ -399,6 +411,7 @@ IZ.WebFileManager.FileViewItem.prototype = {
 		Sys.Debug.trace("mouseDown");
 		ev.preventDefault();
 		this._pendDragDrop = true;
+		this._moveCounter = 0;
 		this._pendSelect = true;
 	},
 		

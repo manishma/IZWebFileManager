@@ -387,8 +387,6 @@ IZ.WebFileManager.FileViewItem.prototype = {
 			if(this._moveCounter>2) {
 				this._pendDragDrop = false;
 				this._pendSelect = false;
-				if(!this.isSelected())
-					this.select(!ev.ctrlKey && !ev.shiftKey)
 				this.getController().startDragDrop(this.get_owner());
 			}
 		}
@@ -412,7 +410,8 @@ IZ.WebFileManager.FileViewItem.prototype = {
 		ev.preventDefault();
 		this._pendDragDrop = true;
 		this._moveCounter = 0;
-		this._pendSelect = true;
+		if(this.isSelected()) this._pendSelect = true;
+		else this.select(!ev.ctrlKey && !ev.shiftKey);
 	},
 		
 	mouseUp : function(ev) {

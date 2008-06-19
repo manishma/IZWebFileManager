@@ -391,16 +391,13 @@ IZ.WebFileManager.FileViewItem.prototype = {
 			}
 		}
 		if(this.getController().isDragging()) {
-			this._dropMove = !ev.ctrlKey && !ev.shiftKey;
-			this.getController()._dropTarget = this;
-			this.onDragInTarget();
+			this.onDragInTarget(ev);
 		}
 	},
 
 	mouseOut : function(ev) {
 		ev.preventDefault();
 		if(this.getController().isDragging()) {
-			this.getController()._dropTarget = null;
 			this.onDragLeaveTarget();
 		}
 	},
@@ -421,14 +418,7 @@ IZ.WebFileManager.FileViewItem.prototype = {
 		this._pendDragDrop = false;
 		this._pendSelect = false;
 		if(this.getController().isDragging()) {
-			if(this.canDrop()) {
-				this.getController().drop(this, this._dropMove);
-				this.highlight(false);
-			}
-			else {
-				this.getController().stopDragDrop();
-			}
-			this.setCursor("default");
+			this.onDrop();
 		}
 		else if(pendSelect) {
 			this.select(!ev.ctrlKey && !ev.shiftKey)
@@ -436,14 +426,17 @@ IZ.WebFileManager.FileViewItem.prototype = {
 	},
 	
 	onDragLeaveTarget : function() {
+		this.getController()._dropTarget = null;
 		if(this.canDrop()){
 			this.highlight(false);
 		}
 		this.setCursor("default");
 	},
 	
-	onDragInTarget : function() {
+	onDragInTarget : function(ev) {
 		if(this.canDrop()){
+			this._dropMove = !ev.ctrlKey && !ev.shiftKey;
+			this.getController()._dropTarget = this;
 			this.highlight(true);
 			if(this._dropMove)
 				this.setCursor(this.getController()._dropMoveCursor);
@@ -453,6 +446,17 @@ IZ.WebFileManager.FileViewItem.prototype = {
 		else {
 			this.setCursor(this.getController()._dropNotAllowedCursor);
 		}
+	},
+
+	onDrop : function (){
+		if(this.canDrop()) {
+			this.getController().drop(this, this._dropMove);
+			this.highlight(false);
+		}
+		else {
+			this.getController().stopDragDrop(this);
+		}
+		this.setCursor("default");
 	}
 }
 

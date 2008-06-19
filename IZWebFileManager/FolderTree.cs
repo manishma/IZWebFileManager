@@ -585,6 +585,17 @@ namespace IZ.WebFileManager
 				writer.RenderEndTag ();		// TD
 			}
 
+			writer.RenderBeginTag (HtmlTextWriterTag.Td);
+			writer.AddAttribute ("onmouseout", ClientScriptReference + ".UnhoverNode(this)", false);
+			writer.AddAttribute ("onmouseover", ClientScriptReference + ".HoverNode(this)", false);
+			writer.AddAttribute (HtmlTextWriterAttribute.Id, GetNodeClientId (node, null));
+			writer.RenderBeginTag (HtmlTextWriterTag.Div);
+			writer.AddAttribute ("cellpadding", "0", false);
+			writer.AddAttribute ("cellspacing", "0", false);
+			writer.AddStyleAttribute ("border-width", "0");
+			writer.RenderBeginTag (HtmlTextWriterTag.Table);
+			writer.RenderBeginTag (HtmlTextWriterTag.Tr);
+
 			// Node icon
 
 			string imageUrl = node.ImageUrl.Length > 0 ? ResolveClientUrl (node.ImageUrl) : null;
@@ -605,9 +616,7 @@ namespace IZ.WebFileManager
 			AddNodeStyle (writer, node, level);
 
 			writer.AddAttribute ("nodepath", GetNodePath (node, levelLines));
-			writer.AddAttribute (HtmlTextWriterAttribute.Id, GetNodeClientId (node, null));
-			writer.AddAttribute ("onmouseout", ClientScriptReference + ".UnhoverNode(this)", false);
-			writer.AddAttribute ("onmouseover", ClientScriptReference + ".HoverNode(this)");
+			writer.AddAttribute (HtmlTextWriterAttribute.Id, GetNodeClientId (node, "node"));
 
 			writer.RenderBeginTag (HtmlTextWriterTag.Td);	// TD
 
@@ -617,6 +626,11 @@ namespace IZ.WebFileManager
 			writer.RenderEndTag ();	// node tag
 
 			writer.RenderEndTag ();	// TD
+
+			writer.RenderEndTag (); // TR
+			writer.RenderEndTag (); // TABLE
+			writer.RenderEndTag (); // DIV
+			writer.RenderEndTag (); // TD
 
 			writer.RenderEndTag ();	// TR
 

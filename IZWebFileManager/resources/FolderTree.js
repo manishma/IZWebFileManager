@@ -108,7 +108,7 @@ FolderTree.prototype = {
 	},
 	
 	_getNode : function (nodeId) {
-		var id = this._clientId + "_" + nodeId;
+		var id = this._clientId + "_" + nodeId + "_node";
 		return WebForm_GetElementById (id);
 	},
 	
@@ -137,13 +137,15 @@ FolderTree.prototype = {
 		this._appendStyle (node, this._selectedClass, this._selectedLinkClass);	
 	},
 	
-	HoverNode : function (node)	{
+	HoverNode : function (div)	{
+		var node = WebForm_GetElementById (div.id+"_node");
 		if(node === this._selectedNode)
 			return;
 		this._appendStyle (node, this._hoverClass, this._hoverLinkClass);	
 	},
 
-	UnhoverNode : function (node) {
+	UnhoverNode : function (div) {
+		var node = WebForm_GetElementById (div.id+"_node");
 		if(node === this._selectedNode)
 			return;
 		this._restoreStyle (node);

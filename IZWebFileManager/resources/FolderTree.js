@@ -172,17 +172,6 @@ FolderTree.prototype = {
 	_getFolderTreeNode : function(div) {
 		if(!div._folderTreeNode) {
 			div._folderTreeNode = new FolderTreeNode (this, div);
-			var mouseUp = div._folderTreeNode.mouseUp;
-			var mouseMove = div._folderTreeNode.mouseMove;
-			var instance = div._folderTreeNode;
-			div.onmouseup = function(e) {
-				e = e || window.event;
-				mouseUp.call(instance, e); 
-			}
-			div.onmousemove = function(e) {
-				e = e || window.event;
-				mouseMove.call(instance, e);
-			}
 		}
 		return div._folderTreeNode;
 	},
@@ -215,6 +204,18 @@ FolderTreeNode = function(owner, div) {
 	this._owner = owner;
 	this._div = div;
 	this._node = WebForm_GetElementById (div.id+"_node");
+	
+	var mouseUp = this.mouseUp;
+	var mouseMove = this.mouseMove;
+	var instance = this;
+	div.onmouseup = function(e) {
+		e = e || window.event;
+		mouseUp.call(instance, e); 
+	}
+	div.onmousemove = function(e) {
+		e = e || window.event;
+		mouseMove.call(instance, e);
+	}
 }
 
 FolderTreeNode.prototype._owner = null;

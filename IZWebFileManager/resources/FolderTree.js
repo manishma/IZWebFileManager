@@ -1,13 +1,16 @@
-FolderTree = function (clientId, uniqueId, expandImage, collapseImage, noExpandImage) {
+FolderTree = function (controllerId, clientId, uniqueId, expandImage, collapseImage, noExpandImage) {
 	this._clientId = clientId;
 	this._uniqueId = uniqueId;
 	this._expandImage = expandImage;
 	this._collapseImage = collapseImage;
 	this._noExpandImage = noExpandImage;
 	this._selectedNode = null;
+    this._controller = eval('WFM_' + controllerId);
 }
 
 FolderTree.prototype = {
+	getController : function() {return this._controller;},
+	
 	ToggleExpand : function (nodeId) {
 		this._ToggleExpand(nodeId, this.PopulateCallback, null, this.PopulateError);
 	},
@@ -123,6 +126,8 @@ FolderTree.prototype = {
 	},
 	
 	_getNodeLink : function (node) { return node.childNodes[node.childNodes.length - 1]; },
+	
+	_getImageLink : function (node) { return node.previousSibling.childNodes[node.childNodes.length - 1]; },
 
 	SelectNode : function (nodeId) {
 		var node = this._getNode (nodeId);
@@ -137,18 +142,49 @@ FolderTree.prototype = {
 		this._appendStyle (node, this._selectedClass, this._selectedLinkClass);	
 	},
 	
-	HoverNode : function (div)	{
+	HoverNode : function (div, e) {
+		var e = e || window.event;
 		var node = WebForm_GetElementById (div.id+"_node");
-		if(node === this._selectedNode)
-			return;
-		this._appendStyle (node, this._hoverClass, this._hoverLinkClass);	
+		if(this.getController().isDragging()) {
+			var ftNode = this._getFolderTreeNode (div);
+			ftNode.onDragInTarget(e);
+		}
+		else {
+			if(node === this._selectedNode)
+				return;
+			this._appendStyle (node, this._hoverClass, this._hoverLinkClass);
+		}
 	},
 
 	UnhoverNode : function (div) {
 		var node = WebForm_GetElementById (div.id+"_node");
-		if(node === this._selectedNode)
-			return;
-		this._restoreStyle (node);
+		if(this.getController().isDragging()) {
+			var ftNode = this._getFolderTreeNode (div);
+			ftNode.onDragLeaveTarget();
+		}
+		else {
+			if(node === this._selectedNode)
+				return;
+			this._restoreStyle (node);
+		}
+	},
+	
+	_getFolderTreeNode : function(div) {
+		if(!div._folderTreeNode) {
+			div._folderTreeNode = new FolderTreeNode (this, div);
+			var mouseUp = div._folderTreeNode.mouseUp;
+			var mouseMove = div._folderTreeNode.mouseMove;
+			var instance = div._folderTreeNode;
+			div.onmouseup = function(e) {
+				e = e || window.event;
+				mouseUp.call(instance, e); 
+			}
+			div.onmousemove = function(e) {
+				e = e || window.event;
+				mouseMove.call(instance, e);
+			}
+		}
+		return div._folderTreeNode;
 	},
 	
 	_appendStyle : function (node, nodeClass, nodeLinkClass) {
@@ -173,4 +209,100 @@ FolderTree.prototype = {
 		if (nodeLink && nodeLink._normalClass)
 			nodeLink.className = nodeLink._normalClass;
 	}
+}
+
+FolderTreeNode = function(owner, div) {
+	this._owner = owner;
+	this._div = div;
+	this._node = WebForm_GetElementById (div.id+"_node");
+}
+
+FolderTreeNode.prototype._owner = null;
+FolderTreeNode.prototype._div = null;
+FolderTreeNode.prototype._dropMove = true;
+FolderTreeNode.prototype._node = null;
+FolderTreeNode.prototype._highlight = false;
+
+FolderTreeNode.prototype.getFullPath = function() {
+	var nodePath = "" + this._node.attributes["nodepath"].value;
+	var index = nodePath.indexOf("|");
+	return nodePath.substring(index+1, nodePath.length);
+}
+
+FolderTreeNode.prototype.isSelected = function() {
+	return this._node === this._owner._selectedNode;
+}
+
+FolderTreeNode.prototype.canDrop = function() {
+	return !this.isSelected();
+}
+
+FolderTreeNode.prototype.getController = function() {return this._owner.getController();}
+
+FolderTreeNode.prototype.highlight = function (bool) {
+	if(this._highlight == bool) return;
+	this._highlight = bool;
+	if(bool) this._owner._appendStyle (this._node, this._owner._selectedClass, this._owner._selectedLinkClass);	
+	else this._owner._restoreStyle (this._node);
+}
+
+FolderTreeNode.prototype.setCursor = function (cursor) {
+	if(this._cursor == cursor) return;
+	this._cursor = cursor;
+	this._div.style.cursor = cursor;
+	var nodeLink = this._owner._getNodeLink(this._node);
+	if(nodeLink){
+		nodeLink.style.cursor = cursor;
+	}
+	var imgLink = this._owner._getImageLink(this._node);
+	if(imgLink){
+		imgLink.style.cursor = cursor;
+	}
+}
+	
+FolderTreeNode.prototype.mouseUp = function(ev) {
+	Sys.Debug.trace("mouseUp");
+	if(this.getController().isDragging())
+		this.onDrop();
+	return false;
+}
+
+FolderTreeNode.prototype.mouseMove = function(ev) {
+	if(this.getController().isDragging())
+		this.onDragInTarget(ev);
+	return false;
+}
+
+FolderTreeNode.prototype.onDragInTarget = function (ev){
+	if(this.canDrop()){
+		this._dropMove = !ev.ctrlKey && !ev.shiftKey;
+		this.getController()._dropTarget = this;
+		this.highlight(true);
+		if(this._dropMove)
+			this.setCursor(this.getController()._dropMoveCursor);
+		else
+			this.setCursor(this.getController()._dropCopyCursor);
+	}
+	else {
+		this.setCursor(this.getController()._dropNotAllowedCursor);
+	}
+}
+
+FolderTreeNode.prototype.onDragLeaveTarget = function (){
+	this.getController()._dropTarget = null;
+	if(this.canDrop()){
+		this.highlight(false);
+	}
+	this.setCursor("");
+}
+
+FolderTreeNode.prototype.onDrop = function (){
+	if(this.canDrop()) {
+		this.getController().drop(this, this._dropMove);
+		this.highlight(false);
+	}
+	else {
+		this.getController().stopDragDrop(this);
+	}
+	this.setCursor("default");
 }

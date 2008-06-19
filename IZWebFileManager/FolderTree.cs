@@ -268,6 +268,7 @@ namespace IZ.WebFileManager
 
 		void InitTreeView () {
 			NodeStyle.HorizontalPadding = 4;
+			NodeStyle.Height = 20;
 			NodeStyle.ForeColor = Color.Black;
 			NodeStyle.Font.Names = new string [] { "Tahoma", "Verdana", "Geneva", "Arial", "Helvetica", "sans-serif" };
 			NodeStyle.Font.Size = FontUnit.Parse ("11px", null);
@@ -427,7 +428,7 @@ namespace IZ.WebFileManager
 
 			string folderTree = ClientScriptReference;
 			StringBuilder script = new StringBuilder ();
-			script.AppendLine ("var " + folderTree + "= new FolderTree ('" + ClientID + "','" + UniqueID + "','" + GetNodeImageUrl ("Expand") + "','" + GetNodeImageUrl ("Collapse") + "','" + GetNodeImageUrl ("NoExpand") + "');");
+			script.AppendLine ("var " + folderTree + "= new FolderTree ('" + Controller.ClientID + "','" + ClientID + "','" + UniqueID + "','" + GetNodeImageUrl ("Expand") + "','" + GetNodeImageUrl ("Collapse") + "','" + GetNodeImageUrl ("NoExpand") + "');");
 
 			EnsureStylesPrepared ();
 
@@ -587,7 +588,7 @@ namespace IZ.WebFileManager
 
 			writer.RenderBeginTag (HtmlTextWriterTag.Td);
 			writer.AddAttribute ("onmouseout", ClientScriptReference + ".UnhoverNode(this)", false);
-			writer.AddAttribute ("onmouseover", ClientScriptReference + ".HoverNode(this)", false);
+			writer.AddAttribute ("onmouseover", ClientScriptReference + ".HoverNode(this, event)", false);
 			writer.AddAttribute (HtmlTextWriterAttribute.Id, GetNodeClientId (node, null));
 			writer.RenderBeginTag (HtmlTextWriterTag.Div);
 			writer.AddAttribute ("cellpadding", "0", false);

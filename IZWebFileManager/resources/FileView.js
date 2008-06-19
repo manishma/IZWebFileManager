@@ -376,7 +376,7 @@ IZ.WebFileManager.FileViewItem.prototype = {
 	
 	select : function(bool) {this.get_owner().AddSelectedItem(this.get_element(), bool);},
 	
-	_canDrop : function() {
+	canDrop : function() {
 		return this.get_element().IsDirectory && !this.isSelected();
 	},
 
@@ -421,7 +421,7 @@ IZ.WebFileManager.FileViewItem.prototype = {
 		this._pendDragDrop = false;
 		this._pendSelect = false;
 		if(this.getController().isDragging()) {
-			if(this._canDrop()) {
+			if(this.canDrop()) {
 				this.getController().drop(this, this._dropMove);
 				this.highlight(false);
 			}
@@ -436,14 +436,14 @@ IZ.WebFileManager.FileViewItem.prototype = {
 	},
 	
 	onDragLeaveTarget : function() {
-		if(this._canDrop()){
+		if(this.canDrop()){
 			this.highlight(false);
 		}
 		this.setCursor("default");
 	},
 	
 	onDragInTarget : function() {
-		if(this._canDrop()){
+		if(this.canDrop()){
 			this.highlight(true);
 			if(this._dropMove)
 				this.setCursor(this.getController()._dropMoveCursor);

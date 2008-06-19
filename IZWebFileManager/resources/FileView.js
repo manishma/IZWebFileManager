@@ -426,7 +426,7 @@ IZ.WebFileManager.FileViewItem.prototype = {
 				this.highlight(false);
 			}
 			else {
-				this.getController().stopDragDrop(this);
+				this.getController().stopDragDrop();
 			}
 			this.setCursor("default");
 		}

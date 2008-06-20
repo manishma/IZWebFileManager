@@ -1,5 +1,3 @@
-Type.registerNamespace('IZ.WebFileManager');
-
 FileView = function(ClientID, ControllerID, RegularItemStyle, SelectedItemStyle, EditTextBoxStyle) {
     this.ClientID = ClientID;
     this.ControllerID = ControllerID;
@@ -315,8 +313,7 @@ FileView.prototype.InitItem = function(item, path, isDirectory, canBeRenamed, se
         return false;
     }
     
-	var fileViewItem = $create(IZ.WebFileManager.FileViewItem, {}, {}, {}, item);
-	fileViewItem.set_owner(eval('WFM_' + ClientID));
+	var fileViewItem = new FileViewItem(this, item);
 }
 
 FileView.prototype.OnMenuItemClick = function(sender, arg) {
@@ -325,139 +322,154 @@ FileView.prototype.OnMenuItemClick = function(sender, arg) {
     eval('WFM_' + ControllerID + '.On'+arg.CommandName+'(WFM_' + ClientID + ',arg.CommandArgument)');
 }
 
-IZ.WebFileManager.FileViewItem = function(element) {
-	IZ.WebFileManager.FileViewItem.initializeBase(this, [element]);
-	this._owner = null;
-	this._highlight = false;
-	this._cursor = null;
-	this._pendDragDrop = false;
-	this._moveCounter = 0;
-	this._pendSelect = false;
-	this._dropMove = true;
-}
-
-IZ.WebFileManager.FileViewItem.prototype = {
-	initialize : function() {
-        IZ.WebFileManager.FileViewItem.callBaseMethod(this, 'initialize');
-        $addHandler(this.get_element(), "mousedown", Function.createDelegate(this, this.mouseDown));
-        $addHandler(this.get_element(), "mousemove", Function.createDelegate(this, this.mouseMove));
-        $addHandler(this.get_element(), "mouseout", Function.createDelegate(this, this.mouseOut));
-        $addHandler(this.get_element(), "mouseup", Function.createDelegate(this, this.mouseUp));
-	},
+FileViewItem = function(owner, element) {
+	this._owner = owner;
+	this._element = element;
 	
-	get_owner : function() {return this._owner;},
-	set_owner : function(value) {this._owner = value;},
-	getController : function() {return this._owner.getController();},
-	
-	getFullPath : function() {
-		var dirPath = decodeURIComponent(this.get_owner().GetDirectory());
-		var name = decodeURIComponent(this.get_element().Path);
-		var spliter = '/';
-		if(dirPath.charAt(dirPath.length-1) == '/') spliter = '';
-		return dirPath + spliter + name;
-	},
-	
-	highlight : function(bool) {
-		if(this._highlight == bool) return;
-		this._highlight = bool;
-		if(bool) WebForm_AppendToClassName(this.get_element(), this.get_owner().SelectedItemStyle);
-		else WebForm_RemoveClassName(this.get_element(), this.get_owner().SelectedItemStyle);
-	},
-	
-	setCursor : function(cursor){
-		if(this._cursor == cursor) return;
-		this._cursor = cursor;
-		this.get_element().style.cursor = cursor;
-		var name = WebForm_GetElementById(this.get_element().id+'_Name');
-		if(name) name.style.cursor = cursor;
-	},
-	
-	isSelected : function() {return this.get_element().Selected;},
-	
-	select : function(bool) {this.get_owner().AddSelectedItem(this.get_element(), bool);},
-	
-	canDrop : function() {
-		return this.get_element().IsDirectory && !this.isSelected();
-	},
-
-	mouseMove : function(ev) {
-		ev.preventDefault();
-		if(this._pendDragDrop) {
-			this._moveCounter++;
-			if(this._moveCounter>2) {
-				this._pendDragDrop = false;
-				this._pendSelect = false;
-				this.getController().startDragDrop(this.get_owner());
-			}
-		}
-		if(this.getController().isDragging()) {
-			this.onDragInTarget(ev);
-		}
-	},
-
-	mouseOut : function(ev) {
-		ev.preventDefault();
-		if(this.getController().isDragging()) {
-			this.onDragLeaveTarget();
-		}
-	},
-		
-	mouseDown : function(ev) {
-		Sys.Debug.trace("mouseDown");
-		ev.preventDefault();
-		this._pendDragDrop = true;
-		this._moveCounter = 0;
-		if(this.isSelected()) this._pendSelect = true;
-		else this.select(!ev.ctrlKey && !ev.shiftKey);
-	},
-		
-	mouseUp : function(ev) {
-		Sys.Debug.trace("mouseUp");
-		ev.preventDefault();
-		var pendSelect = this._pendSelect;
-		this._pendDragDrop = false;
-		this._pendSelect = false;
-		if(this.getController().isDragging()) {
-			this.onDrop();
-		}
-		else if(pendSelect) {
-			this.select(!ev.ctrlKey && !ev.shiftKey)
-		}
-	},
-	
-	onDragLeaveTarget : function() {
-		this.getController()._dropTarget = null;
-		if(this.canDrop()){
-			this.highlight(false);
-		}
-		this.setCursor("default");
-	},
-	
-	onDragInTarget : function(ev) {
-		if(this.canDrop()){
-			this._dropMove = !ev.ctrlKey && !ev.shiftKey;
-			this.getController()._dropTarget = this;
-			this.highlight(true);
-			if(this._dropMove)
-				this.setCursor(this.getController()._dropMoveCursor);
-			else
-				this.setCursor(this.getController()._dropCopyCursor);
-		}
-		else {
-			this.setCursor(this.getController()._dropNotAllowedCursor);
-		}
-	},
-
-	onDrop : function (){
-		if(this.canDrop()) {
-			this.getController().drop(this, this._dropMove);
-			this.highlight(false);
-		}
-		else {
-			this.getController().stopDragDrop(this);
-		}
-		this.setCursor("default");
+	var mouseDown = this._mouseDown;
+	var mouseOut = this._mouseOut;
+	var mouseUp = this._mouseUp;
+	var mouseMove = this._mouseMove;
+	var instance = this;
+	element.onmouseup = function(e) {
+		e = e || window.event;
+		mouseUp.call(instance, e); 
+	}
+	element.onmousemove = function(e) {
+		e = e || window.event;
+		mouseMove.call(instance, e);
+	}
+	element.onmousedown = function(e) {
+		e = e || window.event;
+		mouseDown.call(instance, e); 
+	}
+	element.onmouseout = function(e) {
+		e = e || window.event;
+		mouseOut.call(instance, e); 
 	}
 }
 
-IZ.WebFileManager.FileViewItem.registerClass('IZ.WebFileManager.FileViewItem', Sys.UI.Behavior);
+FileViewItem.prototype._owner = null;
+FileViewItem.prototype._div = null;
+FileViewItem.prototype._dropMove = true;
+FileViewItem.prototype._node = null;
+FileViewItem.prototype._highlight = false;
+FileViewItem.prototype._cursor = null;
+	
+FileViewItem.prototype.getController = function() {return this._owner.getController();}
+	
+FileViewItem.prototype.getFullPath = function() {
+	var dirPath = decodeURIComponent(this._owner.GetDirectory());
+	var name = decodeURIComponent(this._element.Path);
+	var spliter = '/';
+	if(dirPath.charAt(dirPath.length-1) == '/') spliter = '';
+	return dirPath + spliter + name;
+}
+
+FileViewItem.prototype.highlight = function(bool) {
+	if(this._highlight == bool) return;
+	this._highlight = bool;
+	if(bool) WebForm_AppendToClassName(this._element, this._owner.SelectedItemStyle);
+	else WebForm_RemoveClassName(this._element, this._owner.SelectedItemStyle);
+};
+
+FileViewItem.prototype.setCursor = function(cursor){
+	if(this._cursor == cursor) return;
+	this._cursor = cursor;
+	this._element.style.cursor = cursor;
+	var name = WebForm_GetElementById(this._element.id+'_Name');
+	if(name) name.style.cursor = cursor;
+};
+
+FileViewItem.prototype.isSelected = function() {return this._element.Selected;};
+
+FileViewItem.prototype.select = function(bool) {this._owner.AddSelectedItem(this._element, bool);};
+
+FileViewItem.prototype.canDrop = function() {
+	return this._element.IsDirectory && !this.isSelected();
+};
+
+FileViewItem.prototype._mouseMove = function(ev) {
+	if(ev.preventDefault) ev.preventDefault();
+	ev.returnValue = false;
+	if(this._pendDragDrop) {
+		this._moveCounter++;
+		if(this._moveCounter>2) {
+			this._pendDragDrop = false;
+			this._pendSelect = false;
+			this.getController().startDragDrop(this._owner);
+		}
+	}
+	if(this.getController().isDragging()) {
+		this.onDragInTarget(ev);
+	}
+	return false;
+};
+
+FileViewItem.prototype._mouseOut = function(ev) {
+	if(ev.preventDefault) ev.preventDefault();
+	ev.returnValue = false;
+	if(this.getController().isDragging()) {
+		this.onDragLeaveTarget();
+	}
+	return false;
+};
+	
+FileViewItem.prototype._mouseDown = function(ev) {
+	if(ev.preventDefault) ev.preventDefault();
+	ev.returnValue = false;
+	this._pendDragDrop = true;
+	this._moveCounter = 0;
+	if(this.isSelected()) this._pendSelect = true;
+	else this.select(!ev.ctrlKey && !ev.shiftKey);
+	return false;
+};
+	
+FileViewItem.prototype._mouseUp = function(ev) {
+	if(ev.preventDefault) ev.preventDefault();
+	ev.returnValue = false;
+	var pendSelect = this._pendSelect;
+	this._pendDragDrop = false;
+	this._pendSelect = false;
+	if(this.getController().isDragging()) {
+		this.onDrop();
+	}
+	else if(pendSelect) {
+		this.select(!ev.ctrlKey && !ev.shiftKey)
+	}
+	return false;
+};
+
+FileViewItem.prototype.onDragLeaveTarget = function() {
+	this.getController()._dropTarget = null;
+	if(this.canDrop()){
+		this.highlight(false);
+	}
+	this.setCursor("default");
+};
+
+FileViewItem.prototype.onDragInTarget = function(ev) {
+	if(this.canDrop()){
+		this._dropMove = !ev.ctrlKey && !ev.shiftKey;
+		this.getController()._dropTarget = this;
+		this.highlight(true);
+		if(this._dropMove)
+			this.setCursor(this.getController()._dropMoveCursor);
+		else
+			this.setCursor(this.getController()._dropCopyCursor);
+	}
+	else {
+		this.setCursor(this.getController()._dropNotAllowedCursor);
+	}
+};
+
+FileViewItem.prototype.onDrop = function (){
+	if(this.canDrop()) {
+		this.getController().drop(this, this._dropMove);
+		this.highlight(false);
+	}
+	else {
+		this.getController().stopDragDrop(this);
+	}
+	this.setCursor("default");
+};

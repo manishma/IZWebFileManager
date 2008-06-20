@@ -20,8 +20,21 @@ FileManagerController = function(ClientID, UniqueID, EventArgumentSplitter) {
         }
     }
     
-	this._mouseUpHandler = Function.createDelegate(this, this._onMouseUp);
-	this._keyPressHandler = Function.createDelegate(this, this._onKeyPress);
+	var mouseUp = this._onMouseUp;
+	var keyPress = this._onKeyPress;
+	var instance = this;
+	this._dnd_document_onmouseup = function(e) {
+		if(instance._origin_document_onmouseup)
+			instance._origin_document_onmouseup.call(document, e);
+		e = e || window.event;
+		mouseUp.call(instance, e); 
+	}
+	this._dnd_document_onkeypress = function(e) {
+		if(instance._origin_document_onmouseup)
+			instance._origin_document_onmouseup.call(document, e);
+		e = e || window.event;
+		keyPress.call(instance, e);
+	}
 }
 
 FileManagerController.prototype.evalDocumentOnClick = function(e) {
@@ -241,14 +254,12 @@ FileManagerController.prototype._isDragging = false;
 FileManagerController.prototype._dragSource = null;
 
 FileManagerController.prototype.startDragDrop = function(dragSource) {
-	Sys.Debug.trace("start dnd");
 	this._wireEvents();
 	this._isDragging = true;
 	this._dragSource = dragSource;
 }
 
 FileManagerController.prototype.stopDragDrop = function() {
-	Sys.Debug.trace("stop dnd");
 	this._unwireEvents();
 	this._isDragging = false;
 	this._dragSource = null;
@@ -263,7 +274,6 @@ FileManagerController.prototype.isDragging = function() {
 }
 
 FileManagerController.prototype.drop = function(target, move) {
-	Sys.Debug.trace("drop " + (move?"move":"copy") + ": " + target.getFullPath());
 	var dragSource = this._dragSource;
 	this.stopDragDrop();
 	if(move)
@@ -273,13 +283,15 @@ FileManagerController.prototype.drop = function(target, move) {
 }
 
 FileManagerController.prototype._wireEvents = function() {
-	$addHandler(document, "mouseup", this._mouseUpHandler);
-	$addHandler(document, "keypress", this._keyPressHandler);
+    this._origin_document_onmouseup = document.onmouseup;
+    this._origin_document_onkeypress = document.onkeypress;
+	document.onmouseup=this._dnd_document_onmouseup;
+	document.onkeypress=this._dnd_document_onkeypress;
 }
 
 FileManagerController.prototype._unwireEvents = function() {
-	$removeHandler(document, "keypress", this._keyPressHandler);
-	$removeHandler(document, "mouseup", this._mouseUpHandler);
+	document.onmouseup = this._origin_document_onmouseup;
+    document.onkeypress = this._origin_document_onkeypress;
 }
     
 FileManagerController.prototype._onMouseUp = function (e) {
@@ -303,7 +315,6 @@ function WebFileManager_InitCallback() {
 function WebFileManager_Render(result, context) {
     var interval = window.setInterval(function() {
         window.clearInterval(interval);
-        Sys.WebForms.PageRequestManager.getInstance()._destroyTree(context.Element);
         context.Element.innerHTML = result;
         context.Initialize();
         context.SetFocus();

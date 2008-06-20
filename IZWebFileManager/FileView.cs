@@ -550,7 +550,8 @@ namespace IZ.WebFileManager
 				Page.Header.StyleSheet.CreateStyleRule (selectedItemLinkStyle, this, "." + SelectedItemStyle.RegisteredCssClass + " a." + LinkToOpenItemClass);
 			}
 
-			ScriptManager.RegisterStartupScript (this, typeof (FileView), ClientID, GetInitInstanceScript (), true);
+			Page.ClientScript.RegisterClientScriptResource (typeof (FileView), "IZ.WebFileManager.resources.FileView.js");
+			Page.ClientScript.RegisterStartupScript (typeof (FileView), ClientID, GetInitInstanceScript (), true);
 
 			CreateContextMenu ();
 			CreateSelectedItemsContextMenu ();
@@ -976,14 +977,6 @@ namespace IZ.WebFileManager
 		}
 
 		void CreateContextMenuRootItem (Control control) {
-		}
-
-		protected override IEnumerable<ScriptDescriptor> GetScriptDescriptors () {
-			yield break;
-		}
-
-		protected override IEnumerable<ScriptReference> GetScriptReferences () {
-			yield return new ScriptReference ("IZ.WebFileManager.resources.FileView.js", typeof (FileView).Assembly.FullName);
 		}
 
 		#endregion

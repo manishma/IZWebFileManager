@@ -33,7 +33,7 @@ namespace IZ.WebFileManager
 {
 	[PersistChildren (false)]
 	[ParseChildren (true)]
-	public abstract partial class FileManagerControlBase : WebControl, INamingContainer, IScriptControl
+	public abstract partial class FileManagerControlBase : WebControl, INamingContainer
 	{
 		#region Constructors
 
@@ -57,7 +57,6 @@ namespace IZ.WebFileManager
 		static readonly Color _defaultBorderColor = Color.FromArgb (0xACA899);
 		static readonly Color _defaultBackColor = Color.White;
 		static readonly Color _defaultForeColor = Color.Black;
-		ScriptManager _scriptManager;
 
 		#endregion
 
@@ -180,17 +179,6 @@ namespace IZ.WebFileManager
 			set { base.ForeColor = value; }
 		}
 
-		protected ScriptManager ScriptManager {
-			get {
-				if (_scriptManager == null) {
-					_scriptManager = ScriptManager.GetCurrent (Page);
-					if (_scriptManager == null)
-						throw new InvalidOperationException ("The control with ID '" + ID + "' requires a ScriptManager on the page. The ScriptManager must appear before any controls that need it.");
-				}
-				return _scriptManager;
-			}
-		}
-
 		#endregion
 
 		#region InitControllerEvents
@@ -276,11 +264,6 @@ namespace IZ.WebFileManager
 
 		}
 
-		protected override void OnPreRender (EventArgs e) {
-			base.OnPreRender (e);
-			ScriptManager.RegisterScriptControl (this);
-		}
-
 		protected override HtmlTextWriterTag TagKey {
 			get { return HtmlTextWriterTag.Div; }
 		}
@@ -363,14 +346,6 @@ namespace IZ.WebFileManager
 
 		protected string GetResourceString (string name, string defaultValue) {
 			return Controller.GetResourceString (name, defaultValue);
-		}
-
-		protected virtual IEnumerable<ScriptDescriptor> GetScriptDescriptors () {
-			yield break;
-		}
-
-		protected virtual IEnumerable<ScriptReference> GetScriptReferences () {
-			yield break;
 		}
 
 		#endregion
@@ -636,18 +611,6 @@ namespace IZ.WebFileManager
 		public string RefreshImageUrl {
 			get { return Controller.RefreshImageUrl; }
 			set { Controller.RefreshImageUrl = value; }
-		}
-
-		#endregion
-
-		#region IScriptControl Members
-
-		IEnumerable<ScriptDescriptor> IScriptControl.GetScriptDescriptors () {
-			return GetScriptDescriptors ();
-		}
-
-		IEnumerable<ScriptReference> IScriptControl.GetScriptReferences () {
-			return GetScriptReferences ();
 		}
 
 		#endregion

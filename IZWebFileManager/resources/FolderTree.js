@@ -205,8 +205,8 @@ FolderTreeNode = function(owner, div) {
 	this._div = div;
 	this._node = WebForm_GetElementById (div.id+"_node");
 	
-	var mouseUp = this.mouseUp;
-	var mouseMove = this.mouseMove;
+	var mouseUp = this._mouseUp;
+	var mouseMove = this._mouseMove;
 	var instance = this;
 	div.onmouseup = function(e) {
 		e = e || window.event;
@@ -223,6 +223,7 @@ FolderTreeNode.prototype._div = null;
 FolderTreeNode.prototype._dropMove = true;
 FolderTreeNode.prototype._node = null;
 FolderTreeNode.prototype._highlight = false;
+FolderTreeNode.prototype._cursor = null;
 
 FolderTreeNode.prototype.getFullPath = function() {
 	var nodePath = "" + this._node.attributes["nodepath"].value;
@@ -261,14 +262,17 @@ FolderTreeNode.prototype.setCursor = function (cursor) {
 	}
 }
 	
-FolderTreeNode.prototype.mouseUp = function(ev) {
-	Sys.Debug.trace("mouseUp");
+FolderTreeNode.prototype._mouseUp = function(ev) {
+	if(ev.preventDefault) ev.preventDefault();
+	ev.returnValue = false;
 	if(this.getController().isDragging())
 		this.onDrop();
 	return false;
 }
 
-FolderTreeNode.prototype.mouseMove = function(ev) {
+FolderTreeNode.prototype._mouseMove = function(ev) {
+	if(ev.preventDefault) ev.preventDefault();
+	ev.returnValue = false;
 	if(this.getController().isDragging())
 		this.onDragInTarget(ev);
 	return false;
@@ -305,5 +309,5 @@ FolderTreeNode.prototype.onDrop = function (){
 	else {
 		this.getController().stopDragDrop(this);
 	}
-	this.setCursor("default");
+	this.setCursor("");
 }

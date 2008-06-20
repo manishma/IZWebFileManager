@@ -4,16 +4,6 @@
         <name>IZ.WebFileManager</name>
     </assembly>
     <members>
-        <member name="P:IZ.WebFileManager.FileManagerController.AllowDelete">
-            <summary>
-            When is set true, Delete, Move and Rename are not allowed, Default value it true.
-            </summary>
-        </member>
-        <member name="P:IZ.WebFileManager.FileManagerControlBase.AllowDelete">
-            <summary>
-            When is set true, Delete, Move and Rename are not allowed, Default value it true.
-            </summary>
-        </member>
         <member name="T:System.IO.xDirectory">
             <summary>
             xDirectory v2.0 - Copy a Source Directory and it's SubDirectories/Files.
@@ -154,6 +144,16 @@
             <param name="DirectoryFilter">The Directory Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
             <param name="Overwrite">Whether or not to Overwrite a Destination File if it Exists.</param>
             <param name="FolderLimit">Iteration Limit - Total Number of Folders/SubFolders to Copy</param>
+        </member>
+        <member name="P:IZ.WebFileManager.FileManagerController.AllowDelete">
+            <summary>
+            When is set true, Delete, Move and Rename are not allowed, Default value it true.
+            </summary>
+        </member>
+        <member name="P:IZ.WebFileManager.FileManagerControlBase.AllowDelete">
+            <summary>
+            When is set true, Delete, Move and Rename are not allowed, Default value it true.
+            </summary>
         </member>
         <member name="M:IZ.WebFileManager.RootDirectory.ToString">
             <summary>

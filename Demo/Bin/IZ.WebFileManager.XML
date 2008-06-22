@@ -145,12 +145,12 @@
             <param name="Overwrite">Whether or not to Overwrite a Destination File if it Exists.</param>
             <param name="FolderLimit">Iteration Limit - Total Number of Folders/SubFolders to Copy</param>
         </member>
-        <member name="P:IZ.WebFileManager.FileManagerController.AllowDelete">
+        <member name="P:IZ.WebFileManager.FileManagerControlBase.AllowDelete">
             <summary>
             When is set true, Delete, Move and Rename are not allowed, Default value it true.
             </summary>
         </member>
-        <member name="P:IZ.WebFileManager.FileManagerControlBase.AllowDelete">
+        <member name="P:IZ.WebFileManager.FileManagerController.AllowDelete">
             <summary>
             When is set true, Delete, Move and Rename are not allowed, Default value it true.
             </summary>

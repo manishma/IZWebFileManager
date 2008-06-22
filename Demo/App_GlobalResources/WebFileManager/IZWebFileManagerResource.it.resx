@@ -132,6 +132,9 @@
   <data name="Delete" xml:space="preserve">
     <value>Cancella</value>
   </data>
+  <data name="DestinationFolderIsSubfolder" xml:space="preserve">
+    <value>The destination folder is a subfolder of the source folder.</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Dettagli</value>
   </data>
@@ -164,6 +167,9 @@
   </data>
   <data name="Size" xml:space="preserve">
     <value>Dimensione</value>
+  </data>
+  <data name="Thumbnails" xml:space="preserve">
+    <value>Thumbnails</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tipo</value>

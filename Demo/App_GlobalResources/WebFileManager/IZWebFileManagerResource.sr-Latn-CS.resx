@@ -144,6 +144,9 @@
   <data name="DeleteConfirm" xml:space="preserve">
     <value>Jeste li sigurni da želite da obrišete izabrane objekte?</value>
   </data>
+  <data name="DestinationFolderIsSubfolder" xml:space="preserve">
+    <value>The destination folder is a subfolder of the source folder.</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Detaǉnije</value>
   </data>
@@ -191,6 +194,9 @@
   </data>
   <data name="Submit" xml:space="preserve">
     <value>Pošaǉi</value>
+  </data>
+  <data name="Thumbnails" xml:space="preserve">
+    <value>Thumbnails</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tip</value>

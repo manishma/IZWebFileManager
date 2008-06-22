@@ -147,6 +147,9 @@
   <data name="DeleteConfirm" xml:space="preserve">
     <value>Вы действительно хотите удалить выбранные файлы?</value>
   </data>
+  <data name="DestinationFolderIsSubfolder" xml:space="preserve">
+    <value>The destination folder is a subfolder of the source folder.</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Таблица</value>
   </data>
@@ -194,6 +197,9 @@
   </data>
   <data name="Submit" xml:space="preserve">
     <value>Отправить</value>
+  </data>
+  <data name="Thumbnails" xml:space="preserve">
+    <value>Thumbnails</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Тип</value>

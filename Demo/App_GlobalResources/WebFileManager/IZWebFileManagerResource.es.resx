@@ -147,6 +147,9 @@
   <data name="DeleteConfirm" xml:space="preserve">
     <value>¿Está seguro que desea eliminar los items seleccionados?</value>
   </data>
+  <data name="DestinationFolderIsSubfolder" xml:space="preserve">
+    <value>The destination folder is a subfolder of the source folder.</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Detalles</value>
   </data>

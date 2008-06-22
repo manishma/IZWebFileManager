@@ -725,6 +725,8 @@ namespace IZ.WebFileManager
 
 			SelectedItemsActionCancelEventArgs cancelArg = new SelectedItemsActionCancelEventArgs (action);
 			foreach (FileManagerItemInfo item in items) {
+				if (item.Directory.Exists && destDir.Directory.FullName.StartsWith (item.Directory.FullName, StringComparison.InvariantCultureIgnoreCase))
+					return ClientMessageEventReference (GetResourceString ("DestinationFolderIsSubfolder", "The destination folder is a subfolder of the source folder."));
 				cancelArg.SelectedItems.Add (item);
 			}
 			cancelArg.DestinationDirectory = destDir;

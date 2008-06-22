@@ -71,6 +71,7 @@ FolderTree.prototype = {
 		}
 		var nodeId = nodes[nodes.length-1];
 		var node = this._getNode (nodeId);
+		if(!node) return;
 		this.SelectNode (nodeId);
 		if(node._refresh)
 			this.Refresh (nodeId);

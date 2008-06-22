@@ -91,12 +91,12 @@
 			Text="AllowOverwrite" />
 		<asp:CheckBox ID="CheckBox5" runat="server" AutoPostBack="True" OnCheckedChanged="CheckBox5_CheckedChanged"
 			Text="UseLinkToOpenItem" />
-		<asp:CheckBox ID="CheckBox6" runat="server" AutoPostBack="True" OnCheckedChanged="CheckBox6_CheckedChanged"
-			Text="ShowHiddenFolders" />d</div>
+		<asp:CheckBox ID="CheckBox6" runat="server" AutoPostBack="True" Checked="true" OnCheckedChanged="CheckBox6_CheckedChanged"
+			Text="ShowHiddenFolders" /></div>
 	<div>
 		<iz:FileManager ID="FileManager1" runat="server" Height="400px" Width="600" OnExecuteCommand="FileManager1_ExecuteCommand"
 			ClientOpenItemFunction="OpenItem" OnToolbarCommand="FileManager1_ToolbarCommand"
-			HiddenFolderPrefix="_">
+			HiddenFolderPrefix="_" ShowHiddenFolders="true">
 			<RootDirectories>
 				<iz:RootDirectory DirectoryPath="~/Files/My Documents" Text="My Documents" />
 			</RootDirectories>

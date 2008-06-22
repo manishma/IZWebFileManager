@@ -289,8 +289,14 @@ namespace IZ.WebFileManager
 			DirectoryInfo directoryInfo = Controller.ResolveFileManagerItemInfo (node.ValuePath).Directory;
 			if (!directoryInfo.Exists)
 				return;
+			
+			bool checkHiddenFolders = !String.IsNullOrEmpty (HiddenFolderPrefix) && !ShowHiddenFolders;
 
 			foreach (DirectoryInfo dir in directoryInfo.GetDirectories ()) {
+
+				if (checkHiddenFolders && dir.Name.StartsWith (HiddenFolderPrefix, StringComparison.InvariantCultureIgnoreCase))
+					continue;
+				
 				FolderNode treeNode = new FolderNode (this);
 				node.ChildNodes.Add (treeNode);
 				treeNode.Text = dir.Name;

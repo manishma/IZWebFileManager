@@ -279,33 +279,40 @@ namespace IZ.WebFileManager
 
 			render.RenderBeginList (writer);
 
+			bool checkHiddenFolders = !String.IsNullOrEmpty (HiddenFolderPrefix) && !ShowHiddenFolders;
+				
+
 			//FileViewItem upDirectory = new FileViewUpDirectoryItem(directoryInfo.Parent, this);
 			//render.RenderItem(output, upDirectory);
 
-			if (ShowInGroups) {
-				GroupInfo [] groups = provider.GetGroups ();
-				foreach (GroupInfo group in groups) {
-					render.RenderBeginGroup (writer, group);
-					foreach (FileSystemInfo fsi in provider.GetFileSystemInfos (group)) {
-						FileViewItem item = new FileViewItem (fsi, this);
-						render.RenderItem (writer, item);
-					}
+			//if (ShowInGroups) {
+			//    GroupInfo [] groups = provider.GetGroups ();
+			//    foreach (GroupInfo group in groups) {
+			//        render.RenderBeginGroup (writer, group);
+			//        foreach (FileSystemInfo fsi in provider.GetFileSystemInfos (group)) {
+			//            FileViewItem item = new FileViewItem (fsi, this);
+			//            render.RenderItem (writer, item);
+			//        }
 
-					render.RenderEndGroup (writer, group);
-				}
-			}
-			else {
+			//        render.RenderEndGroup (writer, group);
+			//    }
+			//}
+			//else {
 				foreach (FileSystemInfo fsi in provider.GetFileSystemInfos ()) {
 					if (fsi is FileInfo) {
 						string ext = fsi.Extension.ToLower (CultureInfo.InvariantCulture).TrimStart ('.');
 						if (Controller.HiddenFilesArray.Contains (ext))
 							continue;
 					}
+					else {
+						if (checkHiddenFolders && fsi.Name.StartsWith (HiddenFolderPrefix, StringComparison.InvariantCultureIgnoreCase))
+							continue;
+					}
 					FileViewItem item = new FileViewItem (fsi, this);
 
 					render.RenderItem (writer, item);
 				}
-			}
+			//}
 
 			render.RenderEndList (writer);
 			RenderInitScript (writer);

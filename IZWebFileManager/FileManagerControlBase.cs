@@ -395,6 +395,24 @@ namespace IZ.WebFileManager
 			set { Controller.HiddenFiles = value; }
 		}
 
+		[DefaultValue ("")]
+		[Category ("Behavior")]
+		[Themeable (false)]
+		[Localizable (false)]
+		public string HiddenFolderPrefix {
+			get { return Controller.HiddenFolderPrefix; }
+			set { Controller.HiddenFolderPrefix = value; }
+		}
+
+		[DefaultValue (false)]
+		[Category ("Behavior")]
+		[Themeable (false)]
+		[Localizable (false)]
+		public bool ShowHiddenFolders {
+			get { return Controller.ShowHiddenFolders; }
+			set { Controller.ShowHiddenFolders = value; }
+		}
+
 		[Category ("Action")]
 		public event EventHandler<RenameEventArgs> ItemRenamed;
 

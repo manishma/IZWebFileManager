@@ -60,6 +60,8 @@ namespace IZ.WebFileManager
 		readonly RootDirectoryCollection _rootDirectories = new RootDirectoryCollection ();
 		readonly SpecialFolderCollection _specialFolders = new SpecialFolderCollection ();
 
+		string _defaultHiddenFolderSmallImage;
+		string _defaultHiddenFolderLargeImage;
 		string _defaultFolderSmallImage;
 		string _defaultFolderLargeImage;
 		string _defaultFileSmallImage;
@@ -160,6 +162,24 @@ namespace IZ.WebFileManager
 			set { ViewState ["HiddenFiles"] = value; }
 		}
 
+		[DefaultValue ("")]
+		[Category ("Behavior")]
+		[Themeable (false)]
+		[Localizable (false)]
+		public string HiddenFolderPrefix {
+			get { return (string) (ViewState ["HiddenFolderPrefix"] ?? String.Empty); }
+			set { ViewState ["HiddenFolderPrefix"] = value; }
+		}
+
+		[DefaultValue (false)]
+		[Category ("Behavior")]
+		[Themeable (false)]
+		[Localizable (false)]
+		public bool ShowHiddenFolders {
+			get { return (bool) (ViewState ["ShowHiddenFolders"] ?? false); }
+			set { ViewState ["ShowHiddenFolders"] = value; }
+		}
+
 		internal ArrayList HiddenFilesArray {
 			get {
 				if (_hiddenFilesArray == null)
@@ -255,6 +275,24 @@ namespace IZ.WebFileManager
 		public string FolderLargeImageUrl {
 			get { return ViewState ["FolderLargeIconUrl"] == null ? String.Empty : (string) ViewState ["FolderLargeIconUrl"]; }
 			set { ViewState ["FolderLargeIconUrl"] = value; }
+		}
+
+		[Editor ("System.Web.UI.Design.ImageUrlEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof (UITypeEditor))]
+		[DefaultValue ("")]
+		[UrlProperty]
+		[Bindable (true)]
+		public string HiddenFolderSmallImageUrl {
+			get { return ViewState ["HiddenFolderSmallImageUrl"] == null ? String.Empty : (string) ViewState ["HiddenFolderSmallImageUrl"]; }
+			set { ViewState ["HiddenFolderSmallImageUrl"] = value; }
+		}
+
+		[Editor ("System.Web.UI.Design.ImageUrlEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof (UITypeEditor))]
+		[DefaultValue ("")]
+		[UrlProperty]
+		[Bindable (true)]
+		public string HiddenFolderLargeImageUrl {
+			get { return ViewState ["HiddenFolderLargeImageUrl"] == null ? String.Empty : (string) ViewState ["HiddenFolderLargeImageUrl"]; }
+			set { ViewState ["HiddenFolderLargeImageUrl"] = value; }
 		}
 
 		[Editor ("System.Web.UI.Design.ImageUrlEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof (UITypeEditor))]
@@ -516,6 +554,20 @@ namespace IZ.WebFileManager
 				_defaultFolderLargeImage = ResolveUrl (imagesFolder + "FolderLarge.gif");
 			else
 				_defaultFolderLargeImage = Page.ClientScript.GetWebResourceUrl (typeof (FileManagerController), "IZ.WebFileManager.resources.FolderLarge.gif");
+
+			if (HiddenFolderSmallImageUrl.Length > 0)
+				_defaultHiddenFolderSmallImage = ResolveUrl (HiddenFolderSmallImageUrl);
+			else if (isImagesFolder)
+				_defaultHiddenFolderSmallImage = ResolveUrl (imagesFolder + "HiddenFolderSmall.gif");
+			else
+				_defaultHiddenFolderSmallImage = Page.ClientScript.GetWebResourceUrl (typeof (FileManagerController), "IZ.WebFileManager.resources.HiddenFolderSmall.gif");
+
+			if (HiddenFolderLargeImageUrl.Length > 0)
+				_defaultHiddenFolderLargeImage = ResolveUrl (HiddenFolderLargeImageUrl);
+			else if (isImagesFolder)
+				_defaultHiddenFolderLargeImage = ResolveUrl (imagesFolder + "HiddenFolderLarge.gif");
+			else
+				_defaultHiddenFolderLargeImage = Page.ClientScript.GetWebResourceUrl (typeof (FileManagerController), "IZ.WebFileManager.resources.HiddenFolderLarge.gif");
 
 			if (FileSmallImageUrl.Length > 0)
 				_defaultFileSmallImage = ResolveUrl (FileSmallImageUrl);
@@ -1244,6 +1296,8 @@ namespace IZ.WebFileManager
 			SpecialFolder folder = GetSpecialFolder (dir);
 			if (folder != null && folder.SmallImageUrl.Length > 0)
 				return ResolveUrl (folder.SmallImageUrl);
+			if (!String.IsNullOrEmpty (HiddenFolderPrefix) && dir.Name.StartsWith (HiddenFolderPrefix, StringComparison.InvariantCultureIgnoreCase))
+				return _defaultHiddenFolderSmallImage;
 			return _defaultFolderSmallImage;
 		}
 
@@ -1305,15 +1359,9 @@ namespace IZ.WebFileManager
 			SpecialFolder folder = GetSpecialFolder (dir);
 			if (folder != null && folder.LargeImageUrl.Length > 0)
 				return ResolveUrl (folder.LargeImageUrl);
+			if (!String.IsNullOrEmpty (HiddenFolderPrefix) && dir.Name.StartsWith (HiddenFolderPrefix, StringComparison.InvariantCultureIgnoreCase))
+				return _defaultHiddenFolderLargeImage;
 			return _defaultFolderLargeImage;
-		}
-
-		private string GetFolderLargeImage () {
-			return GetFolderLargeImage (null);
-		}
-
-		private string GetRootFolderLargeImage () {
-			return GetRootFolderLargeImage (null);
 		}
 
 		private string GetRootFolderLargeImage (RootDirectory rootDir) {

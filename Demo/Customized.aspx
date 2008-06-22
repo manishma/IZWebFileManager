@@ -28,6 +28,10 @@
 		FileManager1.UseLinkToOpenItem = ((CheckBox) sender).Checked;
 	}
 
+	protected void CheckBox6_CheckedChanged (object sender, EventArgs e) {
+		FileManager1.ShowHiddenFolders = ((CheckBox) sender).Checked;
+	}
+
 	protected void FileManager1_ToolbarCommand (object sender, CommandEventArgs e) {
 		if (e.CommandName == "CreateZip") {
 
@@ -86,10 +90,13 @@
 		<asp:CheckBox ID="CheckBox4" runat="server" AutoPostBack="True" OnCheckedChanged="CheckBox4_CheckedChanged"
 			Text="AllowOverwrite" />
 		<asp:CheckBox ID="CheckBox5" runat="server" AutoPostBack="True" OnCheckedChanged="CheckBox5_CheckedChanged"
-			Text="UseLinkToOpenItem" /></div>
+			Text="UseLinkToOpenItem" />
+		<asp:CheckBox ID="CheckBox6" runat="server" AutoPostBack="True" OnCheckedChanged="CheckBox6_CheckedChanged"
+			Text="ShowHiddenFolders" />d</div>
 	<div>
 		<iz:FileManager ID="FileManager1" runat="server" Height="400px" Width="600" OnExecuteCommand="FileManager1_ExecuteCommand"
-			ClientOpenItemFunction="OpenItem" OnToolbarCommand="FileManager1_ToolbarCommand">
+			ClientOpenItemFunction="OpenItem" OnToolbarCommand="FileManager1_ToolbarCommand"
+			HiddenFolderPrefix="_">
 			<RootDirectories>
 				<iz:RootDirectory DirectoryPath="~/Files/My Documents" Text="My Documents" />
 			</RootDirectories>

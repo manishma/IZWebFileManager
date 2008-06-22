@@ -24,14 +24,10 @@ FileManagerController = function(ClientID, UniqueID, EventArgumentSplitter) {
 	var keyPress = this._onKeyPress;
 	var instance = this;
 	this._dnd_document_onmouseup = function(e) {
-		if(instance._origin_document_onmouseup)
-			instance._origin_document_onmouseup.call(document, e);
 		e = e || window.event;
 		mouseUp.call(instance, e); 
 	}
 	this._dnd_document_onkeypress = function(e) {
-		if(instance._origin_document_onmouseup)
-			instance._origin_document_onmouseup.call(document, e);
 		e = e || window.event;
 		keyPress.call(instance, e);
 	}

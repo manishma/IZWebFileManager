@@ -96,7 +96,7 @@
 	<div>
 		<iz:FileManager ID="FileManager1" runat="server" Height="400px" Width="600" OnExecuteCommand="FileManager1_ExecuteCommand"
 			ClientOpenItemFunction="OpenItem" OnToolbarCommand="FileManager1_ToolbarCommand"
-			HiddenFolderPrefix="_" ShowHiddenFolders="true">
+			HiddenFolderPrefix="_" ShowHiddenFolders="true" HiddenFiles="config, ini">
 			<RootDirectories>
 				<iz:RootDirectory DirectoryPath="~/Files/My Documents" Text="My Documents" />
 			</RootDirectories>

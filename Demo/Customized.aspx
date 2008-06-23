@@ -29,7 +29,7 @@
 	}
 
 	protected void CheckBox6_CheckedChanged (object sender, EventArgs e) {
-		FileManager1.ShowHiddenFolders = ((CheckBox) sender).Checked;
+		FileManager1.ShowHiddenFilesAndFolders = ((CheckBox) sender).Checked;
 	}
 
 	protected void FileManager1_ToolbarCommand (object sender, CommandEventArgs e) {
@@ -96,7 +96,7 @@
 	<div>
 		<iz:FileManager ID="FileManager1" runat="server" Height="400px" Width="600" OnExecuteCommand="FileManager1_ExecuteCommand"
 			ClientOpenItemFunction="OpenItem" OnToolbarCommand="FileManager1_ToolbarCommand"
-			HiddenFolderPrefix="_" ShowHiddenFolders="true" HiddenFiles="config, ini">
+			HiddenFilesAndFoldersPrefix="_" ShowHiddenFilesAndFolders="true" HiddenFiles="config, ini">
 			<RootDirectories>
 				<iz:RootDirectory DirectoryPath="~/Files/My Documents" Text="My Documents" />
 			</RootDirectories>

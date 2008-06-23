@@ -54,6 +54,7 @@ namespace IZ.WebFileManager
 		Hashtable _fileExtensions;
 		Hashtable _specialFolderPaths;
 		ArrayList _hiddenFilesArray;
+		Style _hiddenItemStyle;
 		ArrayList _prohibitedFilesArray;
 		readonly FileTypeCollection _fileTypeCollection = new FileTypeCollection ();
 		readonly NewDocumentTemplateCollection _templates = new NewDocumentTemplateCollection ();
@@ -183,6 +184,15 @@ namespace IZ.WebFileManager
 				if (_hiddenFilesArray == null)
 					_hiddenFilesArray = InitExtensionsArray (HiddenFiles);
 				return _hiddenFilesArray;
+			}
+		}
+
+		internal Style HiddenItemStyle {
+			get {
+				if (_hiddenItemStyle == null) {
+					_hiddenItemStyle = new HiddenItemStyle ();
+				}
+				return _hiddenItemStyle;
 			}
 		}
 
@@ -409,6 +419,11 @@ namespace IZ.WebFileManager
 			RegisterResources ();
 
 			EnsureDefaults ();
+
+			// register hidden item style
+			if (!String.IsNullOrEmpty (HiddenFilesAndFoldersPrefix) || !String.IsNullOrEmpty (HiddenFiles))
+				if (Page.Header != null)
+					Page.Header.StyleSheet.RegisterStyle (HiddenItemStyle, this);
 		}
 
 		internal void EnsureToolbarImages () {

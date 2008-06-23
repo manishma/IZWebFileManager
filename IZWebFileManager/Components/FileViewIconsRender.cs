@@ -49,11 +49,8 @@ namespace IZ.WebFileManager.Components
 			output.AddStyleAttribute (HtmlTextWriterStyle.BackgroundImage, item.LargeImage);
 			output.AddStyleAttribute ("background-position", "center center");
 			output.AddStyleAttribute ("background-repeat", "no-repeat");
-			if (item.Hidden) {
-				output.AddStyleAttribute ("opacity", "0.50");
-				output.AddStyleAttribute ("filter", "alpha(opacity=50)");
-				output.AddStyleAttribute ("-moz-opacity", ".50");
-			}
+			if (item.Hidden)
+				fileView.Controller.HiddenItemStyle.AddAttributesToRender (output);
 			output.RenderBeginTag (HtmlTextWriterTag.Td);
 			output.RenderEndTag ();
 			output.RenderEndTag ();

@@ -64,6 +64,8 @@ namespace IZ.WebFileManager.Components
 			output.AddStyleAttribute (HtmlTextWriterStyle.BackgroundImage, item.ThumbnailImage);
 			output.AddStyleAttribute ("background-position", "center center");
 			output.AddStyleAttribute ("background-repeat", "no-repeat");
+			if (item.Hidden)
+				fileView.Controller.HiddenItemStyle.AddAttributesToRender (output);
 			output.RenderBeginTag (HtmlTextWriterTag.Td);
 			output.RenderEndTag ();
 			output.RenderEndTag ();

@@ -104,6 +104,9 @@
     <Compile Include="ContextMenu.cs" />
     <Compile Include="CustomToolbarButton.cs" />
     <Compile Include="CustomToolbarButtonCollection.cs" />
+    <Compile Include="HiddenItemStyle.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ThumbnailHandler.cs" />
     <Compile Include="OuterBorderStyle.cs" />
     <Compile Include="SortMode.cs" />

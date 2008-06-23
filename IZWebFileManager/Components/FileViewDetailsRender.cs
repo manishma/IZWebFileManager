@@ -133,6 +133,8 @@ namespace IZ.WebFileManager.Components
 			output.AddStyleAttribute (HtmlTextWriterStyle.Width, FileManagerController.SmallImageWidth.ToString (CultureInfo.InstalledUICulture));
 			output.AddStyleAttribute (HtmlTextWriterStyle.Height, FileManagerController.SmallImageHeight.ToString (CultureInfo.InstalledUICulture));
 			output.AddStyleAttribute (HtmlTextWriterStyle.BackgroundImage, item.SmallImage);
+			if (item.Hidden)
+				fileView.Controller.HiddenItemStyle.AddAttributesToRender (output);
 			output.RenderBeginTag (HtmlTextWriterTag.Div);
 			output.RenderEndTag ();
 

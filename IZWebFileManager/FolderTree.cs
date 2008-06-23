@@ -289,17 +289,19 @@ namespace IZ.WebFileManager
 			DirectoryInfo directoryInfo = Controller.ResolveFileManagerItemInfo (node.ValuePath).Directory;
 			if (!directoryInfo.Exists)
 				return;
-			
-			bool checkHiddenFolders = !String.IsNullOrEmpty (HiddenFilesAndFoldersPrefix) && !ShowHiddenFilesAndFolders;
 
-			foreach (DirectoryInfo dir in directoryInfo.GetDirectories ()) {
+			DirectoryProvider provider = new DirectoryProvider (directoryInfo, SortMode.Name, SortDirection.Ascending);
 
-				if (checkHiddenFolders && dir.Name.StartsWith (HiddenFilesAndFoldersPrefix, StringComparison.InvariantCultureIgnoreCase))
+			foreach (DirectoryInfo dir in provider.GetFileSystemInfos (DirectoryProvider.FileSystemInfosFilter.Directories)) {
+
+				FileViewItem item = new FileViewItem (dir, this);
+				if (!ShowHiddenFilesAndFolders && item.Hidden)
 					continue;
 				
 				FolderNode treeNode = new FolderNode (this);
 				node.ChildNodes.Add (treeNode);
 				treeNode.Text = dir.Name;
+				treeNode.Hidden = item.Hidden;
 				treeNode.ImageUrl = Controller.GetFolderSmallImage (dir);
 				if (_fileView != null)
 					treeNode.NavigateUrl = "javascript:WFM_" + _fileView.ClientID + ".Navigate(\"" + treeNode.ValuePath + "\");";
@@ -608,6 +610,8 @@ namespace IZ.WebFileManager
 			string imageUrl = node.ImageUrl.Length > 0 ? ResolveClientUrl (node.ImageUrl) : null;
 
 			if (!String.IsNullOrEmpty (imageUrl)) {
+				if (node.Hidden)
+					Controller.HiddenItemStyle.AddAttributesToRender (writer);
 				writer.RenderBeginTag (HtmlTextWriterTag.Td);	// TD
 				BeginNodeTag (writer, node);
 				writer.AddAttribute ("src", imageUrl);
@@ -816,6 +820,7 @@ namespace IZ.WebFileManager
 			string _tooltip;
 			bool _expanded;
 			bool _selected;
+			bool _hidden;
 
 			public FolderNode (FolderTree owner) {
 				_owner = owner;
@@ -848,6 +853,11 @@ namespace IZ.WebFileManager
 
 			public bool Expanded {
 				get { return _expanded; }
+			}
+			
+			public bool Hidden {
+				get { return _hidden; }
+				set { _hidden = value; }
 			}
 
 			public string ImageUrl {

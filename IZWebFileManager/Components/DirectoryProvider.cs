@@ -78,10 +78,25 @@ namespace IZ.WebFileManager.Components
 		}
 
 		public FileSystemInfo [] GetFileSystemInfos () {
+			return GetFileSystemInfos (FileSystemInfosFilter.All);
+		}
+
+		public FileSystemInfo [] GetFileSystemInfos (FileSystemInfosFilter filter) {
 			if (!directory.Exists)
 				return new FileSystemInfo [0];
 
-			FileSystemInfo [] dirs = directory.GetFileSystemInfos ();
+			FileSystemInfo [] dirs;
+			switch (filter) {
+			case FileSystemInfosFilter.Directories:
+				dirs = directory.GetDirectories ();
+				break;
+			case FileSystemInfosFilter.Files:
+				dirs = directory.GetFiles ();
+				break;
+			default:
+				dirs = directory.GetFileSystemInfos ();
+				break;
+			}
 			Array.Sort<FileSystemInfo> (dirs, new Comparison<FileSystemInfo> (CompareFileSystemInfos));
 			return dirs;
 		}
@@ -132,6 +147,12 @@ namespace IZ.WebFileManager.Components
 			return res;
 		}
 
+		public enum FileSystemInfosFilter
+		{
+			All,
+			Directories,
+			Files
+		}
 	}
 	internal sealed class GroupInfo
 	{

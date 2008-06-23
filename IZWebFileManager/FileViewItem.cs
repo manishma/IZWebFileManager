@@ -33,7 +33,7 @@ namespace IZ.WebFileManager
 		string _modified;
 		string _cliendID;
 		readonly FileSystemInfo _fsi;
-		readonly FileView _fileView;
+		readonly FileManagerControlBase _fileView;
 		bool? _hidden;
 
 		public FileSystemInfo FileSystemInfo {
@@ -122,7 +122,7 @@ namespace IZ.WebFileManager
 			}
 		}
 
-		internal FileViewItem (FileSystemInfo fsi, FileView fileView) {
+		internal FileViewItem (FileSystemInfo fsi, FileManagerControlBase fileView) {
 			this._fsi = fsi;
 			this._fileView = fileView;
 		}

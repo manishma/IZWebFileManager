@@ -67,8 +67,6 @@ using System.Security;
 [assembly: WebResource("IZ.WebFileManager.resources.FolderSmall.gif", "image/gif")]
 [assembly: WebResource("IZ.WebFileManager.resources.FileLarge.gif", "image/gif")]
 [assembly: WebResource ("IZ.WebFileManager.resources.FolderLarge.gif", "image/gif")]
-[assembly: WebResource ("IZ.WebFileManager.resources.HiddenFolderLarge.gif", "image/gif")]
-[assembly: WebResource ("IZ.WebFileManager.resources.HiddenFolderSmall.gif", "image/gif")]
 
 [assembly: WebResource("IZ.WebFileManager.resources.FolderUp.gif", "image/gif")]
 [assembly: WebResource("IZ.WebFileManager.resources.Move.gif", "image/gif")]

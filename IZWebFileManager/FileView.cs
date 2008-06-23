@@ -298,7 +298,7 @@ namespace IZ.WebFileManager
 				foreach (FileSystemInfo fsi in provider.GetFileSystemInfos ()) {
 					FileViewItem item = new FileViewItem (fsi, this);
 					
-					if (!ShowHiddenFolders && item.Hidden)
+					if (!ShowHiddenFilesAndFolders && item.Hidden)
 						continue;
 
 					render.RenderItem (writer, item);

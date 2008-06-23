@@ -290,11 +290,11 @@ namespace IZ.WebFileManager
 			if (!directoryInfo.Exists)
 				return;
 			
-			bool checkHiddenFolders = !String.IsNullOrEmpty (HiddenFolderPrefix) && !ShowHiddenFolders;
+			bool checkHiddenFolders = !String.IsNullOrEmpty (HiddenFilesAndFoldersPrefix) && !ShowHiddenFilesAndFolders;
 
 			foreach (DirectoryInfo dir in directoryInfo.GetDirectories ()) {
 
-				if (checkHiddenFolders && dir.Name.StartsWith (HiddenFolderPrefix, StringComparison.InvariantCultureIgnoreCase))
+				if (checkHiddenFolders && dir.Name.StartsWith (HiddenFilesAndFoldersPrefix, StringComparison.InvariantCultureIgnoreCase))
 					continue;
 				
 				FolderNode treeNode = new FolderNode (this);

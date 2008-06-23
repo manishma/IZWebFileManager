@@ -399,18 +399,18 @@ namespace IZ.WebFileManager
 		[Category ("Behavior")]
 		[Themeable (false)]
 		[Localizable (false)]
-		public string HiddenFolderPrefix {
-			get { return Controller.HiddenFolderPrefix; }
-			set { Controller.HiddenFolderPrefix = value; }
+		public string HiddenFilesAndFoldersPrefix {
+			get { return Controller.HiddenFilesAndFoldersPrefix; }
+			set { Controller.HiddenFilesAndFoldersPrefix = value; }
 		}
 
 		[DefaultValue (false)]
 		[Category ("Behavior")]
 		[Themeable (false)]
 		[Localizable (false)]
-		public bool ShowHiddenFolders {
-			get { return Controller.ShowHiddenFolders; }
-			set { Controller.ShowHiddenFolders = value; }
+		public bool ShowHiddenFilesAndFolders {
+			get { return Controller.ShowHiddenFilesAndFolders; }
+			set { Controller.ShowHiddenFilesAndFolders = value; }
 		}
 
 		[Category ("Action")]

@@ -112,7 +112,7 @@ namespace IZ.WebFileManager
 		public bool Hidden {
 			get {
 				if (!_hidden.HasValue) {
-					_hidden = (!String.IsNullOrEmpty (_fileView.HiddenFolderPrefix) && _fsi.Name.StartsWith (_fileView.HiddenFolderPrefix, StringComparison.InvariantCultureIgnoreCase));
+					_hidden = (!String.IsNullOrEmpty (_fileView.HiddenFilesAndFoldersPrefix) && _fsi.Name.StartsWith (_fileView.HiddenFilesAndFoldersPrefix, StringComparison.InvariantCultureIgnoreCase));
 					if (!_hidden.Value && _fsi is FileInfo) {
 						string ext = _fsi.Extension.ToLower (CultureInfo.InvariantCulture).TrimStart ('.');
 						_hidden = _fileView.Controller.HiddenFilesArray.Contains (ext);

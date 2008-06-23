@@ -164,7 +164,7 @@ namespace IZ.WebFileManager
 		[Category ("Behavior")]
 		[Themeable (false)]
 		[Localizable (false)]
-		public string HiddenFolderPrefix {
+		public string HiddenFilesAndFoldersPrefix {
 			get { return (string) (ViewState ["HiddenFolderPrefix"] ?? String.Empty); }
 			set { ViewState ["HiddenFolderPrefix"] = value; }
 		}
@@ -173,7 +173,7 @@ namespace IZ.WebFileManager
 		[Category ("Behavior")]
 		[Themeable (false)]
 		[Localizable (false)]
-		public bool ShowHiddenFolders {
+		public bool ShowHiddenFilesAndFolders {
 			get { return (bool) (ViewState ["ShowHiddenFolders"] ?? false); }
 			set { ViewState ["ShowHiddenFolders"] = value; }
 		}

@@ -34,6 +34,7 @@ namespace IZ.WebFileManager
 		string _cliendID;
 		readonly FileSystemInfo _fsi;
 		readonly FileView _fileView;
+		bool? _hidden;
 
 		public FileSystemInfo FileSystemInfo {
 			get { return _fsi; }
@@ -106,6 +107,19 @@ namespace IZ.WebFileManager
 
 		public string Name {
 			get { return _fsi.Name; }
+		}
+
+		public bool Hidden {
+			get {
+				if (!_hidden.HasValue) {
+					_hidden = (!String.IsNullOrEmpty (_fileView.HiddenFolderPrefix) && _fsi.Name.StartsWith (_fileView.HiddenFolderPrefix, StringComparison.InvariantCultureIgnoreCase));
+					if (!_hidden.Value && _fsi is FileInfo) {
+						string ext = _fsi.Extension.ToLower (CultureInfo.InvariantCulture).TrimStart ('.');
+						_hidden = _fileView.Controller.HiddenFilesArray.Contains (ext);
+					}
+				}
+				return _hidden.Value;
+			}
 		}
 
 		internal FileViewItem (FileSystemInfo fsi, FileView fileView) {

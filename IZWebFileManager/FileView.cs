@@ -279,9 +279,6 @@ namespace IZ.WebFileManager
 
 			render.RenderBeginList (writer);
 
-			bool checkHiddenFolders = !String.IsNullOrEmpty (HiddenFolderPrefix) && !ShowHiddenFolders;
-				
-
 			//FileViewItem upDirectory = new FileViewUpDirectoryItem(directoryInfo.Parent, this);
 			//render.RenderItem(output, upDirectory);
 
@@ -299,16 +296,10 @@ namespace IZ.WebFileManager
 			//}
 			//else {
 				foreach (FileSystemInfo fsi in provider.GetFileSystemInfos ()) {
-					if (fsi is FileInfo) {
-						string ext = fsi.Extension.ToLower (CultureInfo.InvariantCulture).TrimStart ('.');
-						if (Controller.HiddenFilesArray.Contains (ext))
-							continue;
-					}
-					else {
-						if (checkHiddenFolders && fsi.Name.StartsWith (HiddenFolderPrefix, StringComparison.InvariantCultureIgnoreCase))
-							continue;
-					}
 					FileViewItem item = new FileViewItem (fsi, this);
+					
+					if (!ShowHiddenFolders && item.Hidden)
+						continue;
 
 					render.RenderItem (writer, item);
 				}

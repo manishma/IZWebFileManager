@@ -123,6 +123,15 @@ namespace IZ.WebFileManager
 			set { ViewState ["ReadOnly"] = value; }
 		}
 
+		[Themeable (false)]
+		[Localizable (false)]
+		[DefaultValue (false)]
+		[Category ("Behavior")]
+		public bool DownloadOnDoubleClick {
+			get { return ViewState ["DownloadOnDoubleClick"] == null ? false : (bool) ViewState ["DownloadOnDoubleClick"]; }
+			set { ViewState ["DownloadOnDoubleClick"] = value; }
+		}
+
 		[DefaultValue ("IZWebFileManagerResource")]
 		[Category ("Data")]
 		public string ResourceClassKey {
@@ -1023,7 +1032,7 @@ namespace IZ.WebFileManager
 
 				FileType ft = GetFileType (item.File);
 				if (ft == null || ft.Commands.Count <= index)
-					return ProcessOpenCommand (item);
+					return DownloadOnDoubleClick ? ProcessDownloadCommand (item) : ProcessOpenCommand (item);
 
 				return ProcessCommand (item, ft.Commands [index]);
 			}

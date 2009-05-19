@@ -4,6 +4,35 @@
         <name>IZ.WebFileManager</name>
     </assembly>
     <members>
+        <member name="P:IZ.WebFileManager.FileManagerControlBase.AllowDelete">
+            <summary>
+            When is set true, Delete, Move and Rename are not allowed, Default value it true.
+            </summary>
+        </member>
+        <member name="M:IZ.WebFileManager.RootDirectory.ToString">
+            <summary>
+            Overridden
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:IZ.WebFileManager.RootDirectory.ExpandDepth">
+            <summary>
+            Gets or sets the number of levels that are expanded in the folder tree when a FileManager control is displayed for the first time. 
+            </summary>
+            <value>
+            The depth to display in the folder tree when the FileManager is initially displayed. The default is -1, which displays all the nodes.
+            </value>
+        </member>
+        <member name="P:IZ.WebFileManager.RootDirectory.Text">
+            <summary>
+            Gets or sets the text displayed for the node in the folder tree of FileManager control.
+            </summary>
+        </member>
+        <member name="P:IZ.WebFileManager.FileManagerController.AllowDelete">
+            <summary>
+            When is set true, Delete, Move and Rename are not allowed, Default value it true.
+            </summary>
+        </member>
         <member name="T:System.IO.xDirectory">
             <summary>
             xDirectory v2.0 - Copy a Source Directory and it's SubDirectories/Files.
@@ -144,35 +173,6 @@
             <param name="DirectoryFilter">The Directory Filter (Standard Windows Filter Parameter, Wildcards: "*" and "?")</param>
             <param name="Overwrite">Whether or not to Overwrite a Destination File if it Exists.</param>
             <param name="FolderLimit">Iteration Limit - Total Number of Folders/SubFolders to Copy</param>
-        </member>
-        <member name="P:IZ.WebFileManager.FileManagerControlBase.AllowDelete">
-            <summary>
-            When is set true, Delete, Move and Rename are not allowed, Default value it true.
-            </summary>
-        </member>
-        <member name="P:IZ.WebFileManager.FileManagerController.AllowDelete">
-            <summary>
-            When is set true, Delete, Move and Rename are not allowed, Default value it true.
-            </summary>
-        </member>
-        <member name="M:IZ.WebFileManager.RootDirectory.ToString">
-            <summary>
-            Overridden
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:IZ.WebFileManager.RootDirectory.ExpandDepth">
-            <summary>
-            Gets or sets the number of levels that are expanded in the folder tree when a FileManager control is displayed for the first time. 
-            </summary>
-            <value>
-            The depth to display in the folder tree when the FileManager is initially displayed. The default is -1, which displays all the nodes.
-            </value>
-        </member>
-        <member name="P:IZ.WebFileManager.RootDirectory.Text">
-            <summary>
-            Gets or sets the text displayed for the node in the folder tree of FileManager control.
-            </summary>
         </member>
     </members>
 </doc>

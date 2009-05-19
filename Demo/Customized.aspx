@@ -32,6 +32,10 @@
 		FileManager1.ShowHiddenFilesAndFolders = ((CheckBox) sender).Checked;
 	}
 
+	protected void CheckBox7_CheckedChanged (object sender, EventArgs e) {
+		FileManager1.DownloadOnDoubleClick = ((CheckBox) sender).Checked;
+	}
+
 	protected void FileManager1_ToolbarCommand (object sender, CommandEventArgs e) {
 		if (e.CommandName == "CreateZip") {
 
@@ -92,7 +96,9 @@
 		<asp:CheckBox ID="CheckBox5" runat="server" AutoPostBack="True" OnCheckedChanged="CheckBox5_CheckedChanged"
 			Text="UseLinkToOpenItem" />
 		<asp:CheckBox ID="CheckBox6" runat="server" AutoPostBack="True" Checked="true" OnCheckedChanged="CheckBox6_CheckedChanged"
-			Text="ShowHiddenFolders" /></div>
+			Text="ShowHiddenFolders" />
+		<asp:CheckBox ID="CheckBox7" runat="server" AutoPostBack="True" OnCheckedChanged="CheckBox7_CheckedChanged"
+			Text="DownloadOnDoubleClick" /></div>
 	<div>
 		<iz:FileManager ID="FileManager1" runat="server" Height="400px" Width="600" OnExecuteCommand="FileManager1_ExecuteCommand"
 			ClientOpenItemFunction="OpenItem" OnToolbarCommand="FileManager1_ToolbarCommand"

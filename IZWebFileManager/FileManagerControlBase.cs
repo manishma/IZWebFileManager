@@ -101,6 +101,15 @@ namespace IZ.WebFileManager
 			set { Controller.ReadOnly = value; }
 		}
 
+		[Themeable (false)]
+		[Localizable (false)]
+		[DefaultValue (false)]
+		[Category ("Behavior")]
+		public bool DownloadOnDoubleClick {
+			get { return Controller.DownloadOnDoubleClick; }
+			set { Controller.DownloadOnDoubleClick = value; }
+		}
+
 		[Browsable (false)]
 		public FileManagerController Controller {
 			get {

@@ -34,6 +34,7 @@ using System.Text.RegularExpressions;
 using System.Runtime.Serialization;
 using System.Drawing.Design;
 using System.Web.Configuration;
+using System.Security;
 
 namespace IZ.WebFileManager
 {
@@ -410,12 +411,17 @@ namespace IZ.WebFileManager
 			_imageExtension [".jpeg"] = o;
 			_imageExtension [".png"] = o;
 
-			HttpHandlerActionCollection handlers = ((HttpHandlersSection) WebConfigurationManager.GetSection ("system.web/httpHandlers")).Handlers;
-			foreach (HttpHandlerAction action in handlers)
-				if (String.Compare (action.Path, ThumbnailHandler, StringComparison.OrdinalIgnoreCase) == 0) {
-					_supportThumbnails = true;
-					break;
-				}
+			try {
+				HttpHandlerActionCollection handlers = ((HttpHandlersSection) WebConfigurationManager.GetSection ("system.web/httpHandlers")).Handlers;
+				foreach (HttpHandlerAction action in handlers)
+					if (String.Compare (action.Path, ThumbnailHandler, StringComparison.OrdinalIgnoreCase) == 0) {
+						_supportThumbnails = true;
+						break;
+					}
+			}
+			catch (SecurityException) {
+				_supportThumbnails = true;
+			}
 		}
 
 		protected override void OnPreRender (EventArgs e) {

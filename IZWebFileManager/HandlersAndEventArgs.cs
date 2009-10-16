@@ -236,6 +236,10 @@ namespace IZ.WebFileManager
 		}
 	}
 
+	public class DownloadFileCancelEventArgs : CancelEventArgs
+	{
+		public FileManagerItemInfo DownloadFile { get; internal set; }
+	}
 
 	public class FileManagerCancelEventArgs : CancelEventArgs
 	{

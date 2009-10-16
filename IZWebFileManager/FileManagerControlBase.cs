@@ -204,6 +204,13 @@ namespace IZ.WebFileManager
 			controller.NewFolderCreating += new EventHandler<NewFolderCancelEventArgs> (controller_NewFolderCreating);
 			controller.SelectedItemsActionComplete += new EventHandler<SelectedItemsActionEventArgs> (controller_SelectedItemsActionComplete);
 			controller.SelectedItemsAction += new EventHandler<SelectedItemsActionCancelEventArgs> (controller_SelectedItemsAction);
+			controller.FileDownload += controller_FileDownload;
+		}
+
+		private void controller_FileDownload(object sender, DownloadFileCancelEventArgs e)
+		{
+			if (FileDownload != null)
+				FileDownload(this, e);
 		}
 
 		void controller_SelectedItemsAction (object sender, SelectedItemsActionCancelEventArgs e) {
@@ -472,6 +479,9 @@ namespace IZ.WebFileManager
 
 		[Category ("Action")]
 		public event EventHandler<SelectedItemsActionCancelEventArgs> SelectedItemsAction;
+
+		[Category ("Action")]
+		public event EventHandler<DownloadFileCancelEventArgs> FileDownload;
 
 		[MergableProperty (false)]
 		[PersistenceMode (PersistenceMode.InnerProperty)]

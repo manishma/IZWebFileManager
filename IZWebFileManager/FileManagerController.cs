@@ -1397,17 +1397,31 @@ namespace IZ.WebFileManager
 			string [] args = eventArgument.Split (new char [] { ':' }, 2);
 			switch (args [0]) {
 			case "Download":
-				string file = this.ResolveFileManagerItemInfo (DecodeURIComponent (args [1])).PhysicalPath;
-				if (File.Exists (file)) {
-					Page.Response.Clear ();
-					Page.Response.ContentType = "application/octet-stream";
-					Page.Response.AddHeader ("Content-Disposition", "attachment;filename=" + EncodeURIComponent (Path.GetFileName (file)));
-					Page.Response.Flush ();
-					Page.Response.WriteFile (file);
-				}
-				Page.Response.End ();
+				FileManagerItemInfo fmi = ResolveFileManagerItemInfo (DecodeURIComponent (args [1]));
+					var e= new DownloadFileCancelEventArgs() {DownloadFile = fmi};
+					OFileDownload(e);
+					if (!e.Cancel)
+					{
+						string file = fmi.PhysicalPath;
+						if (File.Exists(file))
+						{
+							Page.Response.Clear();
+							Page.Response.ContentType = "application/octet-stream";
+							Page.Response.AddHeader("Content-Disposition",
+							                        "attachment;filename=" + EncodeURIComponent(Path.GetFileName(file)));
+							Page.Response.Flush();
+							Page.Response.WriteFile(file);
+						}
+						Page.Response.End ();
+					}
 				break;
 			}
+		}
+
+		private void OFileDownload(DownloadFileCancelEventArgs e)
+		{
+			if (FileDownload != null)
+				FileDownload(this, e);
 		}
 
 		#endregion

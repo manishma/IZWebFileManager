@@ -58,6 +58,9 @@ namespace IZ.WebFileManager
 		[Category ("Action")]
 		public event EventHandler<SelectedItemsActionEventArgs> SelectedItemsActionComplete;
 
+		[Category ("Action")]
+		public event EventHandler<DownloadFileCancelEventArgs> FileDownload;
+
 		#endregion
 
 		#region OnEvent Methods

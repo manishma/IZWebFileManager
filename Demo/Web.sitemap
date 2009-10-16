@@ -11,6 +11,7 @@
 		</siteMapNode>
 		<siteMapNode url="Programming.aspx" title="Programming" description="Create instance of control Programmatically">
 			<siteMapNode url="RootDirectories.aspx" title="Root Directories"  description="Dynamically Setting Root Directories" />
+			<siteMapNode url="FileDownload.aspx" title="File Download"  description="Handle FileDownload event" />
 		</siteMapNode>
 	</siteMapNode>
 </siteMap>

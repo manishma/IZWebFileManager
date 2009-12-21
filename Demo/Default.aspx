@@ -76,6 +76,7 @@
 			<asp:ListItem>pt-BR</asp:ListItem>
 			<asp:ListItem>sr-Cyrl-CS</asp:ListItem>
 			<asp:ListItem>sr-Latn-CS</asp:ListItem>
+			<asp:ListItem>sv-se</asp:ListItem>
 			<asp:ListItem>tr-TR</asp:ListItem>
 		</asp:DropDownList>&nbsp;&nbsp;
 		<asp:CheckBox ID="CheckBox1" runat="server" AutoPostBack="True" OnCheckedChanged="CheckBox1_CheckedChanged"

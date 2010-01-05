@@ -76,7 +76,12 @@ namespace IZ.WebFileManager
 		[DefaultValue ("")]
 		public string Text {
 			get { return (string) bag ["Text"] ?? String.Empty; }
-			set { bag ["Text"] = value; }
+			set {
+				// validate value must be valid file/folder name 
+				if (!FileManagerController.Validate (value))
+					throw new ArgumentException (String.Format ("'{0}' is not a valid value for RootDirectory.Text, It cannot contain any of the following characters: \\/:*?\"<>|", value));
+				bag ["Text"] = value;
+			}
 		}
 
 		internal string TextInternal {

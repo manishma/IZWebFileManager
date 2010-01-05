@@ -952,7 +952,7 @@ namespace IZ.WebFileManager
 			return sb.ToString ();
 		}
 
-		private static bool Validate (string name) {
+		internal static bool Validate (string name) {
 			// \/:*?"<>|
 			return !name.Contains ("\\") &&
 				!name.Contains ("/") &&

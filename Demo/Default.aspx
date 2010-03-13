@@ -72,6 +72,7 @@
 			<asp:ListItem>he-IL</asp:ListItem>
 			<asp:ListItem>it-IT</asp:ListItem>
 			<asp:ListItem>nb-NO</asp:ListItem>
+			<asp:ListItem>nl-NL</asp:ListItem>
 			<asp:ListItem>ru-RU</asp:ListItem>
 			<asp:ListItem>pt-BR</asp:ListItem>
 			<asp:ListItem>sr-Cyrl-CS</asp:ListItem>

@@ -61,7 +61,7 @@ namespace IZ.WebFileManager.Components
 			output.AddStyleAttribute (HtmlTextWriterStyle.Height, "92px");
 			output.AddStyleAttribute (HtmlTextWriterStyle.TextAlign, "center");
 			output.AddStyleAttribute (HtmlTextWriterStyle.VerticalAlign, "middle");
-			output.AddStyleAttribute (HtmlTextWriterStyle.BackgroundImage, item.ThumbnailImage);
+            output.AddStyleAttribute("background-image", "url(\"" + item.ThumbnailImage + "\")");
 			output.AddStyleAttribute ("background-position", "center center");
 			output.AddStyleAttribute ("background-repeat", "no-repeat");
 			if (item.Hidden)

@@ -221,5 +221,6 @@
   </Target>
   -->
   <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)*" "$(SolutionDir)Demo\Bin\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

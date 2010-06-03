@@ -104,6 +104,7 @@
     <Compile Include="HiddenItemStyle.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Properties\VersionAssemblyInfo.cs" />
     <Compile Include="ThumbnailHandler.cs" />
     <Compile Include="OuterBorderStyle.cs" />
     <Compile Include="SortMode.cs" />

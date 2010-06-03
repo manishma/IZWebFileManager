@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
 <project name="IZWebFileManager" default="build" xmlns="http://nant.sf.net/schemas/nant.xsd">
 
-	<property name="project.config" value="Debug" />
+	<property name="config" value="Debug" />
 
     <target name="clean">
 		<exec program="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"
-				  commandline='/t:Clean /p:Configuration=${project.config} /p:Platform="AnyCPU" /v:n'
+				  commandline='/t:Clean /p:Configuration=${config} /p:Platform="Any CPU" /v:n'
 					workingdir="." />
 	</target>
    	
@@ -14,8 +14,12 @@
 
 	<target name="build" depends="clean, version">
 		<exec program="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"
-				  commandline='/t:Build /p:Configuration=${project.config} /p:Platform="AnyCPU" /v:n'
+				  commandline='/t:Build /p:Configuration=${config} /p:Platform="Any CPU" /v:n'
 					workingdir="." />
 	</target>
+    
+    <target name="package" depends="build">
+        
+    </target>
     
 </project>

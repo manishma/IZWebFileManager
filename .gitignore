@@ -4,3 +4,4 @@
 *.sln.cache
 _ReSharper*
 *.suo
+*.user

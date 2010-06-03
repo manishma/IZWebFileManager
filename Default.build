@@ -2,15 +2,35 @@
 <project name="IZWebFileManager" default="build" xmlns="http://nant.sf.net/schemas/nant.xsd">
 
 	<property name="config" value="Debug" />
+	
+    <!-- Version -->
+	<property name="version.major" value="2"/>
+	<property name="version.minor" value="5"/>
+	<property name="version.build" value="3"/>
+	<property name="version.revision" value="0" />
+	<property name="project.fullversion" value="${version.major}.${version.minor}.${version.build}.${version.revision}" dynamic="true" />
 
     <target name="clean">
 		<exec program="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"
 				  commandline='/t:Clean /p:Configuration=${config} /p:Platform="Any CPU" /v:n'
 					workingdir="." />
+        <delete>
+            <fileset>
+                <include name="Demo\Bin\IZ.WebFileManager.*" />
+            </fileset>
+        </delete>
 	</target>
    	
     <target name="version">
-    </target>
+        <asminfo output="IZWebFileManager\Properties\VersionAssemblyInfo.cs" language="CSharp">
+            <imports>
+                <import namespace="System.Reflection" />
+            </imports>
+            <attributes>
+                <attribute type="AssemblyVersionAttribute" value="${project.fullversion}" />
+            </attributes>
+        </asminfo>
+   </target>
 
 	<target name="build" depends="clean, version">
 		<exec program="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"
@@ -19,7 +39,11 @@
 	</target>
     
     <target name="package" depends="build">
-        
+        <zip zipfile="build\IZWebFileManager_${version.major}_${version.minor}_${version.build}_Bin_Demo.zip">
+            <fileset basedir="Demo" prefix="bin">
+                <include name="**/*" />
+            </fileset>
+        </zip>
     </target>
     
 </project>

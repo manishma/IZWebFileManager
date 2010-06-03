@@ -40,7 +40,7 @@
     
     <target name="package" depends="build">
         <zip zipfile="build\IZWebFileManager_${version.major}_${version.minor}_${version.build}_Bin_Demo.zip">
-            <fileset basedir="Demo" prefix="bin">
+            <fileset basedir="Demo" prefix="Demo">
                 <include name="**/*" />
             </fileset>
         </zip>

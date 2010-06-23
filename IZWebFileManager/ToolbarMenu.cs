@@ -54,6 +54,28 @@ namespace IZ.WebFileManager
                 writer.RenderBeginTag(HtmlTextWriterTag.Td);
 
                 ((MenuItemTemplateContainer) _container.GetValue(item, null)).RenderControl(writer);
+
+                if(item.ChildItems.Count> 0)
+                {
+                    writer.AddStyleAttribute(HtmlTextWriterStyle.Display, "none");
+                    writer.AddStyleAttribute(HtmlTextWriterStyle.Position, "absolute");
+                    Control.DynamicMenuStyle.AddAttributesToRender(writer);
+                    writer.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
+                    writer.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
+                    writer.AddAttribute(HtmlTextWriterAttribute.Border, "0");
+                    writer.RenderBeginTag(HtmlTextWriterTag.Table);
+                    writer.RenderBeginTag(HtmlTextWriterTag.Tr);
+                    writer.RenderBeginTag(HtmlTextWriterTag.Td);
+
+                    for (int i = 0; i < item.ChildItems.Count; i++)
+                    {
+                        var childItem = item.ChildItems[i];
+                        ((MenuItemTemplateContainer)_container.GetValue(childItem, null)).RenderControl(writer);
+                    }
+                    writer.RenderEndTag();
+                    writer.RenderEndTag();
+                    writer.RenderEndTag();
+                }
                 
                 writer.RenderEndTag();
             }

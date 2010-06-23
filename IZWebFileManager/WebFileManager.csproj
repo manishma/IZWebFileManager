@@ -119,6 +119,7 @@
     <Compile Include="NewDocumentTemplateCollection.cs" />
     <Compile Include="RootDirectoryCollection.cs" />
     <Compile Include="ToolbarImages.cs" />
+    <Compile Include="ToolbarMenu.cs" />
     <Compile Include="ToolbarOptions.cs" />
   </ItemGroup>
   <ItemGroup>

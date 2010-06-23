@@ -29,6 +29,9 @@
 				PlaceHolder1.Controls.Add (check);
 			}
 		}
+
+     DownloadLink.NavigateUrl = "javascript:WFM_" + FileManager1.Controller.ClientID + ".OnExecuteCommand(WFM_" +
+                                FileManager1.ClientID + "_FileView, '0:-2');void(0);";
 	}
 
 	protected void DropDownList1_SelectedIndexChanged (object sender, EventArgs e) {
@@ -60,6 +63,11 @@
 	protected void CheckBox4_CheckedChanged (object sender, EventArgs e) {
 		FileManager1.RootDirectories[0].ShowRootIndex = ((CheckBox) sender).Checked;
 	}
+    
+    private void FileManager1_FileUploased(object sender, UploadFileEventArgs e)
+    {
+        ClientScript.RegisterStartupScript(GetType(), "file-uploaded-alert", "window.setTimeout(function(){alert('File Uploaded Successfully.');}, 1);", true);
+    }
 </script>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -91,10 +99,11 @@
 		<asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder>
 	</div>
 	<div>
-		<iz:FileManager ID="FileManager1" runat="server" Height="400" Width="600">
+		<iz:FileManager ID="FileManager1" runat="server" Height="400" Width="600" OnFileUploaded="FileManager1_FileUploased">
 			<RootDirectories>
 				<iz:RootDirectory DirectoryPath="~/Files/My Documents" Text="My Documents" />
 			</RootDirectories>
 		</iz:FileManager>
 	</div>
+	<div><asp:HyperLink runat="server" ID="DownloadLink" Text="Download"></asp:HyperLink></div>
 </asp:Content>

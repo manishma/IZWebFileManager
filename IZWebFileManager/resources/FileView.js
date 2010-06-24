@@ -57,8 +57,9 @@ FileView = function(ClientID, ControllerID, RegularItemStyle, SelectedItemStyle,
   
     this.Element.oncontextmenu = function(e) {
         if(e == null) var e = event;
-        eval('WFM_' + ClientID + '.ShowContextMenu(e)');
-        eval('WFM_' + ClientID + '.HitInfo = \'FileView\'');
+        This.ShowContextMenu(e);
+        This.HitInfo = 'FileView';
+        e.cancelBubble = true;
         return false;
     }
     
@@ -112,9 +113,11 @@ FileView.prototype.ShowContextMenu = function(arg) {
     var x = arg.clientX + WebForm_GetScrollX();
     var y = arg.clientY + WebForm_GetScrollY();
     if(this.HitInfo == 'FileView')
-        eval(this.ClientID+'_ShowContextMenu(x,y)');
+        var func = eval(this.ClientID+'_ShowContextMenu');
     else
-        eval(this.ClientID+'_ShowSelectedItemsContextMenu(x,y)');
+        var func = eval(this.ClientID+'_ShowSelectedItemsContextMenu');
+        
+    func(x,y);
 }
 
 FileView.prototype.ShowProgress = function() {

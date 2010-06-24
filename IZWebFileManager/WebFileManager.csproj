@@ -92,6 +92,7 @@
     <EmbeddedResource Include="resources\FileManagerController.js" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseMenu.cs" />
     <Compile Include="Components\FileViewThumbnailsRender.cs" />
     <Compile Include="Components\xDirectory.cs" />
     <Compile Include="BorderedPanel.cs" />

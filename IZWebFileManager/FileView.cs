@@ -362,13 +362,7 @@ namespace IZ.WebFileManager
 			if (writer == null)
 				throw new ArgumentNullException ("writer");
 
-			writer.AddStyleAttribute (HtmlTextWriterStyle.Position, "absolute");
-			writer.AddStyleAttribute (HtmlTextWriterStyle.ZIndex, "100");
-			writer.AddStyleAttribute (HtmlTextWriterStyle.Visibility, "hidden");
-			writer.AddAttribute (HtmlTextWriterAttribute.Id, ClientID + "_ContextMenu");
-			writer.RenderBeginTag (HtmlTextWriterTag.Div);
 			_contextMenu.RenderControl (writer);
-			writer.RenderEndTag ();
 
 			writer.AddStyleAttribute (HtmlTextWriterStyle.Position, "absolute");
 			writer.AddStyleAttribute (HtmlTextWriterStyle.ZIndex, "100");
@@ -758,10 +752,10 @@ namespace IZ.WebFileManager
 			sb.AppendLine ("}");
 
 
-			sb.AppendLine ("var node = WebForm_GetElementById('" + ClientID + "_ContextMenu')");
+			sb.AppendLine ("var node = WebForm_GetElementById('" + _contextMenu.ClientID + "')");
 			sb.AppendLine ("WebForm_SetElementX(node, x)");
 			sb.AppendLine ("WebForm_SetElementY(node, y)");
-			sb.AppendLine ("Menu_HoverStatic(WebForm_GetElementById('" + _contextMenu.ClientID + "n0'));");
+			//sb.AppendLine ("Menu_HoverStatic(WebForm_GetElementById('" + _contextMenu.ClientID + "n0'));");
 			sb.AppendLine ("}");
 			Page.ClientScript.RegisterClientScriptBlock (typeof (FileView), ClientID + "_ShowContextMenu", sb.ToString (), true);
 		}
@@ -885,7 +879,7 @@ namespace IZ.WebFileManager
 			Page.ClientScript.RegisterClientScriptBlock (typeof (FileView), ClientID + "_ShowSelectedItemsContextMenu", sb.ToString (), true);
 		}
 
-		void SetContextMenuStyle (Menu menu) {
+		void SetContextMenuStyle (ContextMenu menu) {
 			// TODO
 			menu.DynamicMenuStyle.BackColor = Color.White;
 			menu.DynamicMenuStyle.BorderStyle = BorderStyle.Solid;
@@ -896,7 +890,7 @@ namespace IZ.WebFileManager
 
 			menu.DynamicMenuItemStyle.ForeColor = Color.Black;
 			menu.DynamicMenuItemStyle.Font.Names = new string [] { "Tahoma", "Verdana", "Geneva", "Arial", "Helvetica", "sans-serif" };
-			menu.DynamicMenuItemStyle.VerticalPadding = Unit.Pixel (1);
+			//menu.DynamicMenuItemStyle.VerticalPadding = Unit.Pixel (1);
 			menu.DynamicMenuItemStyle.Font.Size = FontUnit.Parse ("11px", null);
 
 			menu.DynamicHoverStyle.ForeColor = Color.White;

@@ -19,11 +19,50 @@ using System.Collections.Generic;
 using System.Text;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.Adapters;
+using System.Web.UI.Adapters;
+using System.Web.UI;
 
 namespace IZ.WebFileManager
 {
-	// this class is used agains adapter, that can be applied to Menu
-	class ContextMenu : Menu
-	{
-	}
+    class ContextMenu : BaseMenu
+    {
+        private readonly ContextMenuAdapter contextMenuAdapter;
+
+        public ContextMenu()
+        {
+            contextMenuAdapter = new ContextMenuAdapter(this);
+        }
+
+        protected override ControlAdapter ResolveAdapter()
+        {
+            return contextMenuAdapter;
+        }
+
+        class ContextMenuAdapter : BaseMenuAdapter
+        {
+            public ContextMenuAdapter(ContextMenu contextMenu)
+                : base(contextMenu)
+            {
+            }
+
+            protected override void RenderBeginTag(System.Web.UI.HtmlTextWriter writer)
+            {
+                writer.AddStyleAttribute(HtmlTextWriterStyle.Position, "absolute");
+                writer.AddStyleAttribute(HtmlTextWriterStyle.ZIndex, "100");
+                //writer.AddStyleAttribute(HtmlTextWriterStyle.Visibility, "hidden");
+                writer.AddAttribute (HtmlTextWriterAttribute.Id, Control.ClientID);
+                writer.RenderBeginTag (HtmlTextWriterTag.Div);
+            }
+
+            protected override void RenderEndTag(HtmlTextWriter writer)
+            {
+                writer.RenderEndTag ();
+            }
+
+            protected override void RenderContents(System.Web.UI.HtmlTextWriter writer)
+            {
+                RenderDropDownMenu(writer, Control.Items[0].ChildItems, Control.ClientID + "_s");
+            }
+        }
+    }
 }

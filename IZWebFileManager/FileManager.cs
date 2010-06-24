@@ -35,7 +35,7 @@ namespace IZ.WebFileManager
 
 		FileView _fileView;
 		FolderTree _folderTree;
-		Menu _toolBar;
+		ToolbarMenu _toolBar;
 		BorderedPanelStyle _addressBarStyle;
 		BorderedPanelStyle _addressTextBoxStyle;
 		BorderedPanelStyle _toolbarStyle;
@@ -516,7 +516,7 @@ namespace IZ.WebFileManager
 
 			_toolBar.DynamicMenuItemStyle.ForeColor = Color.Black;
 			_toolBar.DynamicMenuItemStyle.Font.Names = new string [] { "Tahoma", "Verdana", "Geneva", "Arial", "Helvetica", "sans-serif" };
-			_toolBar.DynamicMenuItemStyle.VerticalPadding = Unit.Pixel (1);
+			//_toolBar.DynamicMenuItemStyle.VerticalPadding = Unit.Pixel (1);
 			_toolBar.DynamicMenuItemStyle.Font.Size = FontUnit.Parse ("11px", null);
 
 			_toolBar.DynamicHoverStyle.ForeColor = Color.White;

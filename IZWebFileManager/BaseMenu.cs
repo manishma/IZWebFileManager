@@ -29,6 +29,13 @@ namespace IZ.WebFileManager
         public new readonly Style DynamicMenuItemStyle = new Style();
         public new readonly Style DynamicHoverStyle = new Style();
 
+        public readonly bool IsRightToLeft;
+
+        public BaseMenu(bool isRightToLeft)
+        {
+            IsRightToLeft = isRightToLeft;
+        }
+
         protected override void OnPreRender(EventArgs e)
         {
             base.OnPreRender(e);
@@ -135,7 +142,7 @@ function IZWebFileManager_HideElement(id) {
             RenderItemTemplate(writer, item);
             if (hasChildren)
             {
-                writer.AddStyleAttribute("right", "0");
+                writer.AddStyleAttribute(Control.IsRightToLeft ? "left" : "right", "0");
                 writer.AddStyleAttribute(HtmlTextWriterStyle.Top, "0");
                 writer.AddStyleAttribute(HtmlTextWriterStyle.Position, "absolute");
                 writer.RenderBeginTag(HtmlTextWriterTag.Div);

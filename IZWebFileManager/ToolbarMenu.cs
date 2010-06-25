@@ -29,7 +29,8 @@ namespace IZ.WebFileManager
     {
         private readonly ToolbarMenuAdapter toolbarMenuAdapter;
 
-        public ToolbarMenu()
+        public ToolbarMenu(bool isRightToLeft)
+            : base (isRightToLeft)
         {
             toolbarMenuAdapter = new ToolbarMenuAdapter(this);
         }

@@ -490,7 +490,7 @@ namespace IZ.WebFileManager
         }
 
 		private void CreateToolbar () {
-            _toolBar = new ToolbarMenu();
+            _toolBar = new ToolbarMenu(Controller.CurrentUICulture.TextInfo.IsRightToLeft);
 			_toolBar.EnableViewState = false;
 			_toolBar.StaticEnableDefaultPopOutImage = false;
 			_toolBar.DynamicEnableDefaultPopOutImage = false;

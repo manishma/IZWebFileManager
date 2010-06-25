@@ -28,7 +28,8 @@ namespace IZ.WebFileManager
     {
         private readonly ContextMenuAdapter contextMenuAdapter;
 
-        public ContextMenu()
+        public ContextMenu(bool isRightToLeft)
+            : base(isRightToLeft)
         {
             contextMenuAdapter = new ContextMenuAdapter(this);
         }

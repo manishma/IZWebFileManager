@@ -101,32 +101,47 @@ function IZWebFileManager_HideElement(id) {
             for (int i = 0; i < items.Count; i++)
             {
                 var childItem = items[i];
-                
-                Control.DynamicMenuItemStyle.AddAttributesToRender(writer);
-                if (childItem.Text != "__separator__")
-                {
-                    writer.AddAttribute("onmouseover", "WebForm_AppendToClassName(this, '" + Control.DynamicHoverStyle.RegisteredCssClass + "')");
-                    writer.AddAttribute("onmouseout", "WebForm_RemoveClassName(this, '" + Control.DynamicHoverStyle.RegisteredCssClass + "')");
-                    writer.AddAttribute("onclick", "IZWebFileManager_HideElement('" + submenuClientId + "')");
-                }
-                writer.AddStyleAttribute(HtmlTextWriterStyle.Padding, "1px 0");
-                writer.AddStyleAttribute(HtmlTextWriterStyle.Position, "relative");
-                writer.RenderBeginTag(HtmlTextWriterTag.Div);
-                RenderItemTemplate(writer, childItem);
-                if (childItem.ChildItems.Count > 0)
-                {
-                    writer.AddStyleAttribute("right", "0");
-                    writer.AddStyleAttribute(HtmlTextWriterStyle.Top, "0");
-                    writer.AddStyleAttribute(HtmlTextWriterStyle.Position, "absolute");
-                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
-                    RenderDropDownMenu(writer, childItem.ChildItems, "a");
-                    writer.RenderEndTag();
-                }
-                writer.RenderEndTag();
+                RenderDropDownMenuItem(writer, childItem, submenuClientId, i);
             }
 
             writer.RenderEndTag();
             writer.RenderEndTag();
+            writer.RenderEndTag();
+        }
+
+        protected void RenderDropDownMenuItem(HtmlTextWriter writer, MenuItem item, string parentSubmenuClientId, int index)
+        {
+            var hasChildren = item.ChildItems.Count > 0;
+            var submenuClientId = parentSubmenuClientId + "_" + index;
+
+            Control.DynamicMenuItemStyle.AddAttributesToRender(writer);
+            if (item.Text != "__separator__")
+            {
+                var onmouseover = "WebForm_AppendToClassName(this, '" + Control.DynamicHoverStyle.RegisteredCssClass + "');";
+                if (hasChildren)
+                    onmouseover += "IZWebFileManager_ShowElement('" + submenuClientId + "');";
+                writer.AddAttribute("onmouseover", onmouseover);
+
+                var onmouseout = "WebForm_RemoveClassName(this, '" + Control.DynamicHoverStyle.RegisteredCssClass + "');";
+                if (hasChildren)
+                    onmouseout += "IZWebFileManager_HideElement('" + submenuClientId + "');";
+                writer.AddAttribute("onmouseout", onmouseout);
+                
+                writer.AddAttribute("onclick", "IZWebFileManager_HideElement('" + parentSubmenuClientId + "')");
+            }
+            writer.AddStyleAttribute(HtmlTextWriterStyle.Padding, "1px 0");
+            writer.AddStyleAttribute(HtmlTextWriterStyle.Position, "relative");
+            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+            RenderItemTemplate(writer, item);
+            if (hasChildren)
+            {
+                writer.AddStyleAttribute("right", "0");
+                writer.AddStyleAttribute(HtmlTextWriterStyle.Top, "0");
+                writer.AddStyleAttribute(HtmlTextWriterStyle.Position, "absolute");
+                writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                RenderDropDownMenu(writer, item.ChildItems, submenuClientId);
+                writer.RenderEndTag();
+            }
             writer.RenderEndTag();
         }
     }

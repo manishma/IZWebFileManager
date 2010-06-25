@@ -45,23 +45,21 @@ namespace IZ.WebFileManager
             {
             }
 
-            protected override void RenderBeginTag(System.Web.UI.HtmlTextWriter writer)
+            protected override void Render(HtmlTextWriter writer)
             {
                 writer.AddStyleAttribute(HtmlTextWriterStyle.Position, "absolute");
                 writer.AddStyleAttribute(HtmlTextWriterStyle.ZIndex, "100");
-                //writer.AddStyleAttribute(HtmlTextWriterStyle.Visibility, "hidden");
                 writer.AddAttribute (HtmlTextWriterAttribute.Id, Control.ClientID);
-                writer.RenderBeginTag (HtmlTextWriterTag.Div);
-            }
 
-            protected override void RenderEndTag(HtmlTextWriter writer)
-            {
+                var submenuClientId = Control.ClientID + "_0";
+
+                writer.AddAttribute("onmouseover", "IZWebFileManager_ShowElement('" + submenuClientId + "')");
+                writer.AddAttribute("onmouseout", "IZWebFileManager_HideElement('" + submenuClientId + "')");
+                writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                RenderDropDownMenu(writer, Control.Items[0].ChildItems, submenuClientId);
+
                 writer.RenderEndTag ();
-            }
-
-            protected override void RenderContents(System.Web.UI.HtmlTextWriter writer)
-            {
-                RenderDropDownMenu(writer, Control.Items[0].ChildItems, Control.ClientID + "_s");
             }
         }
     }

@@ -364,13 +364,7 @@ namespace IZ.WebFileManager
 
 			_contextMenu.RenderControl (writer);
 
-			writer.AddStyleAttribute (HtmlTextWriterStyle.Position, "absolute");
-			writer.AddStyleAttribute (HtmlTextWriterStyle.ZIndex, "100");
-			writer.AddStyleAttribute (HtmlTextWriterStyle.Visibility, "hidden");
-			writer.AddAttribute (HtmlTextWriterAttribute.Id, ClientID + "_SelectedItemsContextMenu");
-			writer.RenderBeginTag (HtmlTextWriterTag.Div);
 			_selectedItemsContextMenu.RenderControl (writer);
-			writer.RenderEndTag ();
 
 			RenderFocusTextBox (writer);
 			RenderEditTextBox (writer);
@@ -755,7 +749,7 @@ namespace IZ.WebFileManager
 			sb.AppendLine ("var node = WebForm_GetElementById('" + _contextMenu.ClientID + "')");
 			sb.AppendLine ("WebForm_SetElementX(node, x)");
 			sb.AppendLine ("WebForm_SetElementY(node, y)");
-			//sb.AppendLine ("Menu_HoverStatic(WebForm_GetElementById('" + _contextMenu.ClientID + "n0'));");
+            sb.AppendLine("IZWebFileManager_ShowElement('" + _contextMenu.ClientID + "_0');");
 			sb.AppendLine ("}");
 			Page.ClientScript.RegisterClientScriptBlock (typeof (FileView), ClientID + "_ShowContextMenu", sb.ToString (), true);
 		}
@@ -854,26 +848,24 @@ namespace IZ.WebFileManager
 			StringBuilder sb = new StringBuilder ();
 			sb.AppendLine ("function " + ClientID + "_ShowSelectedItemsContextMenu(x,y) {");
 			sb.Append (sbCommands.ToString ());
-			sb.AppendLine ("var node = WebForm_GetElementById('" + ClientID + "_SelectedItemsContextMenu')");
+            sb.AppendLine("var node = WebForm_GetElementById('" + _selectedItemsContextMenu.ClientID + "')");
 			sb.AppendLine ("WebForm_SetElementX(node, x)");
 			sb.AppendLine ("WebForm_SetElementY(node, y)");
-			sb.AppendLine ("WebForm_GetElementById('" + _selectedItemsContextMenu.ClientID + "n0Items').style.height = \"auto\";");
-			sb.AppendLine ("WebForm_GetElementById('" + _selectedItemsContextMenu.ClientID + "n0Items').physicalHeight = null;");
-			sb.AppendLine ("Menu_HoverStatic(WebForm_GetElementById('" + _selectedItemsContextMenu.ClientID + "n0'));");
+            sb.AppendLine("IZWebFileManager_ShowElement('" + _selectedItemsContextMenu.ClientID + "_0');");
 			sb.AppendLine ("}");
 			sb.AppendLine ("function " + ClientID + "_SetCommandVisible(command, value) {");
 			sb.AppendLine ("var node = WebForm_GetElementById(command);");
-			sb.AppendLine ("var row = node.parentNode.parentNode.parentNode.parentNode.parentNode;");
+			sb.AppendLine ("var row = node.parentNode;");
 			sb.AppendLine ("if (value) {");
 			sb.AppendLine ("row.style.visibility = \"visible\";");
 			sb.AppendLine ("row.style.display = \"block\";");
 			sb.AppendLine ("row.style.position = \"static\";");
-			sb.AppendLine ("row.parentNode.parentNode.style.height = \"auto\";");
+			//sb.AppendLine ("row.parentNode.parentNode.style.height = \"auto\";");
 			sb.AppendLine ("} else {");
 			sb.AppendLine ("row.style.visibility = \"hidden\";");
 			sb.AppendLine ("row.style.display = \"none\";");
 			sb.AppendLine ("row.style.position = \"absolute\";");
-			sb.AppendLine ("row.parentNode.parentNode.style.height = \"0px\";");
+			//sb.AppendLine ("row.parentNode.parentNode.style.height = \"0px\";");
 			sb.AppendLine ("}");
 			sb.AppendLine ("}");
 			Page.ClientScript.RegisterClientScriptBlock (typeof (FileView), ClientID + "_ShowSelectedItemsContextMenu", sb.ToString (), true);

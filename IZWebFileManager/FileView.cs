@@ -916,7 +916,8 @@ namespace IZ.WebFileManager
 				Table t = new Table ();
 				t.CellPadding = 0;
 				t.CellSpacing = 0;
-				t.BorderWidth = 0;
+                t.Width = Unit.Percentage(100);
+                t.BorderWidth = 0;
 				t.Style [HtmlTextWriterStyle.Cursor] = "default";
 				if (menuItem.Enabled)
 					t.Attributes ["onclick"] = menuItem.NavigateUrl;

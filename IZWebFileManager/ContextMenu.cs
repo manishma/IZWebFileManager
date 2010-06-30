@@ -54,8 +54,8 @@ namespace IZ.WebFileManager
 
                 var submenuClientId = Control.ClientID + "_0";
 
-                writer.AddAttribute("onmouseover", "IZWebFileManager_ShowElement('" + submenuClientId + "')");
-                writer.AddAttribute("onmouseout", "IZWebFileManager_HideElement('" + submenuClientId + "')");
+                writer.AddAttribute("onmouseover", "IZWebFileManager_MouseHover(this, event, '" + submenuClientId + "')");
+                writer.AddAttribute("onmouseout", "IZWebFileManager_MouseOut(this, event, '" + submenuClientId + "')");
                 writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
                 RenderDropDownMenu(writer, Control.Items[0].ChildItems, submenuClientId);

@@ -49,15 +49,51 @@ namespace IZ.WebFileManager
             var script =
 @"
 
-function IZWebFileManager_ShowElement(id) {
+(function() {
+
+var isAChildOf = function (_parent, _child)
+{
+   if (_parent === _child) { return false; }
+      while (_child && _child !== _parent)
+   { _child = _child.parentNode; }
+
+   return _child === _parent;
+};
+
+var mouseHandler = function (el, event, fn) {
+    var relTarget = event.relatedTarget;
+    if (el === relTarget || isAChildOf(el, relTarget))
+        { return; }
+    fn();
+};
+
+IZWebFileManager_MouseHover = function(el, event, id) {
+    event = event || wondow.event;
+    var fn = function() {
+        IZWebFileManager_ShowElement (id);
+    }
+    mouseHandler(el, event, fn);
+};
+
+IZWebFileManager_MouseOut = function(el, event, id) {
+    event = event || wondow.event;
+    var fn = function() {
+        IZWebFileManager_HideElement (id);
+    }
+    mouseHandler(el, event, fn);
+};
+
+IZWebFileManager_ShowElement = function(id) {
     var el = WebForm_GetElementById(id);
     el.style.display = 'block';
-}
+};
 
-function IZWebFileManager_HideElement(id) {
+IZWebFileManager_HideElement = function(id) {
     var el = WebForm_GetElementById(id);
     el.style.display = 'none';
-}
+};
+
+})();
 
 ";
             Page.ClientScript.RegisterClientScriptBlock(typeof(ToolbarMenu), "show_hide_submenu", script, true);
@@ -126,12 +162,12 @@ function IZWebFileManager_HideElement(id) {
             {
                 var onmouseover = "WebForm_AppendToClassName(this, '" + Control.DynamicHoverStyle.RegisteredCssClass + "');";
                 if (hasChildren)
-                    onmouseover += "IZWebFileManager_ShowElement('" + submenuClientId + "');";
+                    onmouseover += "IZWebFileManager_MouseHover(this, event, '" + submenuClientId + "');";
                 writer.AddAttribute("onmouseover", onmouseover);
 
                 var onmouseout = "WebForm_RemoveClassName(this, '" + Control.DynamicHoverStyle.RegisteredCssClass + "');";
                 if (hasChildren)
-                    onmouseout += "IZWebFileManager_HideElement('" + submenuClientId + "');";
+                    onmouseout += "IZWebFileManager_MouseOut(this, event, '" + submenuClientId + "');";
                 writer.AddAttribute("onmouseout", onmouseout);
                 
                 writer.AddAttribute("onclick", "IZWebFileManager_HideElement('" + parentSubmenuClientId + "')");

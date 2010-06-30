@@ -68,8 +68,8 @@ namespace IZ.WebFileManager
 
                 if(hasChildren)
                 {
-                    writer.AddAttribute("onmouseover", "IZWebFileManager_ShowElement('" + submenuClientId + "')");
-                    writer.AddAttribute("onmouseout", "IZWebFileManager_HideElement('" + submenuClientId + "')");
+                    writer.AddAttribute("onmouseover", "IZWebFileManager_MouseHover(this, event, '" + submenuClientId + "')");
+                    writer.AddAttribute("onmouseout", "IZWebFileManager_MouseOut(this, event, '" + submenuClientId + "')");
                 }
                 writer.RenderBeginTag(HtmlTextWriterTag.Td);
 

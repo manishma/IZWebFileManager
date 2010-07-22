@@ -25,6 +25,7 @@ using IZ.WebFileManager.Components;
 using System.Web;
 using System.Collections.Specialized;
 using System.Drawing.Design;
+using Legend.Web;
 
 namespace IZ.WebFileManager
 {
@@ -853,35 +854,34 @@ namespace IZ.WebFileManager
 			writer.RenderEndTag ();
 		}
 		private void RenderFileUploadBar (HtmlTextWriter writer) {
-			AddressBarStyle.AddAttributesToRender (writer);
-			writer.AddAttribute (HtmlTextWriterAttribute.Id, ClientID + "_UploadBar");
-			writer.RenderBeginTag (HtmlTextWriterTag.Div);
-			writer.RenderBeginTag (HtmlTextWriterTag.Table);
-			writer.RenderBeginTag (HtmlTextWriterTag.Tr);
-			writer.AddStyleAttribute (HtmlTextWriterStyle.WhiteSpace, "nowrap");
-			writer.RenderBeginTag (HtmlTextWriterTag.Td);
-			writer.Write (HttpUtility.HtmlEncode (Controller.GetResourceString ("Upload_File", "Upload File")));
-			writer.RenderEndTag ();
-			writer.AddStyleAttribute (HtmlTextWriterStyle.Width, "100%");
-			writer.RenderBeginTag (HtmlTextWriterTag.Td);
-			writer.AddAttribute (HtmlTextWriterAttribute.Id, ClientID + "_Upload");
-			writer.AddAttribute (HtmlTextWriterAttribute.Name, ClientID + "_Upload");
-			writer.AddAttribute (HtmlTextWriterAttribute.Type, "file");
-			writer.AddStyleAttribute (HtmlTextWriterStyle.Width, "100%");
-			writer.RenderBeginTag (HtmlTextWriterTag.Input);
-			writer.RenderEndTag ();
-			writer.RenderEndTag ();
-			writer.RenderBeginTag (HtmlTextWriterTag.Td);
-			writer.AddAttribute (HtmlTextWriterAttribute.Type, "button");
-			writer.AddAttribute (HtmlTextWriterAttribute.Onclick, Page.ClientScript.GetPostBackEventReference (this, "Upload"));
-			writer.AddAttribute (HtmlTextWriterAttribute.Value, Controller.GetResourceString ("Submit", "Submit"));
-			writer.RenderBeginTag (HtmlTextWriterTag.Input);
-			writer.RenderEndTag ();
-			writer.RenderEndTag ();
-			writer.RenderEndTag ();
-			writer.RenderEndTag ();
-			writer.RenderEndTag ();
-		}
+
+		    writer
+                .Tag(HtmlTextWriterTag.Div, e => e.Style(AddressBarStyle).Attr(HtmlTextWriterAttribute.Id, ClientID + "_UploadBar"))
+                    .Tag(HtmlTextWriterTag.Table)
+                        .Tag(HtmlTextWriterTag.Tr)
+                            .Tag(HtmlTextWriterTag.Td, e => e.Style(HtmlTextWriterStyle.WhiteSpace, "nowrap"))
+                                .Text(HttpUtility.HtmlEncode(Controller.GetResourceString("Upload_File", "Upload File")))
+                            .EndTag()
+                            .Tag(HtmlTextWriterTag.Td, e => e.Style(HtmlTextWriterStyle.Width, "100%"))
+                                .Tag(HtmlTextWriterTag.Input, e => e
+                                    .Id(ClientID + "_Upload")
+                                    .Name(ClientID + "_Upload")
+                                    .Attr(HtmlTextWriterAttribute.Type, "file")
+                                    .Style(HtmlTextWriterStyle.Width, "100%"))
+                                .EndTag()
+                            .EndTag()
+                            .Tag(HtmlTextWriterTag.Td)
+                                .Tag(HtmlTextWriterTag.Input, e => e
+                                    .Attr(HtmlTextWriterAttribute.Type, "button")
+                                    .Attr(HtmlTextWriterAttribute.Onclick, Page.ClientScript.GetPostBackEventReference(this, "Upload"))
+                                    .Attr(HtmlTextWriterAttribute.Value, Controller.GetResourceString("Submit", "Submit")))
+                                .EndTag()
+                            .EndTag()
+                        .EndTag()
+                    .EndTag()
+                .EndTag();
+
+        }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
 		private void RenderBeginOuterTable (HtmlTextWriter writer) {

@@ -9,6 +9,8 @@
 using System;
 using System.Web.UI;
 using System.Text;
+using System.Web.UI.WebControls;
+
 namespace Legend.Web
 {
     /// <summary>
@@ -102,6 +104,10 @@ namespace Legend.Web
             return this[HtmlTextWriterAttribute.Name, elementName];
         }
 
-
+        public HtmlAttributeManager Style(Style style)
+        {
+            style.AddAttributesToRender(this.Writer);
+            return this;
+        }
     }
 }

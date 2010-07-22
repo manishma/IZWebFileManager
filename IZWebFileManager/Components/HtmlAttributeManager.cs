@@ -28,7 +28,7 @@ namespace Legend.Web
             if (writer == null)
                 throw new ArgumentNullException("writer");
 
-            this.Writer = writer;
+            Writer = writer;
         }
 
         /// <summary>
@@ -40,16 +40,19 @@ namespace Legend.Web
         /// Applies the value to the specified attribute to the HtmlTextWriter
         /// this instance contains.
         /// </summary>
-        /// <param name="attribute">The attribute to set.</param>
+        /// <param name="key">The attribute to set.</param>
         /// <param name="value">The value to set to the attribute.</param>
         /// <returns>The attribute manager.</returns>
-        public HtmlAttributeManager this[System.Web.UI.HtmlTextWriterAttribute attribute, string value] 
+        public HtmlAttributeManager Attr(HtmlTextWriterAttribute key, string value) 
         {
-            get 
-            {
-                this.Writer.AddAttribute(attribute, value);
-                return this;
-            }
+            Writer.AddAttribute(key, value);
+            return this;
+        }
+
+        public HtmlAttributeManager Attr(string name, string value)
+        {
+            Writer.AddAttribute(name, value);
+            return this;
         }
 
         /// <summary>
@@ -59,8 +62,7 @@ namespace Legend.Web
         /// <returns>The attribute manager.</returns>
         public HtmlAttributeManager Class(string className)
         {
-            return this[HtmlTextWriterAttribute.Class, className];
-        }
+            return Attr(HtmlTextWriterAttribute.Class, className);}
 
         /// <summary>
         /// Adds the class attribute to the tag being rendered.
@@ -81,32 +83,44 @@ namespace Legend.Web
                 namesString.Append(name);
             }
 
-            return this[HtmlTextWriterAttribute.Class, namesString.ToString()];
+            return Attr(HtmlTextWriterAttribute.Class, namesString.ToString());
         }
 
         /// <summary>
         /// Adds the id attribute to the tag being rendered.
         /// </summary>
-        /// <param name="className">The id to set.</param>
+        /// <param name="elementId">The id to set.</param>
         /// <returns>The attribute manager.</returns>
         public HtmlAttributeManager Id(string elementId)
         {
-            return this[HtmlTextWriterAttribute.Id, elementId];
+            return Attr(HtmlTextWriterAttribute.Id, elementId);
         }
 
         /// <summary>
         /// Adds the name attribute to the tag being rendered.
         /// </summary>
-        /// <param name="className">The name to set.</param>
+        /// <param name="elementName">The name to set.</param>
         /// <returns>The attribute manager.</returns>
         public HtmlAttributeManager Name(string elementName)
         {
-            return this[HtmlTextWriterAttribute.Name, elementName];
+            return Attr(HtmlTextWriterAttribute.Name, elementName);
         }
 
         public HtmlAttributeManager Style(Style style)
         {
-            style.AddAttributesToRender(this.Writer);
+            style.AddAttributesToRender(Writer);
+            return this;
+        }
+
+        public HtmlAttributeManager Style(HtmlTextWriterStyle key, string value)
+        {
+            Writer.AddStyleAttribute(key, value);
+            return this;
+        }
+
+        public HtmlAttributeManager Style(string name, string value)
+        {
+            Writer.AddStyleAttribute(name, value);
             return this;
         }
     }

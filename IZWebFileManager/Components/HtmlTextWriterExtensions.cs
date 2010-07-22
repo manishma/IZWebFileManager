@@ -155,7 +155,7 @@ namespace Legend.Web
             if (title == null)
                 throw new ArgumentNullException("title");
 
-            return writer.Tag(HtmlTextWriterTag.A, e => e[HtmlTextWriterAttribute.Href, url]);
+            return writer.Tag(HtmlTextWriterTag.A, e => e.Attr(HtmlTextWriterAttribute.Href, url));
         }
         
 

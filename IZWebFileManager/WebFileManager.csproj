@@ -38,6 +38,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -62,6 +63,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -94,6 +98,8 @@
   <ItemGroup>
     <Compile Include="BaseMenu.cs" />
     <Compile Include="Components\FileViewThumbnailsRender.cs" />
+    <Compile Include="Components\HtmlAttributeManager.cs" />
+    <Compile Include="Components\HtmlTextWriterExtensions.cs" />
     <Compile Include="Components\xDirectory.cs" />
     <Compile Include="BorderedPanel.cs" />
     <Compile Include="BorderedPanelStyle.cs">

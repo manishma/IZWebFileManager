@@ -123,5 +123,10 @@ namespace Legend.Web
             Writer.AddStyleAttribute(name, value);
             return this;
         }
+
+        public HtmlAttributeManager Href(string href)
+        {
+            return Attr(HtmlTextWriterAttribute.Href, href);
+        }
     }
 }

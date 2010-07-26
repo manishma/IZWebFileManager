@@ -100,22 +100,17 @@ namespace Legend.Web
         /// Renders a Span start tag.
         /// </summary>
         /// <param name="writer">The writer to render to.</param>
-        /// <returns>The writer.</returns>
-        public static HtmlTextWriter Span(this HtmlTextWriter writer)
-        {
-            return writer.Tag(HtmlTextWriterTag.Span);
-        }
-
-        /// <summary>
-        /// Renders a Span start tag.
-        /// </summary>
-        /// <param name="writer">The writer to render to.</param>
         /// <param name="attributes">A delegate that takes in an HtmlAttributeManager for appending
         /// attributes to the start tag.</param>
         /// <returns>The writer.</returns>
-        public static HtmlTextWriter Span(this HtmlTextWriter writer, Func<HtmlAttributeManager, HtmlAttributeManager> attributes)
+        public static HtmlTextWriter Span(this HtmlTextWriter writer, Func<HtmlAttributeManager, HtmlAttributeManager> attributes = null)
         {
             return writer.Tag(HtmlTextWriterTag.Span, attributes);
+        }
+
+        public static HtmlTextWriter A(this HtmlTextWriter writer, Func<HtmlAttributeManager, HtmlAttributeManager> attributes = null)
+        {
+            return writer.Tag(HtmlTextWriterTag.A, attributes);
         }
 
         /// <summary>

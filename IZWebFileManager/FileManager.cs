@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -454,6 +455,35 @@ namespace IZ.WebFileManager
             Page.Form.Enctype = "multipart/form-data";
 
             Page.ClientScript.RegisterExpandoAttribute(_fileView.ClientID, "rootControl", ClientID);
+
+            if(ShowFileUploadBar)
+                Page.ClientScript.RegisterClientScriptBlock(typeof(FileManager), "file-upload-bar",
+@"
+
+function FileManager_UploadFile(e, name) {
+    var td = e.parentNode;
+    var div = document.createElement('DIV');
+    td.insertBefore(div, td.firstChild);
+
+    var inputFile = document.createElement('INPUT');
+    inputFile.setAttribute('type', 'file');
+    inputFile.setAttribute('name', name);
+    div.appendChild(inputFile);
+
+    var removeLink = document.createElement('A');
+    removeLink.setAttribute('href', 'javascript:void(0)');
+    removeLink.setAttribute('onclick', 'FileManager_RemoveUploasFile(this)');
+    removeLink.innerHTML = 'Remove';
+    div.appendChild(removeLink);
+};
+
+function FileManager_RemoveUploasFile(e) {
+    var div = e.parentNode;
+    var td = div.parentNode;
+    td.removeChild(div);
+};
+
+", true);
         }
 
         private void RegisterLayoutSetupScript()
@@ -867,9 +897,14 @@ namespace IZ.WebFileManager
             writer.RenderEndTag();
             writer.RenderEndTag();
 
-            if (!ReadOnly && AllowUpload && ShowUploadBar)
+            if (ShowFileUploadBar)
                 RenderFileUploadBar(writer);
             RenderEndOuterTable(writer);
+        }
+
+        private bool ShowFileUploadBar
+        {
+            get { return !ReadOnly && AllowUpload && ShowUploadBar; }
         }
 
         private void RenderToolBar(HtmlTextWriter writer)
@@ -950,17 +985,19 @@ namespace IZ.WebFileManager
                 .Div(e => e.Style(AddressBarStyle).Attr(HtmlTextWriterAttribute.Id, ClientID + "_UploadBar"))
                     .Tabel()
                         .Tr()
-                            .Td(e => e.Style(HtmlTextWriterStyle.WhiteSpace, "nowrap"))
-                                .Text(HttpUtility.HtmlEncode(Controller.GetResourceString("Upload_File", "Upload File")))
-                            .EndTag()
                             .Td(e => e.Style(HtmlTextWriterStyle.Width, "100%"))
-                                .Input(e => e
-                                    .Id(ClientID + "_Upload")
-                                    .Name(ClientID + "_Upload")
-                                    .Attr(HtmlTextWriterAttribute.Type, "file")
-                                    .Style(HtmlTextWriterStyle.Width, "100%"))
+                                .A(e => e.Href("javascript:void(0);").Onclick("FileManager_UploadFile(this, '" + ClientID + "_Upload" + "');"))
+                                    .Text(HttpUtility.HtmlEncode(Controller.GetResourceString("Upload_File", "Upload File")))
                                 .EndTag()
                             .EndTag()
+                            //.Td(e => e.Style(HtmlTextWriterStyle.Width, "100%"))
+                            //    .Input(e => e
+                            //        .Id(ClientID + "_Upload")
+                            //        .Name(ClientID + "_Upload")
+                            //        .Attr(HtmlTextWriterAttribute.Type, "file")
+                            //        .Style(HtmlTextWriterStyle.Width, "100%"))
+                            //    .EndTag()
+                            //.EndTag()
                             .Td()
                                 .Input(e => e
                                     .Attr(HtmlTextWriterAttribute.Type, "button")
@@ -1058,11 +1095,17 @@ namespace IZ.WebFileManager
         {
             if (eventArgument == "Upload")
             {
-                HttpPostedFile uploadedFile = Page.Request.Files[ClientID + "_Upload"];
-                if (uploadedFile != null && uploadedFile.ContentLength > 0)
+                var dir = GetCurrentDirectory();
+                for (var i = 0; i < Page.Request.Files.Count; i++)
                 {
-                    FileManagerItemInfo dir = GetCurrentDirectory();
-                    Controller.ProcessFileUpload(dir, uploadedFile);
+                    if (Page.Request.Files.GetKey(i) == ClientID + "_Upload")
+                    {
+                        var postedFile = Page.Request.Files[i];
+                        if (postedFile != null && postedFile.ContentLength > 0)
+                        {
+                            Controller.ProcessFileUpload(dir, postedFile);
+                        }
+                    }
                 }
             }
             else if (eventArgument.StartsWith("Toolbar:", StringComparison.Ordinal))

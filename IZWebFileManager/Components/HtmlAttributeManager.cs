@@ -128,5 +128,10 @@ namespace Legend.Web
         {
             return Attr(HtmlTextWriterAttribute.Href, href);
         }
+
+        public HtmlAttributeManager Onclick(string onclick)
+        {
+            return Attr(HtmlTextWriterAttribute.Onclick, onclick);
+        }
     }
 }

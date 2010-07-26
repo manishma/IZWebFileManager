@@ -856,7 +856,7 @@ namespace IZ.WebFileManager
 		private void RenderFileUploadBar (HtmlTextWriter writer) {
 
 		    writer
-                .Tag(HtmlTextWriterTag.Div, e => e.Style(AddressBarStyle).Attr(HtmlTextWriterAttribute.Id, ClientID + "_UploadBar"))
+                .Div(e => e.Style(AddressBarStyle).Attr(HtmlTextWriterAttribute.Id, ClientID + "_UploadBar"))
                     .Tag(HtmlTextWriterTag.Table)
                         .Tag(HtmlTextWriterTag.Tr)
                             .Tag(HtmlTextWriterTag.Td, e => e.Style(HtmlTextWriterStyle.WhiteSpace, "nowrap"))

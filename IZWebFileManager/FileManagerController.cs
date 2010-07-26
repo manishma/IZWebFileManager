@@ -1409,8 +1409,7 @@ namespace IZ.WebFileManager
 							Page.Response.ContentType = "application/octet-stream";
 							Page.Response.AddHeader("Content-Disposition",
 							                        "attachment;filename=" + EncodeURIComponent(Path.GetFileName(file)));
-							Page.Response.Flush();
-							Page.Response.WriteFile(file);
+							Page.Response.TransmitFile(file);
 						}
 						Page.Response.End ();
 					}

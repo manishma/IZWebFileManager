@@ -948,21 +948,21 @@ namespace IZ.WebFileManager
 
             writer
                 .Div(e => e.Style(AddressBarStyle).Attr(HtmlTextWriterAttribute.Id, ClientID + "_UploadBar"))
-                    .Tag(HtmlTextWriterTag.Table)
-                        .Tag(HtmlTextWriterTag.Tr)
-                            .Tag(HtmlTextWriterTag.Td, e => e.Style(HtmlTextWriterStyle.WhiteSpace, "nowrap"))
+                    .Tabel()
+                        .Tr()
+                            .Td(e => e.Style(HtmlTextWriterStyle.WhiteSpace, "nowrap"))
                                 .Text(HttpUtility.HtmlEncode(Controller.GetResourceString("Upload_File", "Upload File")))
                             .EndTag()
-                            .Tag(HtmlTextWriterTag.Td, e => e.Style(HtmlTextWriterStyle.Width, "100%"))
-                                .Tag(HtmlTextWriterTag.Input, e => e
+                            .Td(e => e.Style(HtmlTextWriterStyle.Width, "100%"))
+                                .Input(e => e
                                     .Id(ClientID + "_Upload")
                                     .Name(ClientID + "_Upload")
                                     .Attr(HtmlTextWriterAttribute.Type, "file")
                                     .Style(HtmlTextWriterStyle.Width, "100%"))
                                 .EndTag()
                             .EndTag()
-                            .Tag(HtmlTextWriterTag.Td)
-                                .Tag(HtmlTextWriterTag.Input, e => e
+                            .Td()
+                                .Input(e => e
                                     .Attr(HtmlTextWriterAttribute.Type, "button")
                                     .Attr(HtmlTextWriterAttribute.Onclick, Page.ClientScript.GetPostBackEventReference(this, "Upload"))
                                     .Attr(HtmlTextWriterAttribute.Value, Controller.GetResourceString("Submit", "Submit")))

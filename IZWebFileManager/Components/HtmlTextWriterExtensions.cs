@@ -18,18 +18,6 @@ namespace Legend.Web
     /// </summary>
     internal static class HtmlTextWriterExtensions
     {
-        /// <summary>
-        /// Renders a start tag, the tag is closed by a call to the EndTag-method.
-        /// </summary>
-        /// <param name="writer">The writer to render to.</param>
-        /// <param name="tag">The tag to render the start tag of.</param>
-        /// <returns>The writer.</returns>
-        public static HtmlTextWriter Tag(this HtmlTextWriter writer, HtmlTextWriterTag tag)
-        {
-            writer.RenderBeginTag(tag);
-
-            return writer;
-        }
 
         /// <summary>
         /// Renders a start tag, the tag is closed by a call to the EndTag-method.
@@ -39,60 +27,59 @@ namespace Legend.Web
         /// <param name="appender">A delegate that takes in an HtmlAttributeManager for appending
         /// attributes to the start tag.</param>
         /// <returns>The writer.</returns>
-        public static HtmlTextWriter Tag(this HtmlTextWriter writer, HtmlTextWriterTag tag, Func<HtmlAttributeManager, HtmlAttributeManager> appender)
+        public static HtmlTextWriter Tag(this HtmlTextWriter writer, HtmlTextWriterTag tag, Func<HtmlAttributeManager, HtmlAttributeManager> appender = null)
         {
-            if (appender == null)
-                throw new ArgumentNullException("appender");
-
-            var manager = new HtmlAttributeManager(writer);
-            appender(manager);
+            if (appender != null)
+            {
+                var manager = new HtmlAttributeManager(writer);
+                appender(manager);
+            }
 
             writer.RenderBeginTag(tag);
 
             return writer;
         }
 
-        
         /// <summary>
         /// Renders a Div start tag.
         /// </summary>
         /// <param name="writer">The writer to render to.</param>
-        /// <returns>The writer.</returns>
-        public static HtmlTextWriter Div(this HtmlTextWriter writer)
-        {
-            return writer.Tag(HtmlTextWriterTag.Div);
-        }
-        
-        /// <summary>
-        /// Renders a Div start tag.
-        /// </summary>
-        /// <param name="writer">The writer to render to.</param>
-        /// <param name="appender">A delegate that takes in an HtmlAttributeManager for appending
+        /// <param name="attributes">A delegate that takes in an HtmlAttributeManager for appending
         /// attributes to the start tag.</param>
         /// <returns>The writer.</returns>
-        public static HtmlTextWriter Div(this HtmlTextWriter writer, Func<HtmlAttributeManager, HtmlAttributeManager> attributes)
+        public static HtmlTextWriter Div(this HtmlTextWriter writer, Func<HtmlAttributeManager, HtmlAttributeManager> attributes = null)
         {
             return writer.Tag(HtmlTextWriterTag.Div, attributes);
         }
 
-        /// <summary>
-        /// Renders a Body start tag.
-        /// </summary>
-        /// <param name="writer">The writer to render to.</param>
-        /// <returns>The writer.</returns>
-        public static HtmlTextWriter Body(this HtmlTextWriter writer)
+        public static HtmlTextWriter Tabel(this HtmlTextWriter writer, Func<HtmlAttributeManager, HtmlAttributeManager> attributes = null)
         {
-            return writer.Tag(HtmlTextWriterTag.Body);
+            return writer.Tag(HtmlTextWriterTag.Table, attributes);
+        }
+
+        public static HtmlTextWriter Tr(this HtmlTextWriter writer, Func<HtmlAttributeManager, HtmlAttributeManager> attributes = null)
+        {
+            return writer.Tag(HtmlTextWriterTag.Tr, attributes);
+        }
+        
+        public static HtmlTextWriter Td(this HtmlTextWriter writer, Func<HtmlAttributeManager, HtmlAttributeManager> attributes = null)
+        {
+            return writer.Tag(HtmlTextWriterTag.Td, attributes);
+        }
+
+        public static HtmlTextWriter Input(this HtmlTextWriter writer, Func<HtmlAttributeManager, HtmlAttributeManager> attributes = null)
+        {
+            return writer.Tag(HtmlTextWriterTag.Input, attributes);
         }
 
         /// <summary>
         /// Renders a Body start tag.
         /// </summary>
         /// <param name="writer">The writer to render to.</param>
-        /// <param name="appender">A delegate that takes in an HtmlAttributeManager for appending
+        /// <param name="attributes">A delegate that takes in an HtmlAttributeManager for appending
         /// attributes to the start tag.</param>
         /// <returns>The writer.</returns>
-        public static HtmlTextWriter Body(this HtmlTextWriter writer, Func<HtmlAttributeManager, HtmlAttributeManager> attributes)
+        public static HtmlTextWriter Body(this HtmlTextWriter writer, Func<HtmlAttributeManager, HtmlAttributeManager> attributes = null)
         {
             return writer.Tag(HtmlTextWriterTag.Body, attributes);
         }
@@ -101,20 +88,10 @@ namespace Legend.Web
         /// Renders a Html start tag.
         /// </summary>
         /// <param name="writer">The writer to render to.</param>
-        /// <returns>The writer.</returns>
-        public static HtmlTextWriter Html(this HtmlTextWriter writer)
-        {
-            return writer.Tag(HtmlTextWriterTag.Html);
-        }
-
-        /// <summary>
-        /// Renders a Html start tag.
-        /// </summary>
-        /// <param name="writer">The writer to render to.</param>
-        /// <param name="appender">A delegate that takes in an HtmlAttributeManager for appending
+        /// <param name="attributes">A delegate that takes in an HtmlAttributeManager for appending
         /// attributes to the start tag.</param>
         /// <returns>The writer.</returns>
-        public static HtmlTextWriter Html(this HtmlTextWriter writer, Func<HtmlAttributeManager, HtmlAttributeManager> attributes)
+        public static HtmlTextWriter Html(this HtmlTextWriter writer, Func<HtmlAttributeManager, HtmlAttributeManager> attributes = null)
         {
             return writer.Tag(HtmlTextWriterTag.Html, attributes);
         }

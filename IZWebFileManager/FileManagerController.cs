@@ -53,6 +53,8 @@ namespace IZ.WebFileManager
         static readonly bool _supportThumbnails;
         const string ThumbnailHandler = "IZWebFileManagerThumbnailHandler.ashx";
 
+        internal static readonly JavaScriptSerializer JavaScriptSerializer = new JavaScriptSerializer();
+
         Hashtable _fileExtensions;
         Hashtable _specialFolderPaths;
         ArrayList _hiddenFilesArray;

@@ -461,27 +461,58 @@ namespace IZ.WebFileManager
 @"
 
 function FileManager_UploadFile(e, name) {
-    var td = e.parentNode;
+    var lc = e.parentNode.parentNode;
+    var td = lc.parentNode;
     var div = document.createElement('DIV');
-    td.insertBefore(div, td.firstChild);
+    td.insertBefore(div, lc);
 
-    var inputFile = document.createElement('INPUT');
-    inputFile.setAttribute('type', 'file');
-    inputFile.setAttribute('name', name);
-    div.appendChild(inputFile);
+    var remove = " + FileManagerController.JavaScriptSerializer.Serialize(HttpUtility.HtmlEncode(Controller.GetResourceString("Upload_File_Remove", "Remove"))) + @"
+    div.innerHTML='<input type=""file"" name=""' + name + '"" /> <a href=""javascript:void(0)"" onclick=""FileManager_RemoveUploasFile(this)"">' + remove + '</a>';
 
-    var removeLink = document.createElement('A');
-    removeLink.setAttribute('href', 'javascript:void(0)');
-    removeLink.setAttribute('onclick', 'FileManager_RemoveUploasFile(this)');
-    removeLink.innerHTML = 'Remove';
-    div.appendChild(removeLink);
+    FileManager_UpdateFileUploadCount(td, 1);
 };
 
 function FileManager_RemoveUploasFile(e) {
     var div = e.parentNode;
     var td = div.parentNode;
     td.removeChild(div);
+
+    FileManager_UpdateFileUploadCount(td, -1);
 };
+
+function FileManager_UpdateFileUploadCount(td, i) {
+    if(!td.file_upload_counter)
+        td.file_upload_counter = { count: 0 };
+    td.file_upload_counter.count = td.file_upload_counter.count + i;
+    
+    var links = FileManager_GetChildByTagName(td, 'DIV', td.file_upload_counter.count);
+    var link1 = FileManager_GetChildByTagName(links, 'DIV', 0);
+    var link2 = FileManager_GetChildByTagName(links, 'DIV', 1);
+    var submit = FileManager_GetChildByTagName(td.parentNode, 'DIV', 1);
+    if(td.file_upload_counter.count>0) {
+        submit.style.visibility = 'visible';
+        link1.style.display = 'none';
+        link2.style.display = 'block';
+    } else {
+        submit.style.visibility = 'hidden';
+        link1.style.display = 'block';
+        link2.style.display = 'none';
+    }
+}
+
+function FileManager_GetChildByTagName(element, tagName, index) {
+    var childs = element.childNodes;
+    var upperTagName = tagName.toUpperCase();
+    var currIndex = 0;
+    for(i in childs) {
+        var child = childs[i];
+        if(child.tagName && child.tagName.toUpperCase() == upperTagName) {
+            if(currIndex == index)
+                return child;
+            currIndex = currIndex + 1;
+        }
+    }
+} 
 
 ", true);
         }
@@ -980,35 +1011,35 @@ function FileManager_RemoveUploasFile(e) {
         }
         private void RenderFileUploadBar(HtmlTextWriter writer)
         {
+            var onclick = "FileManager_UploadFile(this, '" + ClientID + "_Upload" + "');";
+            var left = Controller.IsRightToLeft ? "right" : "left";
+            var right = Controller.IsRightToLeft ? "left" : "right";
 
             writer
                 .Div(e => e.Style(AddressBarStyle).Attr(HtmlTextWriterAttribute.Id, ClientID + "_UploadBar"))
-                    .Tabel()
-                        .Tr()
-                            .Td(e => e.Style(HtmlTextWriterStyle.Width, "100%"))
-                                .A(e => e.Href("javascript:void(0);").Onclick("FileManager_UploadFile(this, '" + ClientID + "_Upload" + "');"))
+                    .Div(e => e.Float(left))
+                        .Div()
+                            .Div()
+                                .A(e => e.Href("javascript:void(0);").Onclick(onclick))
                                     .Text(HttpUtility.HtmlEncode(Controller.GetResourceString("Upload_File", "Upload File")))
                                 .EndTag()
                             .EndTag()
-                            //.Td(e => e.Style(HtmlTextWriterStyle.Width, "100%"))
-                            //    .Input(e => e
-                            //        .Id(ClientID + "_Upload")
-                            //        .Name(ClientID + "_Upload")
-                            //        .Attr(HtmlTextWriterAttribute.Type, "file")
-                            //        .Style(HtmlTextWriterStyle.Width, "100%"))
-                            //    .EndTag()
-                            //.EndTag()
-                            .Td()
-                                .Input(e => e
-                                    .Attr(HtmlTextWriterAttribute.Type, "button")
-                                    .Attr(HtmlTextWriterAttribute.Onclick, Page.ClientScript.GetPostBackEventReference(this, "Upload"))
-                                    .Attr(HtmlTextWriterAttribute.Value, Controller.GetResourceString("Submit", "Submit")))
+                            .Div(e => e.Display("none"))
+                                .A(e => e.Href("javascript:void(0);").Onclick(onclick))
+                                    .Text(HttpUtility.HtmlEncode(Controller.GetResourceString("Upload_Another_File", "Upload Another File")))
                                 .EndTag()
                             .EndTag()
                         .EndTag()
                     .EndTag()
+                    .Div(e => e.Float(right).Visibility("hidden"))
+                        .Input(e => e
+                            .Attr(HtmlTextWriterAttribute.Type, "button")
+                            .Attr(HtmlTextWriterAttribute.Onclick, Page.ClientScript.GetPostBackEventReference(this, "Upload"))
+                            .Attr(HtmlTextWriterAttribute.Value, Controller.GetResourceString("Submit", "Submit")))
+                        .EndTag()
+                    .EndTag()
+                    .Div(e => e.Clear("both")).EndTag()
                 .EndTag();
-
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]

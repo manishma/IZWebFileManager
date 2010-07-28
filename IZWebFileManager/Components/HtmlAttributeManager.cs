@@ -133,5 +133,25 @@ namespace Legend.Web
         {
             return Attr(HtmlTextWriterAttribute.Onclick, onclick);
         }
+
+        public HtmlAttributeManager Float(string @float)
+        {
+            return Style("float", @float);
+        }
+
+        public HtmlAttributeManager Clear(string clear)
+        {
+            return Style("clear", clear);
+        }
+
+        public HtmlAttributeManager Display(string display)
+        {
+            return Style(HtmlTextWriterStyle.Display, display);
+        }
+
+        public HtmlAttributeManager Visibility(string visibility)
+        {
+            return Style(HtmlTextWriterStyle.Visibility, visibility);
+        }
     }
 }

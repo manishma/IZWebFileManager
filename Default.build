@@ -17,6 +17,7 @@
         <delete>
             <fileset>
                 <include name="Demo\Bin\IZ.WebFileManager.*" />
+                <include name="build\*.*" />
             </fileset>
         </delete>
 	</target>

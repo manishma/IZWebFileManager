@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
-<project name="IZWebFileManager" default="build" xmlns="http://nant.sf.net/schemas/nant.xsd">
-
-	<property name="config" value="Debug" />
+<project name="IZWebFileManager" default="package" xmlns="http://nant.sf.net/schemas/nant.xsd">
+    <property name="nant.settings.currentframework" value="net-4.0" />
+	<property name="config" value="Release" />
 	
     <!-- Version -->
 	<property name="version.major" value="2"/>
-	<property name="version.minor" value="5"/>
-	<property name="version.build" value="4"/>
+	<property name="version.minor" value="6"/>
+	<property name="version.build" value="0"/>
 	<property name="version.revision" value="0" />
 	<property name="project.fullversion" value="${version.major}.${version.minor}.${version.build}.${version.revision}" dynamic="true" />
 

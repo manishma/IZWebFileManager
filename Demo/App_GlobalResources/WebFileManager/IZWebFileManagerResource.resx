@@ -207,8 +207,14 @@
   <data name="Up" xml:space="preserve">
     <value>Up</value>
   </data>
+  <data name="Upload_Another_File" xml:space="preserve">
+    <value>Upload Another File</value>
+  </data>
   <data name="Upload_File" xml:space="preserve">
     <value>Upload File</value>
+  </data>
+  <data name="Upload_File_Remove" xml:space="preserve">
+    <value>Remove</value>
   </data>
   <data name="View" xml:space="preserve">
     <value>View</value>

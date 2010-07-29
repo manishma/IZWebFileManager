@@ -207,8 +207,14 @@
   <data name="Up" xml:space="preserve">
     <value>Вверх</value>
   </data>
+  <data name="Upload_Another_File" xml:space="preserve">
+    <value>Закачать еще один файл</value>
+  </data>
   <data name="Upload_File" xml:space="preserve">
     <value>Закачать файл</value>
+  </data>
+  <data name="Upload_File_Remove" xml:space="preserve">
+    <value>Удалить</value>
   </data>
   <data name="View" xml:space="preserve">
     <value>Вид</value>

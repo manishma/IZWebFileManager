@@ -5,8 +5,8 @@
 	
     <!-- Version -->
 	<property name="version.major" value="2"/>
-	<property name="version.minor" value="5"/>
-	<property name="version.build" value="4"/>
+	<property name="version.minor" value="6"/>
+	<property name="version.build" value="0"/>
 	<property name="version.revision" value="0" />
 	<property name="project.fullversion" value="${version.major}.${version.minor}.${version.build}.${version.revision}" dynamic="true" />
 

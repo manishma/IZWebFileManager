@@ -29,10 +29,10 @@ namespace IZ.WebFileManager
     {
         private readonly ToolbarMenuAdapter toolbarMenuAdapter;
 
-        public ToolbarMenu(bool isRightToLeft)
+        public ToolbarMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem> renderToolbarItem)
             : base (isRightToLeft)
         {
-            toolbarMenuAdapter = new ToolbarMenuAdapter(this);
+            toolbarMenuAdapter = new ToolbarMenuAdapter(this, renderToolbarItem);
         }
 
         protected override ControlAdapter ResolveAdapter()
@@ -42,9 +42,12 @@ namespace IZ.WebFileManager
 
         internal class ToolbarMenuAdapter : BaseMenuAdapter
         {
-            public ToolbarMenuAdapter(ToolbarMenu toolbarMenu)
+            private readonly Action<HtmlTextWriter, MenuItem> renderToolbarItem;
+            
+            public ToolbarMenuAdapter(ToolbarMenu toolbarMenu, Action<HtmlTextWriter, MenuItem> renderToolbarItem)
                 : base(toolbarMenu)
             {
+                this.renderToolbarItem = renderToolbarItem;
             }
 
             protected override void RenderBeginTag(HtmlTextWriter writer)
@@ -63,8 +66,7 @@ namespace IZ.WebFileManager
             protected override void RenderItem(HtmlTextWriter writer, MenuItem item, int position)
             {
                 var hasChildren = item.ChildItems.Count > 0;
-                var itemControl = GetMenuItemTemplateContainer(item);
-                var submenuClientId = itemControl.ClientID + "_s";
+                var submenuClientId = Control.ClientID + "_" + position;
 
                 if(hasChildren)
                 {
@@ -73,8 +75,7 @@ namespace IZ.WebFileManager
                 }
                 writer.RenderBeginTag(HtmlTextWriterTag.Td);
 
-
-                itemControl.RenderControl(writer);
+                renderToolbarItem(writer, item);
 
                 if(hasChildren)
                 {
@@ -83,7 +84,6 @@ namespace IZ.WebFileManager
                 
                 writer.RenderEndTag();
             }
-
         }
     }
 }

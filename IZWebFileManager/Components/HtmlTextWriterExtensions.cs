@@ -72,6 +72,11 @@ namespace Legend.Web
             return writer.Tag(HtmlTextWriterTag.Input, attributes);
         }
 
+        public static HtmlTextWriter Img(this HtmlTextWriter writer, Func<HtmlAttributeManager, HtmlAttributeManager> attributes = null)
+        {
+            return writer.Tag(HtmlTextWriterTag.Img, attributes);
+        }
+
         /// <summary>
         /// Renders a Body start tag.
         /// </summary>

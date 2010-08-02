@@ -153,5 +153,35 @@ namespace Legend.Web
         {
             return Style(HtmlTextWriterStyle.Visibility, visibility);
         }
+
+        public HtmlAttributeManager Cellpadding(int cellpadding)
+        {
+            return Attr(HtmlTextWriterAttribute.Cellpadding, cellpadding.ToString());
+        }
+
+        public HtmlAttributeManager Cellspacing(int cellspacing)
+        {
+            return Attr(HtmlTextWriterAttribute.Cellspacing, cellspacing.ToString());
+        }
+
+        public HtmlAttributeManager Border(int border)
+        {
+            return Attr(HtmlTextWriterAttribute.Border, border.ToString());
+        }
+
+        public HtmlAttributeManager Src(string src)
+        {
+            return Attr(HtmlTextWriterAttribute.Src, src);
+        }
+
+        public HtmlAttributeManager PaddingLeft(string padding)
+        {
+            return Style(HtmlTextWriterStyle.PaddingLeft, padding);
+        }
+
+        public HtmlAttributeManager PaddingRight(string padding)
+        {
+            return Style(HtmlTextWriterStyle.PaddingRight, padding);
+        }
     }
 }

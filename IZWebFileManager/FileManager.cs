@@ -617,13 +617,15 @@ function FileManager_GetChildByTagName(element, tagName, index) {
 
         private void CreateToolbar()
         {
-            _toolBar = new ToolbarMenu(Controller.CurrentUICulture.TextInfo.IsRightToLeft);
+            var itemToPanel = new Dictionary<MenuItem, BorderedPanel>();
+
+            _toolBar = new ToolbarMenu(Controller.CurrentUICulture.TextInfo.IsRightToLeft, (wr, item) => RenderToolbarItem(wr, item, itemToPanel[item]));
             _toolBar.EnableViewState = false;
             _toolBar.StaticEnableDefaultPopOutImage = false;
             _toolBar.DynamicEnableDefaultPopOutImage = false;
             _toolBar.Orientation = Orientation.Horizontal;
             _toolBar.SkipLinkText = String.Empty;
-            _toolBar.StaticItemTemplate = new CompiledTemplateBuilder(new BuildTemplateMethod(CreateToolbarButton));
+            _toolBar.StaticItemTemplate = new CompiledTemplateBuilder(c => CreateToolbarButton(c, itemToPanel));
             _toolBar.DynamicItemTemplate = new CompiledTemplateBuilder(new BuildTemplateMethod(CreateToolbarPopupItem));
 
             // TODO
@@ -816,8 +818,8 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             c3.Controls.Add(img3);
             r.Cells.Add(c3);
         }
-
-        void CreateToolbarButton(Control control)
+        
+        void CreateToolbarButton(Control control, Dictionary<MenuItem, BorderedPanel> itemToPanel)
         {
             MenuItemTemplateContainer container = (MenuItemTemplateContainer)control;
             MenuItem menuItem = (MenuItem)container.DataItem;
@@ -838,24 +840,29 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             }
             else
                 panel.Style["color"] = "gray";
-            container.Controls.Add(panel);
-            Table t = new Table();
-            t.CellPadding = 0;
-            t.CellSpacing = 0;
-            t.BorderWidth = 0;
-            panel.Controls.Add(t);
-            TableRow r = new TableRow();
-            t.Rows.Add(r);
-            TableCell c1 = new TableCell();
-            r.Cells.Add(c1);
-            System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
-            img.ImageUrl = ((MenuItem)container.DataItem).ImageUrl;
-            c1.Controls.Add(img);
-            TableCell c2 = new TableCell();
-            c2.Style[HtmlTextWriterStyle.PaddingLeft] = "2px";
-            c2.Style[HtmlTextWriterStyle.PaddingRight] = "2px";
-            c2.Text = "&nbsp;" + menuItem.Text;
-            r.Cells.Add(c2);
+
+            control.Controls.Add(panel);
+
+            itemToPanel.Add(menuItem, panel);
+        }
+
+        private void RenderToolbarItem(HtmlTextWriter writer, MenuItem menuItem, BorderedPanel panel)
+        {
+            panel.RenderBeginTag(writer);
+
+            writer
+                .Tabel(e => e.Cellpadding(0).Cellspacing(0).Border(0))
+                    .Tr()
+                        .Td()
+                            .Img(e => e.Src(ResolveClientUrl(menuItem.ImageUrl))).EndTag()
+                        .EndTag()
+                        .Td(e => e.PaddingLeft("2px").PaddingRight("2px"))
+                            .Text("&nbsp;" + menuItem.Text)
+                        .EndTag()
+                    .EndTag()
+                .EndTag();
+
+            panel.RenderEndTag(writer);
         }
 
         protected override Style CreateControlStyle()

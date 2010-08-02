@@ -20,17 +20,17 @@ FileManagerController = function(ClientID, UniqueID, EventArgumentSplitter) {
         }
     }
     
-	var mouseUp = this._onMouseUp;
-	var keyPress = this._onKeyPress;
-	var instance = this;
-	this._dnd_document_onmouseup = function(e) {
-		e = e || window.event;
-		mouseUp.call(instance, e); 
-	}
-	this._dnd_document_onkeypress = function(e) {
-		e = e || window.event;
-		keyPress.call(instance, e);
-	}
+    var mouseUp = this._onMouseUp;
+    var keyPress = this._onKeyPress;
+    var instance = this;
+    this._dnd_document_onmouseup = function(e) {
+        e = e || window.event;
+        mouseUp.call(instance, e); 
+    }
+    this._dnd_document_onkeypress = function(e) {
+        e = e || window.event;
+        keyPress.call(instance, e);
+    }
 }
 
 FileManagerController.prototype.evalDocumentOnClick = function(e) {
@@ -234,15 +234,15 @@ FileManagerController.prototype.OnFileViewNavigate = function(sender, arg) {
 }
 
 FileManagerController.prototype.getDndVisual = function() {
-	if(this._dndVisual == null){
-		this._dndVisual = document.createElement('div');
-		this._dndVisual.style.visibility="hidden";
-		this._dndVisual.style.display="none";
-		document.body.appendChild(this._dndVisual);
-	}
-	return this._dndVisual;
+    if(this._dndVisual == null){
+        this._dndVisual = document.createElement('div');
+        this._dndVisual.style.visibility="hidden";
+        this._dndVisual.style.display="none";
+        document.body.appendChild(this._dndVisual);
+    }
+    return this._dndVisual;
 }
-	
+    
 FileManagerController.prototype._dropNotAllowedCursor = "not-allowed";
 FileManagerController.prototype._dropCopyCursor = 'url("<% = WebResource("IZ.WebFileManager.resources.drag_copy.cur") %>"), default';
 FileManagerController.prototype._dropMoveCursor = 'url("<% = WebResource("IZ.WebFileManager.resources.drag_move.cur") %>"), default';
@@ -250,43 +250,43 @@ FileManagerController.prototype._isDragging = false;
 FileManagerController.prototype._dragSource = null;
 
 FileManagerController.prototype.startDragDrop = function(dragSource) {
-	this._wireEvents();
-	this._isDragging = true;
-	this._dragSource = dragSource;
+    this._wireEvents();
+    this._isDragging = true;
+    this._dragSource = dragSource;
 }
 
 FileManagerController.prototype.stopDragDrop = function() {
-	this._unwireEvents();
-	this._isDragging = false;
-	this._dragSource = null;
-	if(this._dropTarget){
-		this._dropTarget.onDragLeaveTarget();
-		this._dropTarget=null;
-	}
+    this._unwireEvents();
+    this._isDragging = false;
+    this._dragSource = null;
+    if(this._dropTarget){
+        this._dropTarget.onDragLeaveTarget();
+        this._dropTarget=null;
+    }
 }
 
 FileManagerController.prototype.isDragging = function() {
-	return this._isDragging;
+    return this._isDragging;
 }
 
 FileManagerController.prototype.drop = function(target, move) {
-	var dragSource = this._dragSource;
-	this.stopDragDrop();
-	if(move)
-		this._SelectedItemsMoveTo(dragSource, target.getFullPath());
-	else
-		this._SelectedItemsCopyTo(dragSource, target.getFullPath())
+    var dragSource = this._dragSource;
+    this.stopDragDrop();
+    if(move)
+        this._SelectedItemsMoveTo(dragSource, target.getFullPath());
+    else
+        this._SelectedItemsCopyTo(dragSource, target.getFullPath())
 }
 
 FileManagerController.prototype._wireEvents = function() {
     this._origin_document_onmouseup = document.onmouseup;
     this._origin_document_onkeypress = document.onkeypress;
-	document.onmouseup=this._dnd_document_onmouseup;
-	document.onkeypress=this._dnd_document_onkeypress;
+    document.onmouseup=this._dnd_document_onmouseup;
+    document.onkeypress=this._dnd_document_onkeypress;
 }
 
 FileManagerController.prototype._unwireEvents = function() {
-	document.onmouseup = this._origin_document_onmouseup;
+    document.onmouseup = this._origin_document_onmouseup;
     document.onkeypress = this._origin_document_onkeypress;
 }
     

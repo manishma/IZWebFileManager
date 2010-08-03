@@ -105,9 +105,6 @@ IZWebFileManager_HideElement = function(id) {
         private static readonly FieldInfo _control =
            typeof(MenuAdapter).GetField("_control", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        private static readonly PropertyInfo _container =
-            typeof(MenuItem).GetProperty("Container", BindingFlags.NonPublic | BindingFlags.Instance);
-
         private readonly Action<HtmlTextWriter, MenuItem> renderDynamicItem;
 
         public new BaseMenu Control
@@ -119,16 +116,6 @@ IZWebFileManager_HideElement = function(id) {
         {
             _control.SetValue(this, baseMenu);
             this.renderDynamicItem = renderDynamicItem;
-        }
-
-        protected void RenderItemTemplate(HtmlTextWriter writer, MenuItem item)
-        {
-            renderDynamicItem(writer, item);
-        }
-
-        protected MenuItemTemplateContainer GetMenuItemTemplateContainer(MenuItem item)
-        {
-            return (MenuItemTemplateContainer)_container.GetValue(item, null);
         }
 
         protected void RenderDropDownMenu(HtmlTextWriter writer, MenuItemCollection items, string submenuClientId)
@@ -178,9 +165,9 @@ IZWebFileManager_HideElement = function(id) {
             writer.AddStyleAttribute(HtmlTextWriterStyle.Padding, "1px 0");
             writer.AddStyleAttribute(HtmlTextWriterStyle.Position, "relative");
             writer.RenderBeginTag(HtmlTextWriterTag.Div);
-            
-            RenderItemTemplate(writer, item);
-            
+
+            renderDynamicItem(writer, item);
+
             if (hasChildren)
             {
                 writer.AddStyleAttribute(Control.IsRightToLeft ? "left" : "right", "0");

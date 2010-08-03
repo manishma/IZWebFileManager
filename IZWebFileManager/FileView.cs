@@ -28,6 +28,7 @@ using System.Collections;
 using System.Drawing;
 using System.Globalization;
 using System.Collections.Specialized;
+using Legend.Web;
 
 namespace IZ.WebFileManager
 {
@@ -616,14 +617,12 @@ namespace IZ.WebFileManager
 
         void CreateContextMenu()
         {
-            _contextMenu = new ContextMenu(Controller.CurrentUICulture.TextInfo.IsRightToLeft, (x, y) => { }); // TODO
+            _contextMenu = new ContextMenu(Controller.CurrentUICulture.TextInfo.IsRightToLeft, RenderContextMenuPopupItem);
             _contextMenu.EnableViewState = false;
             _contextMenu.StaticEnableDefaultPopOutImage = false;
             _contextMenu.DynamicEnableDefaultPopOutImage = false;
             _contextMenu.Orientation = Orientation.Horizontal;
             _contextMenu.SkipLinkText = String.Empty;
-            _contextMenu.StaticItemTemplate = new CompiledTemplateBuilder(new BuildTemplateMethod(CreateContextMenuRootItem));
-            _contextMenu.DynamicItemTemplate = new CompiledTemplateBuilder(new BuildTemplateMethod(CreateContextMenuPopupItem));
             SetContextMenuStyle(_contextMenu);
             Controls.Add(_contextMenu);
 
@@ -818,14 +817,12 @@ namespace IZ.WebFileManager
 
         void CreateSelectedItemsContextMenu()
         {
-            _selectedItemsContextMenu = new ContextMenu(Controller.CurrentUICulture.TextInfo.IsRightToLeft, (x,y) => { }); // TODO
+            _selectedItemsContextMenu = new ContextMenu(Controller.CurrentUICulture.TextInfo.IsRightToLeft, RenderContextMenuPopupItem);
             _selectedItemsContextMenu.EnableViewState = false;
             _selectedItemsContextMenu.StaticEnableDefaultPopOutImage = false;
             _selectedItemsContextMenu.DynamicEnableDefaultPopOutImage = false;
             _selectedItemsContextMenu.Orientation = Orientation.Horizontal;
             _selectedItemsContextMenu.SkipLinkText = String.Empty;
-            _selectedItemsContextMenu.StaticItemTemplate = new CompiledTemplateBuilder(new BuildTemplateMethod(CreateContextMenuRootItem));
-            _selectedItemsContextMenu.DynamicItemTemplate = new CompiledTemplateBuilder(new BuildTemplateMethod(CreateContextMenuPopupItem));
             SetContextMenuStyle(_selectedItemsContextMenu);
             Controls.Add(_selectedItemsContextMenu);
 
@@ -955,83 +952,52 @@ namespace IZ.WebFileManager
             menu.DynamicHoverStyle.BackColor = Color.FromArgb(0x316AC5);
         }
 
-        void CreateContextMenuPopupItem(Control control)
+        void RenderContextMenuPopupItem(HtmlTextWriter writer, MenuItem menuItem)
         {
-            MenuItemTemplateContainer container = (MenuItemTemplateContainer)control;
-            MenuItem menuItem = (MenuItem)container.DataItem;
             if (menuItem.Text == "__separator__")
             {
-                Table t = new Table();
-                t.CellPadding = 0;
-                t.CellSpacing = 0;
-                t.BorderWidth = 0;
-                t.BackColor = Color.FromArgb(0xACA899);
-                t.Height = 1;
-                t.Width = Unit.Percentage(100);
-                t.Style[HtmlTextWriterStyle.Cursor] = "default";
-                container.Controls.Add(t);
-                TableRow r = new TableRow();
-                TableCell c = new TableCell();
-                System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
-                img.ImageUrl = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Empty.gif");
-                img.Width = 1;
-                img.Height = 1;
-                c.Controls.Add(img);
-                r.Cells.Add(c);
-                t.Rows.Add(r);
+                writer
+                    .Tabel(e => e.Cellpadding(0).Cellspacing(0).Border(0).BackgroundColor("#ACA899").Height(1).Width("100%").Cursor("default"))
+                        .Tr()
+                            .Td()
+                                .Img(e => e.Width(1).Height(1).Src(Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Empty.gif"))).EndTag()
+                            .EndTag()
+                        .EndTag()
+                    .EndTag();
             }
             else
             {
-                Table t = new Table();
-                t.CellPadding = 0;
-                t.CellSpacing = 0;
-                t.Width = Unit.Percentage(100);
-                t.BorderWidth = 0;
-                t.Style[HtmlTextWriterStyle.Cursor] = "default";
-                if (menuItem.Enabled)
-                    t.Attributes["onclick"] = menuItem.NavigateUrl;
-                else
-                    t.Style["color"] = "gray";
-                t.Attributes["id"] = ClientID + "CMD" + menuItem.Value;
-                container.Controls.Add(t);
-                TableRow r = new TableRow();
-                t.Rows.Add(r);
-                TableCell c1 = new TableCell();
-                System.Web.UI.WebControls.Image img1 = new System.Web.UI.WebControls.Image();
-                if (String.IsNullOrEmpty(menuItem.ImageUrl))
-                    img1.ImageUrl = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Empty.gif");
-                else
-                    img1.ImageUrl = menuItem.ImageUrl;
-                img1.Attributes["id"] = ClientID + "CMIMG" + menuItem.Value;
-                img1.Width = 16;
-                img1.Height = 16;
-                c1.Controls.Add(img1);
-                r.Cells.Add(c1);
-                TableCell c2 = new TableCell();
-                c2.Wrap = false;
-                c2.Style[HtmlTextWriterStyle.PaddingLeft] = "2px";
-                c2.Style[HtmlTextWriterStyle.PaddingRight] = "2px";
-                c2.Text = "&nbsp;" + menuItem.Text;
-                c2.Width = Unit.Percentage(100);
-                r.Cells.Add(c2);
-                TableCell c3 = new TableCell();
-                System.Web.UI.WebControls.Image img3 = new System.Web.UI.WebControls.Image();
-                if (menuItem.ChildItems.Count == 0)
-                    img3.ImageUrl = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Empty.gif");
-                else
-                    if (Controller.IsRightToLeft)
-                        img3.ImageUrl = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.PopOutRtl.gif");
-                    else
-                        img3.ImageUrl = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.PopOut.gif");
-                img3.Width = 16;
-                img3.Height = 16;
-                c3.Controls.Add(img3);
-                r.Cells.Add(c3);
+                writer
+                    .Tabel(e =>
+                               {
+                                   e.Cellpadding(0).Cellspacing(0).Border(0).Width("100%").Cursor("default").Id(ClientID + "CMD" + menuItem.Value);
+                                   if (menuItem.Enabled)
+                                       e.Onclick(menuItem.NavigateUrl);
+                                   else
+                                       e.Color("gray");
+                                   return e;
+                               })
+                        .Tr()
+                            .Td()
+                                .Img(e => e.Id(ClientID + "CMIMG" + menuItem.Value).Width(16).Height(16)
+                                    .Src(String.IsNullOrEmpty(menuItem.ImageUrl) ? Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Empty.gif"): ResolveClientUrl(menuItem.ImageUrl)))
+                                .EndTag()
+                            .EndTag()
+                            .Td(e => e.WhiteSpace("nowrap").PaddingLeft(2).PaddingRight(2).Width("100%"))
+                                .Text("&nbsp;" + menuItem.Text)
+                            .EndTag()
+                            .Td()
+                                .Img(e => e.Height(16).Width(16)
+                                    .Src(menuItem.ChildItems.Count == 0 ? 
+                                        Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Empty.gif") : 
+                                        (Controller.IsRightToLeft ? 
+                                            Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.PopOutRtl.gif"):
+                                            Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.PopOut.gif"))))
+                                .EndTag()
+                            .EndTag()
+                        .EndTag()
+                    .EndTag();
             }
-        }
-
-        void CreateContextMenuRootItem(Control control)
-        {
         }
 
         #endregion

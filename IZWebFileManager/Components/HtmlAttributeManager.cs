@@ -218,5 +218,20 @@ namespace Legend.Web
         {
             return Height(unit.ToString());
         }
+
+        public HtmlAttributeManager BackgroundColor(string color)
+        {
+            return Style(HtmlTextWriterStyle.BackgroundColor, color);
+        }
+
+        public HtmlAttributeManager Color(string color)
+        {
+            return Style(HtmlTextWriterStyle.Color, color);
+        }
+
+        public HtmlAttributeManager WhiteSpace(string value)
+        {
+            return Style(HtmlTextWriterStyle.WhiteSpace, value);
+        }
     }
 }

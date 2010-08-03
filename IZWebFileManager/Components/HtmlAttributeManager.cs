@@ -179,9 +179,44 @@ namespace Legend.Web
             return Style(HtmlTextWriterStyle.PaddingLeft, padding);
         }
 
+        public HtmlAttributeManager PaddingLeft(Unit padding)
+        {
+            return PaddingLeft(padding.ToString());
+        }
+
         public HtmlAttributeManager PaddingRight(string padding)
         {
             return Style(HtmlTextWriterStyle.PaddingRight, padding);
+        }
+
+        public HtmlAttributeManager PaddingRight(Unit padding)
+        {
+            return PaddingRight(padding.ToString());
+        }
+
+        public HtmlAttributeManager Cursor(string cursor)
+        {
+            return Style(HtmlTextWriterStyle.Cursor, cursor);
+        }
+
+        public HtmlAttributeManager Width(string value)
+        {
+            return Style(HtmlTextWriterStyle.Width, value);
+        }
+
+        public HtmlAttributeManager Width(Unit unit)
+        {
+            return Width(unit.ToString());
+        }
+
+        public HtmlAttributeManager Height(string value)
+        {
+            return Style(HtmlTextWriterStyle.Height, value);
+        }
+
+        public HtmlAttributeManager Height(Unit unit)
+        {
+            return Height(unit.ToString());
         }
     }
 }

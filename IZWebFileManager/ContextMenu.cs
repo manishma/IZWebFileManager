@@ -26,42 +26,27 @@ namespace IZ.WebFileManager
 {
     class ContextMenu : BaseMenu
     {
-        private readonly ContextMenuAdapter contextMenuAdapter;
-
         public ContextMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem> renderDynamicItem)
-            : base(isRightToLeft)
+            : base(isRightToLeft, renderDynamicItem)
         {
-            contextMenuAdapter = new ContextMenuAdapter(this, renderDynamicItem);
         }
 
-        protected override ControlAdapter ResolveAdapter()
+        protected override void Render(HtmlTextWriter writer)
         {
-            return contextMenuAdapter;
+            writer.AddStyleAttribute(HtmlTextWriterStyle.Position, "absolute");
+            writer.AddStyleAttribute(HtmlTextWriterStyle.ZIndex, "100");
+            writer.AddAttribute (HtmlTextWriterAttribute.Id, ClientID);
+
+            var submenuClientId = ClientID + "_0";
+
+            writer.AddAttribute("onmouseover", "IZWebFileManager_MouseHover(this, event, '" + submenuClientId + "')");
+            writer.AddAttribute("onmouseout", "IZWebFileManager_MouseOut(this, event, '" + submenuClientId + "')");
+            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+            RenderDropDownMenu(writer, Items[0].ChildItems, submenuClientId);
+
+            writer.RenderEndTag ();
         }
 
-        class ContextMenuAdapter : BaseMenuAdapter
-        {
-            public ContextMenuAdapter(ContextMenu contextMenu, Action<HtmlTextWriter, MenuItem> renderDynamicItem)
-                : base(contextMenu, renderDynamicItem)
-            {
-            }
-
-            protected override void Render(HtmlTextWriter writer)
-            {
-                writer.AddStyleAttribute(HtmlTextWriterStyle.Position, "absolute");
-                writer.AddStyleAttribute(HtmlTextWriterStyle.ZIndex, "100");
-                writer.AddAttribute (HtmlTextWriterAttribute.Id, Control.ClientID);
-
-                var submenuClientId = Control.ClientID + "_0";
-
-                writer.AddAttribute("onmouseover", "IZWebFileManager_MouseHover(this, event, '" + submenuClientId + "')");
-                writer.AddAttribute("onmouseout", "IZWebFileManager_MouseOut(this, event, '" + submenuClientId + "')");
-                writer.RenderBeginTag(HtmlTextWriterTag.Div);
-
-                RenderDropDownMenu(writer, Control.Items[0].ChildItems, submenuClientId);
-
-                writer.RenderEndTag ();
-            }
-        }
     }
 }

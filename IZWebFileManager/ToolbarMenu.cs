@@ -22,68 +22,57 @@ using System.Web.UI;
 using System.Web.UI.Adapters;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.Adapters;
+using Legend.Web;
 
 namespace IZ.WebFileManager
 {
     internal class ToolbarMenu : BaseMenu
     {
-        private readonly ToolbarMenuAdapter toolbarMenuAdapter;
+        private readonly Action<HtmlTextWriter, MenuItem> renderToolbarItem;
 
         public ToolbarMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem> renderToolbarItem, Action<HtmlTextWriter, MenuItem> renderDynamicItem)
-            : base (isRightToLeft)
+            : base(isRightToLeft, renderDynamicItem)
         {
-            toolbarMenuAdapter = new ToolbarMenuAdapter(this, renderToolbarItem, renderDynamicItem);
+            this.renderToolbarItem = renderToolbarItem;
         }
 
-        protected override ControlAdapter ResolveAdapter()
+        protected override void Render(HtmlTextWriter writer)
         {
-            return toolbarMenuAdapter;
+            writer
+                .Tabel(e => e.Cellpadding(0).Cellspacing(0).Border(0))
+                    .Tr();
+
+            for (int i = 0; i < Items.Count; i++)
+            {
+                RenderItem(writer, Items[i], i);
+            }
+
+            writer
+                    .EndTag()
+                .EndTag();
+
         }
-
-        internal class ToolbarMenuAdapter : BaseMenuAdapter
+        
+        private void RenderItem(HtmlTextWriter writer, MenuItem item, int position)
         {
-            private readonly Action<HtmlTextWriter, MenuItem> renderToolbarItem;
-            
-            public ToolbarMenuAdapter(ToolbarMenu toolbarMenu, Action<HtmlTextWriter, MenuItem> renderToolbarItem, Action<HtmlTextWriter, MenuItem> renderDynamicItem)
-                : base(toolbarMenu, renderDynamicItem)
+            var hasChildren = item.ChildItems.Count > 0;
+            var submenuClientId = ClientID + "_" + position;
+
+            if (hasChildren)
             {
-                this.renderToolbarItem = renderToolbarItem;
+                writer.AddAttribute("onmouseover", "IZWebFileManager_MouseHover(this, event, '" + submenuClientId + "')");
+                writer.AddAttribute("onmouseout", "IZWebFileManager_MouseOut(this, event, '" + submenuClientId + "')");
+            }
+            writer.RenderBeginTag(HtmlTextWriterTag.Td);
+
+            renderToolbarItem(writer, item);
+
+            if (hasChildren)
+            {
+                RenderDropDownMenu(writer, item.ChildItems, submenuClientId);
             }
 
-            protected override void RenderBeginTag(HtmlTextWriter writer)
-            {
-                writer.AddAttribute(HtmlTextWriterAttribute.Cellspacing, "0");
-                writer.AddAttribute(HtmlTextWriterAttribute.Cellpadding, "0");
-                writer.AddAttribute(HtmlTextWriterAttribute.Border, "0");
-                writer.RenderBeginTag(HtmlTextWriterTag.Table);
-                writer.RenderBeginTag(HtmlTextWriterTag.Tr);
-            }
-            protected override void RenderEndTag(HtmlTextWriter writer)
-            {
-                writer.RenderEndTag();
-                writer.RenderEndTag();
-            }
-            protected override void RenderItem(HtmlTextWriter writer, MenuItem item, int position)
-            {
-                var hasChildren = item.ChildItems.Count > 0;
-                var submenuClientId = Control.ClientID + "_" + position;
-
-                if(hasChildren)
-                {
-                    writer.AddAttribute("onmouseover", "IZWebFileManager_MouseHover(this, event, '" + submenuClientId + "')");
-                    writer.AddAttribute("onmouseout", "IZWebFileManager_MouseOut(this, event, '" + submenuClientId + "')");
-                }
-                writer.RenderBeginTag(HtmlTextWriterTag.Td);
-
-                renderToolbarItem(writer, item);
-
-                if(hasChildren)
-                {
-                    RenderDropDownMenu(writer, item.ChildItems, submenuClientId);
-                }
-                
-                writer.RenderEndTag();
-            }
+            writer.RenderEndTag();
         }
     }
 }

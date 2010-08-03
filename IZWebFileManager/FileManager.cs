@@ -619,14 +619,16 @@ function FileManager_GetChildByTagName(element, tagName, index) {
         {
             var itemToPanel = new Dictionary<MenuItem, BorderedPanel>();
 
-            _toolBar = new ToolbarMenu(Controller.CurrentUICulture.TextInfo.IsRightToLeft, (wr, item) => RenderToolbarItem(wr, item, itemToPanel[item]));
+            _toolBar = new ToolbarMenu(
+                Controller.CurrentUICulture.TextInfo.IsRightToLeft,
+                (wr, item) => RenderToolbarItem(wr, item, itemToPanel[item]),
+                RenderToolbarPopupItem);
             _toolBar.EnableViewState = false;
             _toolBar.StaticEnableDefaultPopOutImage = false;
             _toolBar.DynamicEnableDefaultPopOutImage = false;
             _toolBar.Orientation = Orientation.Horizontal;
             _toolBar.SkipLinkText = String.Empty;
             _toolBar.StaticItemTemplate = new CompiledTemplateBuilder(c => CreateToolbarButton(c, itemToPanel));
-            _toolBar.DynamicItemTemplate = new CompiledTemplateBuilder(new BuildTemplateMethod(CreateToolbarPopupItem));
 
             // TODO
             _toolBar.DynamicMenuStyle.BackColor = Color.White;
@@ -784,39 +786,22 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             }
         }
 
-        void CreateToolbarPopupItem(Control control)
+        void RenderToolbarPopupItem(HtmlTextWriter writer, MenuItem menuItem)
         {
-            MenuItemTemplateContainer container = (MenuItemTemplateContainer)control;
-            MenuItem menuItem = (MenuItem)container.DataItem;
-            Table t = new Table();
-            t.CellPadding = 0;
-            t.CellSpacing = 0;
-            t.BorderWidth = 0;
-            t.Style[HtmlTextWriterStyle.Cursor] = "default";
-            t.Attributes["onclick"] = menuItem.NavigateUrl;
-            container.Controls.Add(t);
-            TableRow r = new TableRow();
-            t.Rows.Add(r);
-            TableCell c1 = new TableCell();
-            System.Web.UI.WebControls.Image img1 = new System.Web.UI.WebControls.Image();
-            img1.ImageUrl = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Empty.gif");
-            img1.Width = 16;
-            img1.Height = 16;
-            c1.Controls.Add(img1);
-            r.Cells.Add(c1);
-            TableCell c2 = new TableCell();
-            c2.Style[HtmlTextWriterStyle.PaddingLeft] = "2px";
-            c2.Style[HtmlTextWriterStyle.PaddingRight] = "2px";
-            c2.Text = "&nbsp;" + menuItem.Text;
-            c2.Width = Unit.Percentage(100);
-            r.Cells.Add(c2);
-            TableCell c3 = new TableCell();
-            System.Web.UI.WebControls.Image img3 = new System.Web.UI.WebControls.Image();
-            img3.ImageUrl = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Empty.gif");
-            img3.Width = 16;
-            img3.Height = 16;
-            c3.Controls.Add(img3);
-            r.Cells.Add(c3);
+            writer
+                .Tabel(e => e.Cellpadding(0).Cellspacing(0).Border(0).Cursor("default").Onclick(menuItem.NavigateUrl))
+                    .Tr()
+                        .Td()
+                            .Img(e => e.Width(16).Height(16).Src(Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Empty.gif"))).EndTag()
+                        .EndTag()
+                        .Td(e => e.PaddingLeft(2).PaddingRight(2).Width("100%"))
+                            .Text("&nbsp;" + menuItem.Text)
+                        .EndTag()
+                        .Td()
+                            .Img(e => e.Width(16).Height(16).Src(Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Empty.gif"))).EndTag()
+                        .EndTag()
+                    .EndTag()
+                .EndTag();
         }
         
         void CreateToolbarButton(Control control, Dictionary<MenuItem, BorderedPanel> itemToPanel)
@@ -856,7 +841,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                         .Td()
                             .Img(e => e.Src(ResolveClientUrl(menuItem.ImageUrl))).EndTag()
                         .EndTag()
-                        .Td(e => e.PaddingLeft("2px").PaddingRight("2px"))
+                        .Td(e => e.PaddingLeft(2).PaddingRight(2))
                             .Text("&nbsp;" + menuItem.Text)
                         .EndTag()
                     .EndTag()

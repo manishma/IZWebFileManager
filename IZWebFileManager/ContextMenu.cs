@@ -28,10 +28,10 @@ namespace IZ.WebFileManager
     {
         private readonly ContextMenuAdapter contextMenuAdapter;
 
-        public ContextMenu(bool isRightToLeft)
+        public ContextMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem> renderDynamicItem)
             : base(isRightToLeft)
         {
-            contextMenuAdapter = new ContextMenuAdapter(this);
+            contextMenuAdapter = new ContextMenuAdapter(this, renderDynamicItem);
         }
 
         protected override ControlAdapter ResolveAdapter()
@@ -41,8 +41,8 @@ namespace IZ.WebFileManager
 
         class ContextMenuAdapter : BaseMenuAdapter
         {
-            public ContextMenuAdapter(ContextMenu contextMenu)
-                : base(contextMenu)
+            public ContextMenuAdapter(ContextMenu contextMenu, Action<HtmlTextWriter, MenuItem> renderDynamicItem)
+                : base(contextMenu, renderDynamicItem)
             {
             }
 

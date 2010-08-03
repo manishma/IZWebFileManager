@@ -29,10 +29,10 @@ namespace IZ.WebFileManager
     {
         private readonly ToolbarMenuAdapter toolbarMenuAdapter;
 
-        public ToolbarMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem> renderToolbarItem)
+        public ToolbarMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem> renderToolbarItem, Action<HtmlTextWriter, MenuItem> renderDynamicItem)
             : base (isRightToLeft)
         {
-            toolbarMenuAdapter = new ToolbarMenuAdapter(this, renderToolbarItem);
+            toolbarMenuAdapter = new ToolbarMenuAdapter(this, renderToolbarItem, renderDynamicItem);
         }
 
         protected override ControlAdapter ResolveAdapter()
@@ -44,8 +44,8 @@ namespace IZ.WebFileManager
         {
             private readonly Action<HtmlTextWriter, MenuItem> renderToolbarItem;
             
-            public ToolbarMenuAdapter(ToolbarMenu toolbarMenu, Action<HtmlTextWriter, MenuItem> renderToolbarItem)
-                : base(toolbarMenu)
+            public ToolbarMenuAdapter(ToolbarMenu toolbarMenu, Action<HtmlTextWriter, MenuItem> renderToolbarItem, Action<HtmlTextWriter, MenuItem> renderDynamicItem)
+                : base(toolbarMenu, renderDynamicItem)
             {
                 this.renderToolbarItem = renderToolbarItem;
             }

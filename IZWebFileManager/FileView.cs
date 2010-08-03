@@ -616,7 +616,7 @@ namespace IZ.WebFileManager
 
         void CreateContextMenu()
         {
-            _contextMenu = new ContextMenu(Controller.CurrentUICulture.TextInfo.IsRightToLeft);
+            _contextMenu = new ContextMenu(Controller.CurrentUICulture.TextInfo.IsRightToLeft, (x, y) => { }); // TODO
             _contextMenu.EnableViewState = false;
             _contextMenu.StaticEnableDefaultPopOutImage = false;
             _contextMenu.DynamicEnableDefaultPopOutImage = false;
@@ -818,7 +818,7 @@ namespace IZ.WebFileManager
 
         void CreateSelectedItemsContextMenu()
         {
-            _selectedItemsContextMenu = new ContextMenu(Controller.CurrentUICulture.TextInfo.IsRightToLeft);
+            _selectedItemsContextMenu = new ContextMenu(Controller.CurrentUICulture.TextInfo.IsRightToLeft, (x,y) => { }); // TODO
             _selectedItemsContextMenu.EnableViewState = false;
             _selectedItemsContextMenu.StaticEnableDefaultPopOutImage = false;
             _selectedItemsContextMenu.DynamicEnableDefaultPopOutImage = false;

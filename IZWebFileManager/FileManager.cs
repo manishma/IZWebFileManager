@@ -602,19 +602,6 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             Controls.Add(_fileView);
         }
 
-        class IE8Fix : Style
-        {
-            protected override void FillStyleAttributes(CssStyleCollection attributes, IUrlResolutionService urlResolver)
-            {
-                //.IE8fix
-                //{
-                //     z-index: 100;
-                //}
-                base.FillStyleAttributes(attributes, urlResolver);
-                attributes.Add(HtmlTextWriterStyle.ZIndex, "100");
-            }
-        }
-
         private void CreateToolbar()
         {
             var itemToPanel = new Dictionary<MenuItem, BorderedPanel>();
@@ -637,13 +624,6 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             _toolBar.DynamicMenuStyle.BorderColor = Color.FromArgb(0xACA899);
             _toolBar.DynamicMenuStyle.HorizontalPadding = Unit.Pixel(2);
             _toolBar.DynamicMenuStyle.VerticalPadding = Unit.Pixel(2);
-
-            // fix IE8 bug
-            var ie8fix = new IE8Fix();
-            if (Page.Header != null)
-                Page.Header.StyleSheet.RegisterStyle(ie8fix, this);
-            _toolBar.DynamicMenuStyle.CssClass = ie8fix.RegisteredCssClass;
-
 
             _toolBar.DynamicMenuItemStyle.ForeColor = Color.Black;
             _toolBar.DynamicMenuItemStyle.Font.Names = new string[] { "Tahoma", "Verdana", "Geneva", "Arial", "Helvetica", "sans-serif" };

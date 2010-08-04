@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Web.UI.Adapters;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.Adapters;
 using System.Reflection;
@@ -37,6 +38,11 @@ namespace IZ.WebFileManager
         {
             IsRightToLeft = isRightToLeft;
             this.renderDynamicItem = renderDynamicItem;
+        }
+
+        protected override ControlAdapter ResolveAdapter()
+        {
+            return null;
         }
 
         protected void RenderDropDownMenu(HtmlTextWriter writer, MenuItemCollection items, string submenuClientId)

@@ -624,10 +624,6 @@ namespace IZ.WebFileManager
                 Controller.DynamicMenuItemStyle,
                 Controller.DynamicHoverStyle);
             _contextMenu.EnableViewState = false;
-            _contextMenu.StaticEnableDefaultPopOutImage = false;
-            _contextMenu.DynamicEnableDefaultPopOutImage = false;
-            _contextMenu.Orientation = Orientation.Horizontal;
-            _contextMenu.SkipLinkText = String.Empty;
             Controls.Add(_contextMenu);
 
             // Root
@@ -828,10 +824,6 @@ namespace IZ.WebFileManager
                 Controller.DynamicMenuItemStyle,
                 Controller.DynamicHoverStyle);
             _selectedItemsContextMenu.EnableViewState = false;
-            _selectedItemsContextMenu.StaticEnableDefaultPopOutImage = false;
-            _selectedItemsContextMenu.DynamicEnableDefaultPopOutImage = false;
-            _selectedItemsContextMenu.Orientation = Orientation.Horizontal;
-            _selectedItemsContextMenu.SkipLinkText = String.Empty;
             Controls.Add(_selectedItemsContextMenu);
 
             // Root

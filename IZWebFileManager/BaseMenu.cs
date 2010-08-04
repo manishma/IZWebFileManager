@@ -25,11 +25,13 @@ using System.Web.UI;
 
 namespace IZ.WebFileManager
 {
-    class BaseMenu : Menu
+    class BaseMenu : Control
     {
-        public new readonly Style DynamicMenuItemStyle;
-        public new readonly Style DynamicHoverStyle;
-        public new readonly SubMenuStyle DynamicMenuStyle;
+        protected readonly Style DynamicMenuItemStyle;
+        protected readonly Style DynamicHoverStyle;
+        protected readonly SubMenuStyle DynamicMenuStyle;
+
+        public readonly List<MenuItem> Items = new List<MenuItem>();
 
         private readonly Action<HtmlTextWriter, MenuItem> renderDynamicItem;
 

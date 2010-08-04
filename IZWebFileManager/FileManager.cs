@@ -614,20 +614,6 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 Controller.DynamicMenuItemStyle,
                 Controller.DynamicHoverStyle);
             _toolBar.EnableViewState = false;
-            _toolBar.StaticEnableDefaultPopOutImage = false;
-            _toolBar.DynamicEnableDefaultPopOutImage = false;
-            _toolBar.Orientation = Orientation.Horizontal;
-            _toolBar.SkipLinkText = String.Empty;
-            _toolBar.StaticItemTemplate = new CompiledTemplateBuilder(c => CreateToolbarButton(c, itemToPanel));
-
-            // TODO
-            _toolBar.DynamicMenuStyle.BackColor = Color.White;
-            _toolBar.DynamicMenuStyle.BorderStyle = BorderStyle.Solid;
-            _toolBar.DynamicMenuStyle.BorderWidth = Unit.Pixel(1);
-            _toolBar.DynamicMenuStyle.BorderColor = Color.FromArgb(0xACA899);
-            _toolBar.DynamicMenuStyle.HorizontalPadding = Unit.Pixel(2);
-            _toolBar.DynamicMenuStyle.VerticalPadding = Unit.Pixel(2);
-
             Controls.Add(_toolBar);
 
             string clientClickFunction = "javascript:" + FileManagerController.ClientScriptObjectNamePrefix + Controller.ClientID + ".On{0}(" + FileManagerController.ClientScriptObjectNamePrefix + _fileView.ClientID + ", '{1}');return false;";
@@ -641,6 +627,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 itemCopyTo.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.SelectedItemsCopyTo, "");
                 itemCopyTo.Enabled = !ReadOnly;
                 _toolBar.Items.Add(itemCopyTo);
+                CreateToolbarButton(_toolBar, itemToPanel, itemCopyTo);
             }
 
             // Move to
@@ -652,6 +639,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 itemMoveTo.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.SelectedItemsMoveTo, "");
                 itemMoveTo.Enabled = !ReadOnly && AllowDelete;
                 _toolBar.Items.Add(itemMoveTo);
+                CreateToolbarButton(_toolBar, itemToPanel, itemMoveTo);
             }
 
             // Delete
@@ -663,6 +651,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 itemDelete.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.SelectedItemsDelete, "");
                 itemDelete.Enabled = !ReadOnly && AllowDelete;
                 _toolBar.Items.Add(itemDelete);
+                CreateToolbarButton(_toolBar, itemToPanel, itemDelete);
             }
 
             // Rename
@@ -674,6 +663,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 itemRename.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.Rename, "");
                 itemRename.Enabled = !ReadOnly && AllowDelete;
                 _toolBar.Items.Add(itemRename);
+                CreateToolbarButton(_toolBar, itemToPanel, itemRename);
             }
 
             // NewFolder
@@ -685,6 +675,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 itemNewFolder.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.NewFolder, "");
                 itemNewFolder.Enabled = !ReadOnly;
                 _toolBar.Items.Add(itemNewFolder);
+                CreateToolbarButton(_toolBar, itemToPanel, itemNewFolder);
             }
 
             // FolderUp
@@ -695,6 +686,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 itemFolderUp.ImageUrl = Controller.GetToolbarImage(ToolbarImages.FolderUp);
                 itemFolderUp.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.FileViewNavigate, "..");
                 _toolBar.Items.Add(itemFolderUp);
+                CreateToolbarButton(_toolBar, itemToPanel, itemFolderUp);
             }
 
             // View
@@ -705,6 +697,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 itemView.ImageUrl = Controller.GetToolbarImage(ToolbarImages.View);
                 itemView.NavigateUrl = "javascript: return;";
                 _toolBar.Items.Add(itemView);
+                CreateToolbarButton(_toolBar, itemToPanel, itemView);
 
                 // Icons
                 MenuItem itemViewIcons = new MenuItem();
@@ -737,6 +730,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 itemRefresh.ImageUrl = Controller.GetToolbarImage(ToolbarImages.Refresh);
                 itemRefresh.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.Refresh, "");
                 _toolBar.Items.Add(itemRefresh);
+                CreateToolbarButton(_toolBar, itemToPanel, itemRefresh);
             }
 
             // Custom Buttons
@@ -757,6 +751,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                         NavigateUrl = "javascript:" + button.OnClientClick + ";" + postBackStatement + ";return false;"
                     };
                     _toolBar.Items.Add(item);
+                    CreateToolbarButton(_toolBar, itemToPanel, item);
                 }
             }
         }
@@ -778,11 +773,9 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                     .EndTag()
                 .EndTag();
         }
-        
-        void CreateToolbarButton(Control control, Dictionary<MenuItem, BorderedPanel> itemToPanel)
+
+        void CreateToolbarButton(Control control, Dictionary<MenuItem, BorderedPanel> itemToPanel, MenuItem menuItem)
         {
-            MenuItemTemplateContainer container = (MenuItemTemplateContainer)control;
-            MenuItem menuItem = (MenuItem)container.DataItem;
             BorderedPanel panel = new BorderedPanel();
             panel.ControlStyle.CopyFrom(DefaultToolbarButtonStyle);
             if (ToolbarButtonStyleCreated)

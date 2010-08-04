@@ -39,7 +39,7 @@ namespace IZ.WebFileManager
         protected override void Render(HtmlTextWriter writer)
         {
             writer
-                .Tabel(e => e.Cellpadding(0).Cellspacing(0).Border(0))
+                .Table(e => e.Cellpadding(0).Cellspacing(0).Border(0))
                     .Tr();
 
             for (int i = 0; i < Items.Count; i++)

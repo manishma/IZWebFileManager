@@ -938,7 +938,7 @@ namespace IZ.WebFileManager
             if (menuItem.Text == "__separator__")
             {
                 writer
-                    .Tabel(e => e.Cellpadding(0).Cellspacing(0).Border(0).BackgroundColor("#ACA899").Height(1).Width("100%").Cursor("default"))
+                    .Table(e => e.Cellpadding(0).Cellspacing(0).Border(0).BackgroundColor("#ACA899").Height(1).Width("100%").Cursor("default"))
                         .Tr()
                             .Td()
                                 .Img(e => e.Width(1).Height(1).Src(Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Empty.gif"))).EndTag()
@@ -949,7 +949,7 @@ namespace IZ.WebFileManager
             else
             {
                 writer
-                    .Tabel(e =>
+                    .Table(e =>
                                {
                                    e.Cellpadding(0).Cellspacing(0).Border(0).Width("100%").Cursor("default").Id(ClientID + "CMD" + menuItem.Value);
                                    if (menuItem.Enabled)

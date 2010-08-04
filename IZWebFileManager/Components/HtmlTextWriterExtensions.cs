@@ -52,7 +52,7 @@ namespace Legend.Web
             return writer.Tag(HtmlTextWriterTag.Div, attributes);
         }
 
-        public static HtmlTextWriter Tabel(this HtmlTextWriter writer, Func<HtmlAttributeManager, HtmlAttributeManager> attributes = null)
+        public static HtmlTextWriter Table(this HtmlTextWriter writer, Func<HtmlAttributeManager, HtmlAttributeManager> attributes = null)
         {
             return writer.Tag(HtmlTextWriterTag.Table, attributes);
         }

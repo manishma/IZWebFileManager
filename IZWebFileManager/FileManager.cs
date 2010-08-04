@@ -754,7 +754,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
         void RenderToolbarPopupItem(HtmlTextWriter writer, MenuItem menuItem, int index)
         {
             writer
-                .Tabel(e => e.Cellpadding(0).Cellspacing(0).Border(0).Cursor("default").Onclick(menuItem.NavigateUrl))
+                .Table(e => e.Cellpadding(0).Cellspacing(0).Border(0).Cursor("default").Onclick(menuItem.NavigateUrl))
                     .Tr()
                         .Td()
                             .Img(e => e.Width(16).Height(16).Src(Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Empty.gif"))).EndTag()
@@ -830,7 +830,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             panel.RenderBeginTag(writer);
 
             writer
-                .Tabel(e => e.Cellpadding(0).Cellspacing(0).Border(0))
+                .Table(e => e.Cellpadding(0).Cellspacing(0).Border(0))
                     .Tr()
                         .Td()
                             .Img(e => e.Src(ResolveClientUrl(menuItem.ImageUrl))).EndTag()

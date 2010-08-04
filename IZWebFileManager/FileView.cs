@@ -933,7 +933,7 @@ namespace IZ.WebFileManager
             Page.ClientScript.RegisterClientScriptBlock(typeof(FileView), ClientID + "_ShowSelectedItemsContextMenu", sb.ToString(), true);
         }
 
-        void RenderContextMenuPopupItem(HtmlTextWriter writer, MenuItem menuItem)
+        void RenderContextMenuPopupItem(HtmlTextWriter writer, MenuItem menuItem, int index)
         {
             if (menuItem.Text == "__separator__")
             {

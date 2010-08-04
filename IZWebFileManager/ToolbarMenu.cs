@@ -28,9 +28,9 @@ namespace IZ.WebFileManager
 {
     internal class ToolbarMenu : BaseMenu
     {
-        private readonly Action<HtmlTextWriter, MenuItem> renderToolbarItem;
+        private readonly Action<HtmlTextWriter, MenuItem, int> renderToolbarItem;
 
-        public ToolbarMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem> renderToolbarItem, Action<HtmlTextWriter, MenuItem> renderDynamicItem, SubMenuStyle dynamicMenuStyle, Style dynamicMenuItemStyle, Style dynamicHoverStyle)
+        public ToolbarMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem, int> renderToolbarItem, Action<HtmlTextWriter, MenuItem, int> renderDynamicItem, SubMenuStyle dynamicMenuStyle, Style dynamicMenuItemStyle, Style dynamicHoverStyle)
             : base(isRightToLeft, renderDynamicItem, dynamicMenuStyle, dynamicMenuItemStyle, dynamicHoverStyle)
         {
             this.renderToolbarItem = renderToolbarItem;
@@ -65,7 +65,7 @@ namespace IZ.WebFileManager
             }
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
 
-            renderToolbarItem(writer, item);
+            renderToolbarItem(writer, item, position);
 
             if (hasChildren)
             {

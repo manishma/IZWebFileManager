@@ -52,6 +52,9 @@ namespace IZ.WebFileManager
         BorderedPanelStyle _defaultToolbarButtonHoverStyle;
         BorderedPanelStyle _defaultToolbarButtonPressedStyle;
 
+        private BorderedPanel enabledToolbarButton;
+        private BorderedPanel disabledToolbarButton;
+
         #endregion
 
         #region Events
@@ -604,17 +607,18 @@ function FileManager_GetChildByTagName(element, tagName, index) {
 
         private void CreateToolbar()
         {
-            var itemToPanel = new Dictionary<MenuItem, BorderedPanel>();
-
             _toolBar = new ToolbarMenu(
                 Controller.CurrentUICulture.TextInfo.IsRightToLeft,
-                (wr, item) => RenderToolbarItem(wr, item, itemToPanel[item]),
+                RenderToolbarItem,
                 RenderToolbarPopupItem,
                 Controller.DynamicMenuStyle,
                 Controller.DynamicMenuItemStyle,
                 Controller.DynamicHoverStyle);
             _toolBar.EnableViewState = false;
             Controls.Add(_toolBar);
+
+            Controls.Add(enabledToolbarButton = CreateToolbarButton(true));
+            Controls.Add(disabledToolbarButton = CreateToolbarButton(false));
 
             string clientClickFunction = "javascript:" + FileManagerController.ClientScriptObjectNamePrefix + Controller.ClientID + ".On{0}(" + FileManagerController.ClientScriptObjectNamePrefix + _fileView.ClientID + ", '{1}');return false;";
 
@@ -627,7 +631,6 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 itemCopyTo.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.SelectedItemsCopyTo, "");
                 itemCopyTo.Enabled = !ReadOnly;
                 _toolBar.Items.Add(itemCopyTo);
-                CreateToolbarButton(_toolBar, itemToPanel, itemCopyTo);
             }
 
             // Move to
@@ -639,7 +642,6 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 itemMoveTo.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.SelectedItemsMoveTo, "");
                 itemMoveTo.Enabled = !ReadOnly && AllowDelete;
                 _toolBar.Items.Add(itemMoveTo);
-                CreateToolbarButton(_toolBar, itemToPanel, itemMoveTo);
             }
 
             // Delete
@@ -651,7 +653,6 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 itemDelete.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.SelectedItemsDelete, "");
                 itemDelete.Enabled = !ReadOnly && AllowDelete;
                 _toolBar.Items.Add(itemDelete);
-                CreateToolbarButton(_toolBar, itemToPanel, itemDelete);
             }
 
             // Rename
@@ -663,7 +664,6 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 itemRename.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.Rename, "");
                 itemRename.Enabled = !ReadOnly && AllowDelete;
                 _toolBar.Items.Add(itemRename);
-                CreateToolbarButton(_toolBar, itemToPanel, itemRename);
             }
 
             // NewFolder
@@ -675,7 +675,6 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 itemNewFolder.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.NewFolder, "");
                 itemNewFolder.Enabled = !ReadOnly;
                 _toolBar.Items.Add(itemNewFolder);
-                CreateToolbarButton(_toolBar, itemToPanel, itemNewFolder);
             }
 
             // FolderUp
@@ -686,7 +685,6 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 itemFolderUp.ImageUrl = Controller.GetToolbarImage(ToolbarImages.FolderUp);
                 itemFolderUp.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.FileViewNavigate, "..");
                 _toolBar.Items.Add(itemFolderUp);
-                CreateToolbarButton(_toolBar, itemToPanel, itemFolderUp);
             }
 
             // View
@@ -697,7 +695,6 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 itemView.ImageUrl = Controller.GetToolbarImage(ToolbarImages.View);
                 itemView.NavigateUrl = "javascript: return;";
                 _toolBar.Items.Add(itemView);
-                CreateToolbarButton(_toolBar, itemToPanel, itemView);
 
                 // Icons
                 MenuItem itemViewIcons = new MenuItem();
@@ -730,7 +727,6 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 itemRefresh.ImageUrl = Controller.GetToolbarImage(ToolbarImages.Refresh);
                 itemRefresh.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.Refresh, "");
                 _toolBar.Items.Add(itemRefresh);
-                CreateToolbarButton(_toolBar, itemToPanel, itemRefresh);
             }
 
             // Custom Buttons
@@ -751,12 +747,11 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                         NavigateUrl = "javascript:" + button.OnClientClick + ";" + postBackStatement + ";return false;"
                     };
                     _toolBar.Items.Add(item);
-                    CreateToolbarButton(_toolBar, itemToPanel, item);
                 }
             }
         }
 
-        void RenderToolbarPopupItem(HtmlTextWriter writer, MenuItem menuItem)
+        void RenderToolbarPopupItem(HtmlTextWriter writer, MenuItem menuItem, int index)
         {
             writer
                 .Tabel(e => e.Cellpadding(0).Cellspacing(0).Border(0).Cursor("default").Onclick(menuItem.NavigateUrl))
@@ -774,14 +769,35 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 .EndTag();
         }
 
-        void CreateToolbarButton(Control control, Dictionary<MenuItem, BorderedPanel> itemToPanel, MenuItem menuItem)
+        class ToolbarButtonPanel : BorderedPanel
         {
-            BorderedPanel panel = new BorderedPanel();
+            private readonly Control owner;
+
+            public ToolbarButtonPanel(Control owner)
+            {
+                this.owner = owner;
+            }
+               
+            public override string OuterBorderHoverImagesArrayName
+            {
+                get { return owner.ClientID + "tbHover"; }
+
+            }
+
+            public override string OuterBorderPressedImagesArrayName
+            {
+                get { return owner.ClientID + "tbPressed"; }
+            }
+        }
+
+        private BorderedPanel CreateToolbarButton(bool enabled)
+        {
+            var panel = new ToolbarButtonPanel(this);
             panel.ControlStyle.CopyFrom(DefaultToolbarButtonStyle);
             if (ToolbarButtonStyleCreated)
                 panel.ControlStyle.CopyFrom(ToolbarButtonStyle);
             panel.Style[HtmlTextWriterStyle.Cursor] = "default";
-            if (menuItem.Enabled)
+            if (enabled)
             {
                 panel.HoverSyle.CopyFrom(DefaultToolbarButtonHoverStyle);
                 if (ToolbarButtonHoverStyleCreated)
@@ -789,18 +805,28 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 panel.PressedSyle.CopyFrom(DefaultToolbarButtonPressedStyle);
                 if (ToolbarButtonPressedStyleCreated)
                     panel.PressedSyle.CopyFrom(ToolbarButtonPressedStyle);
-                panel.Attributes["onclick"] = menuItem.NavigateUrl;
             }
             else
                 panel.Style["color"] = "gray";
 
-            control.Controls.Add(panel);
-
-            itemToPanel.Add(menuItem, panel);
+            return panel;
         }
 
-        private void RenderToolbarItem(HtmlTextWriter writer, MenuItem menuItem, BorderedPanel panel)
+        private void RenderToolbarItem(HtmlTextWriter writer, MenuItem menuItem, int index)
         {
+            BorderedPanel panel;
+
+            if (menuItem.Enabled)
+            {
+                panel = enabledToolbarButton;
+                panel.Attributes["onclick"] = menuItem.NavigateUrl;
+            }
+            else
+            {
+                panel = disabledToolbarButton;
+            }
+
+            panel.ID = "tb" + index;
             panel.RenderBeginTag(writer);
 
             writer

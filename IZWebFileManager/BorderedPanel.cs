@@ -291,17 +291,12 @@ namespace IZ.WebFileManager
             set { ((BorderedPanelStyle)ControlStyle).MarginTop = value; }
         }
 
-        string OuterBorderImagesArrayName
-        {
-            get { return ClientID + "OuterBorder"; }
-        }
-
-        string OuterBorderHoverImagesArrayName
+        public virtual string OuterBorderHoverImagesArrayName
         {
             get { return ClientID + "OuterBorderHover"; }
         }
 
-        string OuterBorderPressedImagesArrayName
+        public virtual string OuterBorderPressedImagesArrayName
         {
             get { return ClientID + "OuterBorderPressed"; }
         }

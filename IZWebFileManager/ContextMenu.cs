@@ -26,7 +26,7 @@ namespace IZ.WebFileManager
 {
     class ContextMenu : BaseMenu
     {
-        public ContextMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem> renderDynamicItem, SubMenuStyle dynamicMenuStyle, Style dynamicMenuItemStyle, Style dynamicHoverStyle)
+        public ContextMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem, int> renderDynamicItem, SubMenuStyle dynamicMenuStyle, Style dynamicMenuItemStyle, Style dynamicHoverStyle)
             : base(isRightToLeft, renderDynamicItem, dynamicMenuStyle, dynamicMenuItemStyle, dynamicHoverStyle)
         {
         }

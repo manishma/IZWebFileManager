@@ -33,11 +33,11 @@ namespace IZ.WebFileManager
 
         public readonly List<MenuItem> Items = new List<MenuItem>();
 
-        private readonly Action<HtmlTextWriter, MenuItem> renderDynamicItem;
+        private readonly Action<HtmlTextWriter, MenuItem, int> renderDynamicItem;
 
         public readonly bool IsRightToLeft;
 
-        public BaseMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem> renderDynamicItem, SubMenuStyle dynamicMenuStyle, Style dynamicMenuItemStyle, Style dynamicHoverStyle)
+        public BaseMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem, int> renderDynamicItem, SubMenuStyle dynamicMenuStyle, Style dynamicMenuItemStyle, Style dynamicHoverStyle)
         {
             IsRightToLeft = isRightToLeft;
             this.renderDynamicItem = renderDynamicItem;
@@ -99,7 +99,7 @@ namespace IZ.WebFileManager
             writer.AddStyleAttribute(HtmlTextWriterStyle.Position, "relative");
             writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
-            renderDynamicItem(writer, item);
+            renderDynamicItem(writer, item, index);
 
             if (hasChildren)
             {

@@ -37,8 +37,12 @@ namespace IZ.WebFileManager
     {
         #region Constructors
 
-        public FileManagerControlBase() { }
+        public FileManagerControlBase()
+        {
+        }
+
         public FileManagerControlBase(FileManagerController controller)
+            : this()
         {
             if (controller == null)
                 throw new ArgumentNullException("controller");

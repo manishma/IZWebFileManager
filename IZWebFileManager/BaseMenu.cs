@@ -27,17 +27,21 @@ namespace IZ.WebFileManager
 {
     class BaseMenu : Menu
     {
-        public new readonly Style DynamicMenuItemStyle = new Style();
-        public new readonly Style DynamicHoverStyle = new Style();
+        public new readonly Style DynamicMenuItemStyle;
+        public new readonly Style DynamicHoverStyle;
+        public new readonly SubMenuStyle DynamicMenuStyle;
 
         private readonly Action<HtmlTextWriter, MenuItem> renderDynamicItem;
 
         public readonly bool IsRightToLeft;
 
-        public BaseMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem> renderDynamicItem)
+        public BaseMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem> renderDynamicItem, SubMenuStyle dynamicMenuStyle, Style dynamicMenuItemStyle, Style dynamicHoverStyle)
         {
             IsRightToLeft = isRightToLeft;
             this.renderDynamicItem = renderDynamicItem;
+            DynamicMenuItemStyle = dynamicMenuItemStyle;
+            DynamicHoverStyle = dynamicHoverStyle;
+            DynamicMenuStyle = dynamicMenuStyle;
         }
 
         protected override ControlAdapter ResolveAdapter()
@@ -110,12 +114,6 @@ namespace IZ.WebFileManager
         protected override void OnPreRender(EventArgs e)
         {
             base.OnPreRender(e);
-
-            if (Page.Header != null)
-            {
-                Page.Header.StyleSheet.RegisterStyle(DynamicMenuItemStyle, this);
-                Page.Header.StyleSheet.RegisterStyle(DynamicHoverStyle, this);
-            }
 
             var script =
 @"

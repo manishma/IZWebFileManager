@@ -617,13 +617,17 @@ namespace IZ.WebFileManager
 
         void CreateContextMenu()
         {
-            _contextMenu = new ContextMenu(Controller.CurrentUICulture.TextInfo.IsRightToLeft, RenderContextMenuPopupItem);
+            _contextMenu = new ContextMenu(
+                Controller.CurrentUICulture.TextInfo.IsRightToLeft, 
+                RenderContextMenuPopupItem,
+                Controller.DynamicMenuStyle,
+                Controller.DynamicMenuItemStyle,
+                Controller.DynamicHoverStyle);
             _contextMenu.EnableViewState = false;
             _contextMenu.StaticEnableDefaultPopOutImage = false;
             _contextMenu.DynamicEnableDefaultPopOutImage = false;
             _contextMenu.Orientation = Orientation.Horizontal;
             _contextMenu.SkipLinkText = String.Empty;
-            SetContextMenuStyle(_contextMenu);
             Controls.Add(_contextMenu);
 
             // Root
@@ -817,13 +821,17 @@ namespace IZ.WebFileManager
 
         void CreateSelectedItemsContextMenu()
         {
-            _selectedItemsContextMenu = new ContextMenu(Controller.CurrentUICulture.TextInfo.IsRightToLeft, RenderContextMenuPopupItem);
+            _selectedItemsContextMenu = new ContextMenu(
+                Controller.CurrentUICulture.TextInfo.IsRightToLeft, 
+                RenderContextMenuPopupItem,
+                Controller.DynamicMenuStyle,
+                Controller.DynamicMenuItemStyle,
+                Controller.DynamicHoverStyle);
             _selectedItemsContextMenu.EnableViewState = false;
             _selectedItemsContextMenu.StaticEnableDefaultPopOutImage = false;
             _selectedItemsContextMenu.DynamicEnableDefaultPopOutImage = false;
             _selectedItemsContextMenu.Orientation = Orientation.Horizontal;
             _selectedItemsContextMenu.SkipLinkText = String.Empty;
-            SetContextMenuStyle(_selectedItemsContextMenu);
             Controls.Add(_selectedItemsContextMenu);
 
             // Root
@@ -931,25 +939,6 @@ namespace IZ.WebFileManager
             sb.AppendLine("}");
             sb.AppendLine("}");
             Page.ClientScript.RegisterClientScriptBlock(typeof(FileView), ClientID + "_ShowSelectedItemsContextMenu", sb.ToString(), true);
-        }
-
-        void SetContextMenuStyle(ContextMenu menu)
-        {
-            // TODO
-            menu.DynamicMenuStyle.BackColor = Color.White;
-            menu.DynamicMenuStyle.BorderStyle = BorderStyle.Solid;
-            menu.DynamicMenuStyle.BorderWidth = Unit.Pixel(1);
-            menu.DynamicMenuStyle.BorderColor = Color.FromArgb(0xACA899);
-            menu.DynamicMenuStyle.HorizontalPadding = Unit.Pixel(2);
-            menu.DynamicMenuStyle.VerticalPadding = Unit.Pixel(2);
-
-            menu.DynamicMenuItemStyle.ForeColor = Color.Black;
-            menu.DynamicMenuItemStyle.Font.Names = new string[] { "Tahoma", "Verdana", "Geneva", "Arial", "Helvetica", "sans-serif" };
-            //menu.DynamicMenuItemStyle.VerticalPadding = Unit.Pixel (1);
-            menu.DynamicMenuItemStyle.Font.Size = FontUnit.Parse("11px", null);
-
-            menu.DynamicHoverStyle.ForeColor = Color.White;
-            menu.DynamicHoverStyle.BackColor = Color.FromArgb(0x316AC5);
         }
 
         void RenderContextMenuPopupItem(HtmlTextWriter writer, MenuItem menuItem)

@@ -80,6 +80,10 @@ namespace IZ.WebFileManager
         FileManagerCommands _callbackCommand;
         FileManagerControlBase _callbackControl;
 
+        internal readonly Style DynamicMenuItemStyle;
+        internal readonly Style DynamicHoverStyle;
+        internal readonly SubMenuStyle DynamicMenuStyle;
+
         #endregion
 
         #region Properties
@@ -471,6 +475,26 @@ namespace IZ.WebFileManager
             }
         }
 
+        public FileManagerController()
+        {
+            DynamicMenuItemStyle = new Style();
+            DynamicMenuItemStyle.ForeColor = Color.Black;
+            DynamicMenuItemStyle.Font.Names = new[] { "Tahoma", "Verdana", "Geneva", "Arial", "Helvetica", "sans-serif" };
+            DynamicMenuItemStyle.Font.Size = FontUnit.Parse("11px", null);
+
+            DynamicHoverStyle = new Style();
+            DynamicHoverStyle.ForeColor = Color.White;
+            DynamicHoverStyle.BackColor = Color.FromArgb(0x316AC5);
+
+            DynamicMenuStyle = new SubMenuStyle();
+            DynamicMenuStyle.BackColor = Color.White;
+            DynamicMenuStyle.BorderStyle = BorderStyle.Solid;
+            DynamicMenuStyle.BorderWidth = Unit.Pixel(1);
+            DynamicMenuStyle.BorderColor = Color.FromArgb(0xACA899);
+            DynamicMenuStyle.HorizontalPadding = Unit.Pixel(2);
+            DynamicMenuStyle.VerticalPadding = Unit.Pixel(2);
+        }
+
         protected override void OnPreRender(EventArgs e)
         {
             base.OnPreRender(e);
@@ -487,6 +511,13 @@ namespace IZ.WebFileManager
             if (!String.IsNullOrEmpty(HiddenFilesAndFoldersPrefix) || !String.IsNullOrEmpty(HiddenFiles))
                 if (Page.Header != null)
                     Page.Header.StyleSheet.RegisterStyle(HiddenItemStyle, this);
+
+            if (Page.Header != null)
+            {
+                Page.Header.StyleSheet.RegisterStyle(DynamicMenuItemStyle, this);
+                Page.Header.StyleSheet.RegisterStyle(DynamicHoverStyle, this);
+                Page.Header.StyleSheet.RegisterStyle(DynamicMenuStyle, this);
+            }
         }
 
         internal void EnsureToolbarImages()

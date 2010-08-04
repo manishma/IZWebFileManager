@@ -609,7 +609,10 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             _toolBar = new ToolbarMenu(
                 Controller.CurrentUICulture.TextInfo.IsRightToLeft,
                 (wr, item) => RenderToolbarItem(wr, item, itemToPanel[item]),
-                RenderToolbarPopupItem);
+                RenderToolbarPopupItem,
+                Controller.DynamicMenuStyle,
+                Controller.DynamicMenuItemStyle,
+                Controller.DynamicHoverStyle);
             _toolBar.EnableViewState = false;
             _toolBar.StaticEnableDefaultPopOutImage = false;
             _toolBar.DynamicEnableDefaultPopOutImage = false;
@@ -624,14 +627,6 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             _toolBar.DynamicMenuStyle.BorderColor = Color.FromArgb(0xACA899);
             _toolBar.DynamicMenuStyle.HorizontalPadding = Unit.Pixel(2);
             _toolBar.DynamicMenuStyle.VerticalPadding = Unit.Pixel(2);
-
-            _toolBar.DynamicMenuItemStyle.ForeColor = Color.Black;
-            _toolBar.DynamicMenuItemStyle.Font.Names = new string[] { "Tahoma", "Verdana", "Geneva", "Arial", "Helvetica", "sans-serif" };
-            //_toolBar.DynamicMenuItemStyle.VerticalPadding = Unit.Pixel (1);
-            _toolBar.DynamicMenuItemStyle.Font.Size = FontUnit.Parse("11px", null);
-
-            _toolBar.DynamicHoverStyle.ForeColor = Color.White;
-            _toolBar.DynamicHoverStyle.BackColor = Color.FromArgb(0x316AC5);
 
             Controls.Add(_toolBar);
 

@@ -30,8 +30,8 @@ namespace IZ.WebFileManager
     {
         private readonly Action<HtmlTextWriter, MenuItem> renderToolbarItem;
 
-        public ToolbarMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem> renderToolbarItem, Action<HtmlTextWriter, MenuItem> renderDynamicItem)
-            : base(isRightToLeft, renderDynamicItem)
+        public ToolbarMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem> renderToolbarItem, Action<HtmlTextWriter, MenuItem> renderDynamicItem, SubMenuStyle dynamicMenuStyle, Style dynamicMenuItemStyle, Style dynamicHoverStyle)
+            : base(isRightToLeft, renderDynamicItem, dynamicMenuStyle, dynamicMenuItemStyle, dynamicHoverStyle)
         {
             this.renderToolbarItem = renderToolbarItem;
         }

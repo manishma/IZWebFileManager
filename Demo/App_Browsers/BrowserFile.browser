@@ -1,0 +1,14 @@
+﻿<!--
+    You can find existing browser definitions at
+    <windir>\Microsoft.NET\Framework\<ver>\CONFIG\Browsers
+-->
+<browsers>
+
+  <browser refID="Safari">
+    <controlAdapters>
+      <adapter controlType="System.Web.UI.WebControls.Menu"
+               adapterType="" />
+    </controlAdapters>
+  </browser>
+
+</browsers>

@@ -30,13 +30,13 @@ namespace IZ.WebFileManager
     {
         private readonly Action<HtmlTextWriter, MenuItem, int> renderToolbarItem;
 
-        public ToolbarMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem, int> renderToolbarItem, Action<HtmlTextWriter, MenuItem, int> renderDynamicItem, SubMenuStyle dynamicMenuStyle, Style dynamicMenuItemStyle, Style dynamicHoverStyle)
-            : base(isRightToLeft, renderDynamicItem, dynamicMenuStyle, dynamicMenuItemStyle, dynamicHoverStyle)
+        public ToolbarMenu(string clientId, bool isRightToLeft, Action<HtmlTextWriter, MenuItem, int> renderToolbarItem, Action<HtmlTextWriter, MenuItem, int> renderDynamicItem, SubMenuStyle dynamicMenuStyle, Style dynamicMenuItemStyle, Style dynamicHoverStyle)
+            : base(clientId, isRightToLeft, renderDynamicItem, dynamicMenuStyle, dynamicMenuItemStyle, dynamicHoverStyle)
         {
             this.renderToolbarItem = renderToolbarItem;
         }
 
-        protected override void Render(HtmlTextWriter writer)
+        public void Render(HtmlTextWriter writer)
         {
             writer
                 .Table(e => e.Cellpadding(0).Cellspacing(0).Border(0))

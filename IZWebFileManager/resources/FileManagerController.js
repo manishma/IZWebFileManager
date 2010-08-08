@@ -339,3 +339,49 @@ function WebFileManager_OnError(result, context) {
         alert(result.replace(/&lt;/,"<").replace(/&gt;/,">").replace(/&quot;/,'"'));
     }, 0);
 }
+
+
+(function () {
+
+    var isAChildOf = function (_parent, _child) {
+        if (_parent === _child) { return false; }
+        while (_child && _child !== _parent)
+        { _child = _child.parentNode; }
+
+        return _child === _parent;
+    };
+
+    var mouseHandler = function (el, event, fn) {
+        var relTarget = event.relatedTarget;
+        if (el === relTarget || isAChildOf(el, relTarget))
+        { return; }
+        fn();
+    };
+
+    IZWebFileManager_MouseHover = function (el, event, id) {
+        event = event || wondow.event;
+        var fn = function () {
+            IZWebFileManager_ShowElement(id);
+        }
+        mouseHandler(el, event, fn);
+    };
+
+    IZWebFileManager_MouseOut = function (el, event, id) {
+        event = event || wondow.event;
+        var fn = function () {
+            IZWebFileManager_HideElement(id);
+        }
+        mouseHandler(el, event, fn);
+    };
+
+    IZWebFileManager_ShowElement = function (id) {
+        var el = WebForm_GetElementById(id);
+        el.style.display = 'block';
+    };
+
+    IZWebFileManager_HideElement = function (id) {
+        var el = WebForm_GetElementById(id);
+        el.style.display = 'none';
+    };
+
+})();

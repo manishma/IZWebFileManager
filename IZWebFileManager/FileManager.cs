@@ -608,14 +608,13 @@ function FileManager_GetChildByTagName(element, tagName, index) {
         private void CreateToolbar()
         {
             _toolBar = new ToolbarMenu(
+                ClientID + "tb",
                 Controller.CurrentUICulture.TextInfo.IsRightToLeft,
                 RenderToolbarItem,
                 RenderToolbarPopupItem,
                 Controller.DynamicMenuStyle,
                 Controller.DynamicMenuItemStyle,
                 Controller.DynamicHoverStyle);
-            _toolBar.EnableViewState = false;
-            Controls.Add(_toolBar);
 
             Controls.Add(enabledToolbarButton = CreateToolbarButton(true));
             Controls.Add(disabledToolbarButton = CreateToolbarButton(false));
@@ -926,7 +925,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
 
         private void RenderToolBar(HtmlTextWriter writer)
         {
-            BorderedPanel p = new BorderedPanel();
+            var p = new BorderedPanel();
             p.Page = Page;
             p.ControlStyle.CopyFrom(DefaultToolbarStyle);
             if (ToolbarStyleCreated)
@@ -937,7 +936,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             writer.AddAttribute(HtmlTextWriterAttribute.Id, ClientID + "_ToolBar");
             writer.RenderBeginTag(HtmlTextWriterTag.Div);
             p.RenderBeginTag(writer);
-            _toolBar.RenderControl(writer);
+            _toolBar.Render(writer);
             p.RenderEndTag(writer);
             writer.RenderEndTag();
         }

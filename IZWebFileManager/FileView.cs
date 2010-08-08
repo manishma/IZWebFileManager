@@ -404,9 +404,9 @@ namespace IZ.WebFileManager
             if (writer == null)
                 throw new ArgumentNullException("writer");
 
-            _contextMenu.RenderControl(writer);
+            _contextMenu.Render(writer);
 
-            _selectedItemsContextMenu.RenderControl(writer);
+            _selectedItemsContextMenu.Render(writer);
 
             RenderFocusTextBox(writer);
             RenderEditTextBox(writer);
@@ -618,13 +618,12 @@ namespace IZ.WebFileManager
         void CreateContextMenu()
         {
             _contextMenu = new ContextMenu(
+                ClientID + "cm",
                 Controller.CurrentUICulture.TextInfo.IsRightToLeft, 
                 RenderContextMenuPopupItem,
                 Controller.DynamicMenuStyle,
                 Controller.DynamicMenuItemStyle,
                 Controller.DynamicHoverStyle);
-            _contextMenu.EnableViewState = false;
-            Controls.Add(_contextMenu);
 
             // Root
             MenuItem root = new MenuItem();
@@ -818,13 +817,12 @@ namespace IZ.WebFileManager
         void CreateSelectedItemsContextMenu()
         {
             _selectedItemsContextMenu = new ContextMenu(
+                ClientID + "scm",
                 Controller.CurrentUICulture.TextInfo.IsRightToLeft, 
                 RenderContextMenuPopupItem,
                 Controller.DynamicMenuStyle,
                 Controller.DynamicMenuItemStyle,
                 Controller.DynamicHoverStyle);
-            _selectedItemsContextMenu.EnableViewState = false;
-            Controls.Add(_selectedItemsContextMenu);
 
             // Root
             MenuItem root = new MenuItem();

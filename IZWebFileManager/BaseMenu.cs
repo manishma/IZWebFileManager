@@ -25,11 +25,12 @@ using System.Web.UI;
 
 namespace IZ.WebFileManager
 {
-    class BaseMenu : Control
+    class BaseMenu
     {
         protected readonly Style DynamicMenuItemStyle;
         protected readonly Style DynamicHoverStyle;
         protected readonly SubMenuStyle DynamicMenuStyle;
+        public readonly string ClientID;
 
         public readonly List<MenuItem> Items = new List<MenuItem>();
 
@@ -37,18 +38,14 @@ namespace IZ.WebFileManager
 
         public readonly bool IsRightToLeft;
 
-        public BaseMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem, int> renderDynamicItem, SubMenuStyle dynamicMenuStyle, Style dynamicMenuItemStyle, Style dynamicHoverStyle)
+        public BaseMenu(string clientId, bool isRightToLeft, Action<HtmlTextWriter, MenuItem, int> renderDynamicItem, SubMenuStyle dynamicMenuStyle, Style dynamicMenuItemStyle, Style dynamicHoverStyle)
         {
             IsRightToLeft = isRightToLeft;
             this.renderDynamicItem = renderDynamicItem;
             DynamicMenuItemStyle = dynamicMenuItemStyle;
             DynamicHoverStyle = dynamicHoverStyle;
             DynamicMenuStyle = dynamicMenuStyle;
-        }
-
-        protected override ControlAdapter ResolveAdapter()
-        {
-            return null;
+            ClientID = clientId;
         }
 
         protected void RenderDropDownMenu(HtmlTextWriter writer, MenuItemCollection items, string submenuClientId)
@@ -111,63 +108,6 @@ namespace IZ.WebFileManager
                 writer.RenderEndTag();
             }
             writer.RenderEndTag();
-        }
-
-        protected override void OnPreRender(EventArgs e)
-        {
-            base.OnPreRender(e);
-
-            var script =
-@"
-
-(function() {
-
-var isAChildOf = function (_parent, _child)
-{
-   if (_parent === _child) { return false; }
-      while (_child && _child !== _parent)
-   { _child = _child.parentNode; }
-
-   return _child === _parent;
-};
-
-var mouseHandler = function (el, event, fn) {
-    var relTarget = event.relatedTarget;
-    if (el === relTarget || isAChildOf(el, relTarget))
-        { return; }
-    fn();
-};
-
-IZWebFileManager_MouseHover = function(el, event, id) {
-    event = event || wondow.event;
-    var fn = function() {
-        IZWebFileManager_ShowElement (id);
-    }
-    mouseHandler(el, event, fn);
-};
-
-IZWebFileManager_MouseOut = function(el, event, id) {
-    event = event || wondow.event;
-    var fn = function() {
-        IZWebFileManager_HideElement (id);
-    }
-    mouseHandler(el, event, fn);
-};
-
-IZWebFileManager_ShowElement = function(id) {
-    var el = WebForm_GetElementById(id);
-    el.style.display = 'block';
-};
-
-IZWebFileManager_HideElement = function(id) {
-    var el = WebForm_GetElementById(id);
-    el.style.display = 'none';
-};
-
-})();
-
-";
-            Page.ClientScript.RegisterClientScriptBlock(typeof(ToolbarMenu), "show_hide_submenu", script, true);
         }
     }
 }

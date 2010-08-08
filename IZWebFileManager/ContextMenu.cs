@@ -26,12 +26,12 @@ namespace IZ.WebFileManager
 {
     class ContextMenu : BaseMenu
     {
-        public ContextMenu(bool isRightToLeft, Action<HtmlTextWriter, MenuItem, int> renderDynamicItem, SubMenuStyle dynamicMenuStyle, Style dynamicMenuItemStyle, Style dynamicHoverStyle)
-            : base(isRightToLeft, renderDynamicItem, dynamicMenuStyle, dynamicMenuItemStyle, dynamicHoverStyle)
+        public ContextMenu(string clientId, bool isRightToLeft, Action<HtmlTextWriter, MenuItem, int> renderDynamicItem, SubMenuStyle dynamicMenuStyle, Style dynamicMenuItemStyle, Style dynamicHoverStyle)
+            : base(clientId, isRightToLeft, renderDynamicItem, dynamicMenuStyle, dynamicMenuItemStyle, dynamicHoverStyle)
         {
         }
 
-        protected override void Render(HtmlTextWriter writer)
+        public void Render(HtmlTextWriter writer)
         {
             writer.AddStyleAttribute(HtmlTextWriterStyle.Position, "absolute");
             writer.AddStyleAttribute(HtmlTextWriterStyle.ZIndex, "100");

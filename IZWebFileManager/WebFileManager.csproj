@@ -80,6 +80,7 @@
     <Compile Include="Components\FileViewDetailsRender.cs" />
     <Compile Include="Components\FileViewIconsRender.cs" />
     <Compile Include="Components\FileViewRender.cs" />
+    <Compile Include="Components\ViewStateExtensions.cs" />
     <Compile Include="FileManagerControlBase.cs" />
     <Compile Include="FileManagerController.cs" />
     <Compile Include="FileManagerItemInfo.cs" />

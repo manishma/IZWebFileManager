@@ -272,6 +272,16 @@ namespace IZ.WebFileManager
 
         [Bindable(true)]
         [Category("Behavior")]
+        [DefaultValue(true)]
+        [Localizable(false)]
+        public bool EnableContextMenu
+        {
+            get { return ViewState.GetValue("EnableContextMenu", true); }
+            set { ViewState.SetValue("EnableContextMenu", value); }
+        }
+
+        [Bindable(true)]
+        [Category("Behavior")]
         [DefaultValue("_blank")]
         [Localizable(false)]
         public string LinkToOpenItemTarget

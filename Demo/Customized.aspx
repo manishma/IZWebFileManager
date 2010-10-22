@@ -45,6 +45,11 @@
         FileManager1.DownloadOnDoubleClick = ((CheckBox) sender).Checked;
     }
 
+    protected void EnableContextMenu_CheckedChanged(object sender, EventArgs e)
+    {
+        FileManager1.EnableContextMenu = ((CheckBox)sender).Checked;
+    }
+
     protected void FileManager1_ToolbarCommand(object sender, CommandEventArgs e)
     {
         if (e.CommandName == "CreateZip")
@@ -109,6 +114,7 @@
         <asp:CheckBox runat="server" AutoPostBack="True" OnCheckedChanged="CheckBox5_CheckedChanged" Text="UseLinkToOpenItem" />
         <asp:CheckBox runat="server" AutoPostBack="True" Checked="true" OnCheckedChanged="CheckBox6_CheckedChanged" Text="ShowHiddenFolders" />
         <asp:CheckBox runat="server" AutoPostBack="True" OnCheckedChanged="CheckBox7_CheckedChanged" Text="DownloadOnDoubleClick" />
+        <asp:CheckBox runat="server" AutoPostBack="True" Checked="true" OnCheckedChanged="EnableContextMenu_CheckedChanged" Text="EnableContextMenu" />
     </div>
     <div>
         <iz:FileManager ID="FileManager1" runat="server" Height="400px" Width="600" OnExecuteCommand="FileManager1_ExecuteCommand"

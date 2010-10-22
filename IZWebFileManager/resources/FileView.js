@@ -67,7 +67,7 @@ FileView = function(ClientID, ControllerID, RegularItemStyle, SelectedItemStyle,
         this.Address.onkeydown = function(e) {
             if(e == null) var e = event;
             if(e.keyCode == 13) {
-				This.Navigate(this.value);
+                This.Navigate(this.value);
                 e.cancelBubble = true;
                 return false;
             }
@@ -289,7 +289,7 @@ FileView.prototype.SetView = function(arg) {
 }
 
 FileView.prototype.InitItem = function(item, path, isDirectory, canBeRenamed, selected, fileType) {
-	
+    
     var ControllerID = this.ControllerID;
     var ClientID = this.ClientID;
     item.OwnerID = ClientID;
@@ -316,7 +316,7 @@ FileView.prototype.InitItem = function(item, path, isDirectory, canBeRenamed, se
         return false;
     }
     
-	var fileViewItem = new FileViewItem(this, item);
+    var fileViewItem = new FileViewItem(this, item);
 }
 
 FileView.prototype.OnMenuItemClick = function(sender, arg) {
@@ -326,30 +326,30 @@ FileView.prototype.OnMenuItemClick = function(sender, arg) {
 }
 
 FileViewItem = function(owner, element) {
-	this._owner = owner;
-	this._element = element;
-	
-	var mouseDown = this._mouseDown;
-	var mouseOut = this._mouseOut;
-	var mouseUp = this._mouseUp;
-	var mouseMove = this._mouseMove;
-	var instance = this;
-	element.onmouseup = function(e) {
-		e = e || window.event;
-		mouseUp.call(instance, e); 
-	}
-	element.onmousemove = function(e) {
-		e = e || window.event;
-		mouseMove.call(instance, e);
-	}
-	element.onmousedown = function(e) {
-		e = e || window.event;
-		mouseDown.call(instance, e); 
-	}
-	element.onmouseout = function(e) {
-		e = e || window.event;
-		mouseOut.call(instance, e); 
-	}
+    this._owner = owner;
+    this._element = element;
+    
+    var mouseDown = this._mouseDown;
+    var mouseOut = this._mouseOut;
+    var mouseUp = this._mouseUp;
+    var mouseMove = this._mouseMove;
+    var instance = this;
+    element.onmouseup = function(e) {
+        e = e || window.event;
+        mouseUp.call(instance, e); 
+    }
+    element.onmousemove = function(e) {
+        e = e || window.event;
+        mouseMove.call(instance, e);
+    }
+    element.onmousedown = function(e) {
+        e = e || window.event;
+        mouseDown.call(instance, e); 
+    }
+    element.onmouseout = function(e) {
+        e = e || window.event;
+        mouseOut.call(instance, e); 
+    }
 }
 
 FileViewItem.prototype._owner = null;
@@ -358,30 +358,30 @@ FileViewItem.prototype._dropMove = true;
 FileViewItem.prototype._node = null;
 FileViewItem.prototype._highlight = false;
 FileViewItem.prototype._cursor = null;
-	
+    
 FileViewItem.prototype.getController = function() {return this._owner.getController();}
-	
+    
 FileViewItem.prototype.getFullPath = function() {
-	var dirPath = decodeURIComponent(this._owner.GetDirectory());
-	var name = decodeURIComponent(this._element.Path);
-	var spliter = '/';
-	if(dirPath.charAt(dirPath.length-1) == '/') spliter = '';
-	return dirPath + spliter + name;
+    var dirPath = decodeURIComponent(this._owner.GetDirectory());
+    var name = decodeURIComponent(this._element.Path);
+    var spliter = '/';
+    if(dirPath.charAt(dirPath.length-1) == '/') spliter = '';
+    return dirPath + spliter + name;
 }
 
 FileViewItem.prototype.highlight = function(bool) {
-	if(this._highlight == bool) return;
-	this._highlight = bool;
-	if(bool) WebForm_AppendToClassName(this._element, this._owner.SelectedItemStyle);
-	else WebForm_RemoveClassName(this._element, this._owner.SelectedItemStyle);
+    if(this._highlight == bool) return;
+    this._highlight = bool;
+    if(bool) WebForm_AppendToClassName(this._element, this._owner.SelectedItemStyle);
+    else WebForm_RemoveClassName(this._element, this._owner.SelectedItemStyle);
 };
 
 FileViewItem.prototype.setCursor = function(cursor){
-	if(this._cursor == cursor) return;
-	this._cursor = cursor;
-	this._element.style.cursor = cursor;
-	var name = WebForm_GetElementById(this._element.id+'_Name');
-	if(name) name.style.cursor = cursor;
+    if(this._cursor == cursor) return;
+    this._cursor = cursor;
+    this._element.style.cursor = cursor;
+    var name = WebForm_GetElementById(this._element.id+'_Name');
+    if(name) name.style.cursor = cursor;
 };
 
 FileViewItem.prototype.isSelected = function() {return this._element.Selected;};
@@ -389,90 +389,90 @@ FileViewItem.prototype.isSelected = function() {return this._element.Selected;};
 FileViewItem.prototype.select = function(bool) {this._owner.AddSelectedItem(this._element, bool);};
 
 FileViewItem.prototype.canDrop = function() {
-	return this._element.IsDirectory && !this.isSelected();
+    return this._element.IsDirectory && !this.isSelected();
 };
 
 FileViewItem.prototype._mouseMove = function(ev) {
-	if(ev.preventDefault) ev.preventDefault();
-	ev.returnValue = false;
-	if(this._pendDragDrop) {
-		this._moveCounter++;
-		if(this._moveCounter>2) {
-			this._pendDragDrop = false;
-			this._pendSelect = false;
-			this.getController().startDragDrop(this._owner);
-		}
-	}
-	if(this.getController().isDragging()) {
-		this.onDragInTarget(ev);
-	}
-	return false;
+    if(ev.preventDefault) ev.preventDefault();
+    ev.returnValue = false;
+    if(this._pendDragDrop) {
+        this._moveCounter++;
+        if(this._moveCounter>2) {
+            this._pendDragDrop = false;
+            this._pendSelect = false;
+            this.getController().startDragDrop(this._owner);
+        }
+    }
+    if(this.getController().isDragging()) {
+        this.onDragInTarget(ev);
+    }
+    return false;
 };
 
 FileViewItem.prototype._mouseOut = function(ev) {
-	if(ev.preventDefault) ev.preventDefault();
-	ev.returnValue = false;
-	if(this.getController().isDragging()) {
-		this.onDragLeaveTarget();
-	}
-	return false;
+    if(ev.preventDefault) ev.preventDefault();
+    ev.returnValue = false;
+    if(this.getController().isDragging()) {
+        this.onDragLeaveTarget();
+    }
+    return false;
 };
-	
+    
 FileViewItem.prototype._mouseDown = function(ev) {
-	if(ev.preventDefault) ev.preventDefault();
-	ev.returnValue = false;
-	this._pendDragDrop = true;
-	this._moveCounter = 0;
-	if(this.isSelected()) this._pendSelect = true;
-	else this.select(!ev.ctrlKey && !ev.shiftKey);
-	return false;
+    if(ev.preventDefault) ev.preventDefault();
+    ev.returnValue = false;
+    this._pendDragDrop = true;
+    this._moveCounter = 0;
+    if(this.isSelected()) this._pendSelect = true;
+    else this.select(!ev.ctrlKey && !ev.shiftKey);
+    return false;
 };
-	
+    
 FileViewItem.prototype._mouseUp = function(ev) {
-	if(ev.preventDefault) ev.preventDefault();
-	ev.returnValue = false;
-	var pendSelect = this._pendSelect;
-	this._pendDragDrop = false;
-	this._pendSelect = false;
-	if(this.getController().isDragging()) {
-		this.onDrop();
-	}
-	else if(pendSelect) {
-		this.select(!ev.ctrlKey && !ev.shiftKey)
-	}
-	return false;
+    if(ev.preventDefault) ev.preventDefault();
+    ev.returnValue = false;
+    var pendSelect = this._pendSelect;
+    this._pendDragDrop = false;
+    this._pendSelect = false;
+    if(this.getController().isDragging()) {
+        this.onDrop();
+    }
+    else if(pendSelect) {
+        this.select(!ev.ctrlKey && !ev.shiftKey)
+    }
+    return false;
 };
 
 FileViewItem.prototype.onDragLeaveTarget = function() {
-	this.getController()._dropTarget = null;
-	if(this.canDrop()){
-		this.highlight(false);
-	}
-	this.setCursor("default");
+    this.getController()._dropTarget = null;
+    if(this.canDrop()){
+        this.highlight(false);
+    }
+    this.setCursor("default");
 };
 
 FileViewItem.prototype.onDragInTarget = function(ev) {
-	if(this.canDrop()){
-		this._dropMove = !ev.ctrlKey && !ev.shiftKey;
-		this.getController()._dropTarget = this;
-		this.highlight(true);
-		if(this._dropMove)
-			this.setCursor(this.getController()._dropMoveCursor);
-		else
-			this.setCursor(this.getController()._dropCopyCursor);
-	}
-	else {
-		this.setCursor(this.getController()._dropNotAllowedCursor);
-	}
+    if(this.canDrop()){
+        this._dropMove = !ev.ctrlKey && !ev.shiftKey;
+        this.getController()._dropTarget = this;
+        this.highlight(true);
+        if(this._dropMove)
+            this.setCursor(this.getController()._dropMoveCursor);
+        else
+            this.setCursor(this.getController()._dropCopyCursor);
+    }
+    else {
+        this.setCursor(this.getController()._dropNotAllowedCursor);
+    }
 };
 
 FileViewItem.prototype.onDrop = function (){
-	if(this.canDrop()) {
-		this.getController().drop(this, this._dropMove);
-		this.highlight(false);
-	}
-	else {
-		this.getController().stopDragDrop(this);
-	}
-	this.setCursor("default");
+    if(this.canDrop()) {
+        this.getController().drop(this, this._dropMove);
+        this.highlight(false);
+    }
+    else {
+        this.getController().stopDragDrop(this);
+    }
+    this.setCursor("default");
 };

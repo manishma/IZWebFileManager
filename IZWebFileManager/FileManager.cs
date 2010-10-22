@@ -834,7 +834,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                         .Td()
                             .Img(e => e.Src(ResolveClientUrl(menuItem.ImageUrl))).EndTag()
                         .EndTag()
-                        .Td(e => e.PaddingLeft(2).PaddingRight(2))
+                        .Td(e => e.PaddingLeft(2).PaddingRight(2).WhiteSpace("nowrap"))
                             .Text("&nbsp;" + menuItem.Text)
                         .EndTag()
                     .EndTag()

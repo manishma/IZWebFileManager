@@ -232,7 +232,7 @@
             reflection.
             </para>
             </remarks>
-            <exception cref="T:System.ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="value"/> is <see langword="null"/>.</exception>
         </member>
         <member name="T:NAnt.Core.Attributes.BuildElementCollectionAttribute">
             <summary>
@@ -2267,7 +2267,7 @@
             </summary>
             <param name="s">A string containing the value to convert.</param>
             <returns>
-            <see langword="true"/> if <paramref name="value"/> is equivalent to 
+            <see langword="true"/> if <paramref name="s"/> is equivalent to 
             "True"; otherwise, <see langword="false"/>.
             </returns>
             <exception cref="T:System.FormatException"><paramref name="s"/> is not equivalent to <see cref="F:System.Boolean.TrueString"/> or <see cref="F:System.Boolean.FalseString"/>.</exception>

@@ -107,17 +107,17 @@ FileView = function(ClientID, ControllerID, RegularItemStyle, SelectedItemStyle,
 }
 FileView.prototype.getController = function() {return this._controller;}
 
-FileView.prototype.ShowContextMenu = function(arg) {
-    if(this.InProcess)
+FileView.prototype.ShowContextMenu = function (arg) {
+    if (this.InProcess)
         return;
     var x = arg.clientX + WebForm_GetScrollX();
     var y = arg.clientY + WebForm_GetScrollY();
-    if(this.HitInfo == 'FileView')
-        var func = eval(this.ClientID+'_ShowContextMenu');
+    if (this.HitInfo == 'FileView')
+        var func = eval(this.ClientID + '_ShowContextMenu');
     else
-        var func = eval(this.ClientID+'_ShowSelectedItemsContextMenu');
-        
-    func(x,y);
+        var func = eval(this.ClientID + '_ShowSelectedItemsContextMenu');
+
+    func(x, y);
 }
 
 FileView.prototype.ShowProgress = function() {

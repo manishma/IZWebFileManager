@@ -69,6 +69,7 @@
 			<asp:ListItem>en-US</asp:ListItem>
 			<asp:ListItem>de-DE</asp:ListItem>
 			<asp:ListItem>es-ES</asp:ListItem>
+			<asp:ListItem>fr-FR</asp:ListItem>
 			<asp:ListItem>he-IL</asp:ListItem>
 			<asp:ListItem>it-IT</asp:ListItem>
 			<asp:ListItem>nb-NO</asp:ListItem>

@@ -1,6 +1,7 @@
 
-[Bb]in
-[Oo]bj
+Demo/[Bb]in
+IZWebFileManager/[Bb]in
+IZWebFileManager/[Oo]bj
 *.sln.cache
 _ReSharper*
 *.suo

@@ -54,13 +54,16 @@ FileView = function(ClientID, ControllerID, RegularItemStyle, SelectedItemStyle,
             tHead.style.left = '0px';
         }
     }
-  
-    this.Element.oncontextmenu = function(e) {
-        if(e == null) var e = event;
-        This.ShowContextMenu(e);
-        This.HitInfo = 'FileView';
-        e.cancelBubble = true;
-        return false;
+
+    this.Element.oncontextmenu = function (e) {
+        var func = This.GetShowContextMenuFunc();
+        if(func) {
+            if(e == null) var e = event;
+            This.ShowContextMenu(func, e);
+            This.HitInfo = 'FileView';
+            e.cancelBubble = true;
+            return false;
+        }
     }
     
     if(this.Address) {
@@ -107,15 +110,18 @@ FileView = function(ClientID, ControllerID, RegularItemStyle, SelectedItemStyle,
 }
 FileView.prototype.getController = function() {return this._controller;}
 
-FileView.prototype.ShowContextMenu = function (arg) {
+FileView.prototype.GetShowContextMenuFunc = function () {
+    if (this.HitInfo == 'FileView')
+        return window[this.ClientID + '_ShowContextMenu'];
+    else
+        return window[this.ClientID + '_ShowSelectedItemsContextMenu'];
+}
+
+FileView.prototype.ShowContextMenu = function (func, arg) {
     if (this.InProcess)
         return;
     var x = arg.clientX + WebForm_GetScrollX();
     var y = arg.clientY + WebForm_GetScrollY();
-    if (this.HitInfo == 'FileView')
-        var func = eval(this.ClientID + '_ShowContextMenu');
-    else
-        var func = eval(this.ClientID + '_ShowSelectedItemsContextMenu');
 
     func(x, y);
 }
@@ -290,6 +296,7 @@ FileView.prototype.SetView = function(arg) {
 
 FileView.prototype.InitItem = function(item, path, isDirectory, canBeRenamed, selected, fileType) {
     
+    var This = this;
     var ControllerID = this.ControllerID;
     var ClientID = this.ClientID;
     item.OwnerID = ClientID;
@@ -311,9 +318,8 @@ FileView.prototype.InitItem = function(item, path, isDirectory, canBeRenamed, se
     item.oncontextmenu = function(e) {
         if(e == null) var e = event;
         if(!this.Selected)
-            eval('WFM_' + ClientID + '.AddSelectedItem(this, true)');
-        eval('WFM_' + ClientID + '.HitInfo = \'SelectedItems\'');
-        return false;
+            This.AddSelectedItem(this, true);
+        This.HitInfo = 'SelectedItems';
     }
     
     var fileViewItem = new FileViewItem(this, item);

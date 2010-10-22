@@ -414,9 +414,11 @@ namespace IZ.WebFileManager
             if (writer == null)
                 throw new ArgumentNullException("writer");
 
-            _contextMenu.Render(writer);
-
-            _selectedItemsContextMenu.Render(writer);
+            if (EnableContextMenu)
+            {
+                _contextMenu.Render(writer);
+                _selectedItemsContextMenu.Render(writer);
+            }
 
             RenderFocusTextBox(writer);
             RenderEditTextBox(writer);
@@ -605,8 +607,11 @@ namespace IZ.WebFileManager
             Page.ClientScript.RegisterClientScriptResource(typeof(FileView), "IZ.WebFileManager.resources.FileView.js");
             Page.ClientScript.RegisterStartupScript(typeof(FileView), ClientID, GetInitInstanceScript(), true);
 
-            CreateContextMenu();
-            CreateSelectedItemsContextMenu();
+            if (EnableContextMenu)
+            {
+                CreateContextMenu();
+                CreateSelectedItemsContextMenu();
+            }
         }
 
         internal string GetSortEventReference(SortMode sort)

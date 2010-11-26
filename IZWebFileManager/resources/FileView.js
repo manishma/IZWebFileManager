@@ -120,8 +120,8 @@ FileView.prototype.GetShowContextMenuFunc = function () {
 FileView.prototype.ShowContextMenu = function (func, arg) {
     if (this.InProcess)
         return;
-    var x = arg.clientX + WebForm_GetScrollX();
-    var y = arg.clientY + WebForm_GetScrollY();
+    var x = arg.clientX;
+    var y = arg.clientY;
 
     func(x, y);
 }

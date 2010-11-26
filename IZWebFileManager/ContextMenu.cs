@@ -33,7 +33,7 @@ namespace IZ.WebFileManager
 
         public void Render(HtmlTextWriter writer)
         {
-            writer.AddStyleAttribute(HtmlTextWriterStyle.Position, "absolute");
+            writer.AddStyleAttribute(HtmlTextWriterStyle.Position, "fixed");
             writer.AddStyleAttribute(HtmlTextWriterStyle.ZIndex, "100");
             writer.AddAttribute (HtmlTextWriterAttribute.Id, ClientID);
 

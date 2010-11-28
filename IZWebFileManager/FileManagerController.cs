@@ -1588,7 +1588,7 @@ namespace IZ.WebFileManager
 
         void RaisePostBackEvent(string eventArgument)
         {
-            string[] args = eventArgument.Split(new char[] { ':' }, 2);
+            var args = eventArgument.Split(new[] { ':' });
             switch (args[0])
             {
                 case "Download":
@@ -1608,6 +1608,11 @@ namespace IZ.WebFileManager
                         }
                         Page.Response.End();
                     }
+                    break;
+                case "ExecuteCommand":
+                    var controlId = args[1];
+                    var control = (FileManagerControlBase) fileMangerControls[controlId];
+                    ProcessExecuteCommand(control.SelectedItems, int.Parse(args[2], null), int.Parse(args[3], null));
                     break;
             }
         }

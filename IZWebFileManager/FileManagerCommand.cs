@@ -22,6 +22,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Diagnostics.CodeAnalysis;
+using IZ.WebFileManager.Components;
 
 namespace IZ.WebFileManager
 {
@@ -36,6 +37,13 @@ namespace IZ.WebFileManager
 		//    get { return usage; }
 		//    set { usage = value; }
 		//}
+
+        [DefaultValue(FileManagerCommandMethod.Callback)]
+        public FileManagerCommandMethod Method
+	    {
+            get { return bag.GetValue("Method", FileManagerCommandMethod.Callback); }
+            set { bag.SetValue("Method", value); }
+	    }
 
 		[DefaultValue ("")]
 		public string Name {

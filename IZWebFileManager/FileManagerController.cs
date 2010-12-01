@@ -1189,7 +1189,7 @@ namespace IZ.WebFileManager
                 if (ft == null || ft.Commands.Count <= index)
                     return DownloadOnDoubleClick ? ProcessDownloadCommand(item) : ProcessOpenCommand(item);
 
-                return ProcessCommand(item, ft.Commands[index]);
+                return ProcessCustomCommand(item, ft.Commands[index]);
             }
             else
             {
@@ -1206,9 +1206,22 @@ namespace IZ.WebFileManager
             return script;
         }
 
-        private string ProcessCommand(FileManagerItemInfo item, FileManagerCommand fileManagerCommand)
+        private string ProcessCustomCommand(FileManagerItemInfo item, FileManagerCommand fileManagerCommand)
         {
-            ExecuteCommandEventArgs arg = new ExecuteCommandEventArgs(fileManagerCommand.CommandName, fileManagerCommand.CommandArgument);
+            if (Page.IsCallback && fileManagerCommand.Method == FileManagerCommandMethod.PostBack)
+                return
+                    Page.ClientScript.GetPostBackEventReference(this,
+                                                                "ExecuteCommand:" +
+                                                                EncodeURIComponent(item.FileManagerPath) + ":" +
+                                                                fileManagerCommand.CommandName + ":" +
+                                                                fileManagerCommand.CommandArgument) + ";";
+
+            return OnExecuteCommand(item, fileManagerCommand.CommandName, fileManagerCommand.CommandArgument);
+        }
+
+        private string OnExecuteCommand(FileManagerItemInfo item, string commandName, string argument)
+        {
+            ExecuteCommandEventArgs arg = new ExecuteCommandEventArgs(commandName, argument);
             arg.Items.Add(item);
             //arg.Command = fileManagerCommand;
 
@@ -1589,10 +1602,10 @@ namespace IZ.WebFileManager
         void RaisePostBackEvent(string eventArgument)
         {
             var args = eventArgument.Split(new[] { ':' });
+            FileManagerItemInfo fmi = ResolveFileManagerItemInfo(DecodeURIComponent(args[1]));
             switch (args[0])
             {
                 case "Download":
-                    FileManagerItemInfo fmi = ResolveFileManagerItemInfo(DecodeURIComponent(args[1]));
                     var e = new DownloadFileCancelEventArgs() { DownloadFile = fmi };
                     OFileDownload(e);
                     if (!e.Cancel)
@@ -1610,9 +1623,7 @@ namespace IZ.WebFileManager
                     }
                     break;
                 case "ExecuteCommand":
-                    var controlId = args[1];
-                    var control = (FileManagerControlBase) fileMangerControls[controlId];
-                    ProcessExecuteCommand(control.SelectedItems, int.Parse(args[2], null), int.Parse(args[3], null));
+                    OnExecuteCommand(fmi, args[2], args[3]);
                     break;
             }
         }

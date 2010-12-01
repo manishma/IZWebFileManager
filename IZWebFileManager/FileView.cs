@@ -858,12 +858,7 @@ namespace IZ.WebFileManager
                     MenuItem itemCommand = new MenuItem();
                     itemCommand.Text = command.Name;
                     itemCommand.Value = i + "_" + j;
-                    itemCommand.NavigateUrl =
-                        command.Method == FileManagerCommandMethod.Callback
-                            ? String.Format(clientClickFunction, FileManagerCommands.ExecuteCommand, "0:" + j)
-                            : Page.ClientScript.GetPostBackClientHyperlink(Controller,
-                                                                           FileManagerCommands.ExecuteCommand + ":" +
-                                                                           ClientID + ":0:" + j);
+                    itemCommand.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.ExecuteCommand, "0:" + j);
                     itemCommand.ImageUrl = command.SmallImageUrl;
                     root.ChildItems.Add(itemCommand);
 

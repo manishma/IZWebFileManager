@@ -1115,17 +1115,6 @@ namespace IZ.WebFileManager
             res = res.Replace("'", "%27");
             return res;
         }
-        internal static string DecodeURI(string str)
-        {
-            string res = HttpUtility.UrlDecode(str);
-            return res;
-        }
-        internal static string EncodeURI(string str)
-        {
-            string res = HttpUtility.UrlPathEncode(str);
-            res = res.Replace("+", "%20");
-            return res;
-        }
 
         string ProcessFileViewNavigate(FileManagerItemInfo item)
         {
@@ -1236,12 +1225,13 @@ namespace IZ.WebFileManager
 
             if (ClientOpenItemFunction.Length > 0)
             {
-                sb.AppendLine(ClientOpenItemFunction + "('" + EncodeURI(item.VirtualPath) + "')");
+                sb.AppendLine("var href = '" + EncodeURIComponent(item.VirtualPath) + "';");
+                sb.AppendLine(ClientOpenItemFunction + "(decodeURIComponent(href));");
             }
             else
             {
                 sb.AppendLine("var href = '" + EncodeURIComponent(item.VirtualPath) + "';");
-                sb.AppendLine("window.open(decodeURIComponent(href),'_blank');");
+                sb.AppendLine("window.open(encodeURI(decodeURIComponent(href)).replace('+', '%2b'),'_blank');");
             }
             return sb.ToString();
         }

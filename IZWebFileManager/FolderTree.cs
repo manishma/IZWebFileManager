@@ -497,7 +497,7 @@ namespace IZ.WebFileManager
 
 		void RegisterStyle (Style baseStyle) {
 			string className = IncrementStyleClassName ();
-			Page.Header.StyleSheet.CreateStyleRule (baseStyle, this, "." + className);
+			Page.Header.StyleSheet.CreateStyleRule (baseStyle, this, "#" + this.ClientID + " ." + className);
 			_registeredStyleClassNames [baseStyle] = className;
 		}
 

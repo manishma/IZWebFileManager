@@ -5,7 +5,8 @@
 <script runat="server">
 
 	protected void Page_Load (object sender, EventArgs e) {
-		Page.Title = SiteMap.CurrentNode.Description;
+        if (SiteMap.CurrentNode != null)
+            Page.Title = SiteMap.CurrentNode.Description;
 	}
 </script>
 

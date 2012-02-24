@@ -328,15 +328,17 @@ function WebFileManager_Eval(result, context) {
 }
 
 function WebFileManager_OnError(result, context) {
-    var interval = window.setInterval(function() {
+    var interval = window.setInterval(function () {
         window.clearInterval(interval);
-        var separatorIndex = result.lastIndexOf("|");
-        if (separatorIndex != -1) {
-            result = result.substring(0, separatorIndex - 1);
+        var parts = result.split("|", 2);
+        if (parts.length > 1) {
+            result = result.substr(0, parts[0].length - (parts[1].length + '').length);
         }
         context.SetFocus();
         context.HidePrgress();
-        alert(result.replace(/&lt;/,"<").replace(/&gt;/,">").replace(/&quot;/,'"'));
+        var div = document.createElement('DIV');
+        div.innerHTML = result;
+        alert(div.textContent || div.innerText);
     }, 0);
 }
 

@@ -78,7 +78,7 @@ namespace IZ.WebFileManager.Components
 			if (fileView.UseLinkToOpenItem) {
 				string href = item.IsDirectory ?
 					"javascript:WFM_" + fileView.Controller.ClientID + ".OnExecuteCommand(WFM_" + fileView.ClientID + ",\'0:0\')" :
-					(VirtualPathUtility.AppendTrailingSlash (fileView.CurrentDirectory.VirtualPath) + item.FileSystemInfo.Name);
+                    UrlPathEncode(VirtualPathUtility.AppendTrailingSlash(fileView.CurrentDirectory.VirtualPath) + item.FileSystemInfo.Name);
 				if (!item.IsDirectory && !String.IsNullOrEmpty (fileView.LinkToOpenItemTarget))
 					output.AddAttribute (HtmlTextWriterAttribute.Target, fileView.LinkToOpenItemTarget);
 				output.AddAttribute (HtmlTextWriterAttribute.Href, href, true);
@@ -91,6 +91,13 @@ namespace IZ.WebFileManager.Components
 				output.Write (HttpUtility.HtmlEncode (item.Name));
 			}
 		}
+
+        static string  UrlPathEncode(string path)
+        {
+            return HttpUtility.UrlPathEncode(path)
+                .Replace("+", "%2b")
+                .Replace("#", "%23");
+        }
 	}
 
 	public enum FileViewRenderMode

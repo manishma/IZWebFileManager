@@ -1231,7 +1231,7 @@ namespace IZ.WebFileManager
             else
             {
                 sb.AppendLine("var href = '" + EncodeURIComponent(item.VirtualPath) + "';");
-                sb.AppendLine("window.open(encodeURI(decodeURIComponent(href)).replace('+', '%2b'),'_blank');");
+                sb.AppendLine(@"window.open(encodeURI(decodeURIComponent(href)).replace(/\+/g, '%2b').replace(/#/g, '%23'),'_blank');");
             }
             return sb.ToString();
         }

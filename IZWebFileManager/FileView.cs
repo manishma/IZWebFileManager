@@ -669,15 +669,12 @@ namespace IZ.WebFileManager
             itemViewDetails.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.FileViewChangeView, FileViewRenderMode.Details);
             itemView.ChildItems.Add(itemViewDetails);
 
-            if (Controller.SupportThumbnails)
-            {
-                // Thumbnails
-                MenuItem itemViewThumbnails = new MenuItem();
-                itemViewThumbnails.Text = GetResourceString("Thumbnails", "Thumbnails");
-                itemViewThumbnails.Value = "Thumbnails";
-                itemViewThumbnails.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.FileViewChangeView, FileViewRenderMode.Thumbnails);
-                itemView.ChildItems.Add(itemViewThumbnails);
-            }
+            // Thumbnails
+            MenuItem itemViewThumbnails = new MenuItem();
+            itemViewThumbnails.Text = GetResourceString("Thumbnails", "Thumbnails");
+            itemViewThumbnails.Value = "Thumbnails";
+            itemViewThumbnails.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.FileViewChangeView, FileViewRenderMode.Thumbnails);
+            itemView.ChildItems.Add(itemViewThumbnails);
 
             root.ChildItems.Add(new MenuItem("__separator__", "__separator__", null, "javascript: return;"));
 
@@ -776,8 +773,7 @@ namespace IZ.WebFileManager
             sb.AppendLine("var modifiedImg = WebForm_GetElementById('" + ClientID + "CMIMGModified');");
             sb.AppendLine("var iconsImg = WebForm_GetElementById('" + ClientID + "CMIMGIcons');");
             sb.AppendLine("var detailsImg = WebForm_GetElementById('" + ClientID + "CMIMGDetails');");
-            if (Controller.SupportThumbnails)
-                sb.AppendLine("var thumbnailsImg = WebForm_GetElementById('" + ClientID + "CMIMGThumbnails');");
+            sb.AppendLine("var thumbnailsImg = WebForm_GetElementById('" + ClientID + "CMIMGThumbnails');");
 
             sb.AppendLine("nameImg.src = emptyImgSrc;");
             sb.AppendLine("sizeImg.src = emptyImgSrc;");
@@ -785,8 +781,7 @@ namespace IZ.WebFileManager
             sb.AppendLine("modifiedImg.src = emptyImgSrc;");
             sb.AppendLine("iconsImg.src = emptyImgSrc;");
             sb.AppendLine("detailsImg.src = emptyImgSrc;");
-            if (Controller.SupportThumbnails)
-                sb.AppendLine("thumbnailsImg.src = emptyImgSrc;");
+            sb.AppendLine("thumbnailsImg.src = emptyImgSrc;");
 
             sb.AppendLine("var sort = " + FileManagerController.ClientScriptObjectNamePrefix + ClientID + ".GetSort();");
             sb.AppendLine("switch(sort) {");
@@ -812,12 +807,9 @@ namespace IZ.WebFileManager
             sb.AppendLine("case '" + FileViewRenderMode.Details + "':");
             sb.AppendLine("detailsImg.src = bulletImgSrc;");
             sb.AppendLine("break;");
-            if (Controller.SupportThumbnails)
-            {
-                sb.AppendLine("case '" + FileViewRenderMode.Thumbnails + "':");
-                sb.AppendLine("thumbnailsImg.src = bulletImgSrc;");
-                sb.AppendLine("break;");
-            }
+            sb.AppendLine("case '" + FileViewRenderMode.Thumbnails + "':");
+            sb.AppendLine("thumbnailsImg.src = bulletImgSrc;");
+            sb.AppendLine("break;");
             sb.AppendLine("}");
 
 

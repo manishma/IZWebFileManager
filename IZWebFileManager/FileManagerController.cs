@@ -50,7 +50,6 @@ namespace IZ.WebFileManager
         internal static readonly Unit LargeImageWidth = 32;
         internal static readonly Unit LargeImageHeight = 32;
         static readonly Hashtable _imageExtension;
-        static readonly bool _supportThumbnails;
         const string ThumbnailHandler = "IZWebFileManagerThumbnailHandler.ashx";
 
         internal static readonly JavaScriptSerializer JavaScriptSerializer = new JavaScriptSerializer();
@@ -87,11 +86,6 @@ namespace IZ.WebFileManager
         #endregion
 
         #region Properties
-
-        internal bool SupportThumbnails
-        {
-            get { return _supportThumbnails; }
-        }
 
         [Themeable(false)]
         [Localizable(false)]
@@ -458,21 +452,6 @@ namespace IZ.WebFileManager
             _imageExtension[".jpg"] = o;
             _imageExtension[".jpeg"] = o;
             _imageExtension[".png"] = o;
-
-            try
-            {
-                HttpHandlerActionCollection handlers = ((HttpHandlersSection)WebConfigurationManager.GetSection("system.web/httpHandlers")).Handlers;
-                foreach (HttpHandlerAction action in handlers)
-                    if (String.Compare(action.Path, ThumbnailHandler, StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        _supportThumbnails = true;
-                        break;
-                    }
-            }
-            catch (SecurityException)
-            {
-                _supportThumbnails = true;
-            }
         }
 
         public FileManagerController()

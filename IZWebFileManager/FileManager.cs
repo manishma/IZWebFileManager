@@ -717,14 +717,11 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                 itemViewDetails.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.FileViewChangeView, FileViewRenderMode.Details);
                 itemView.ChildItems.Add(itemViewDetails);
 
-                if (Controller.SupportThumbnails)
-                {
-                    // Thumbnails
-                    MenuItem itemViewThumbnails = new MenuItem();
-                    itemViewThumbnails.Text = Controller.GetResourceString("Thumbnails", "Thumbnails");
-                    itemViewThumbnails.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.FileViewChangeView, FileViewRenderMode.Thumbnails);
-                    itemView.ChildItems.Add(itemViewThumbnails);
-                }
+                // Thumbnails
+                MenuItem itemViewThumbnails = new MenuItem();
+                itemViewThumbnails.Text = Controller.GetResourceString("Thumbnails", "Thumbnails");
+                itemViewThumbnails.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.FileViewChangeView, FileViewRenderMode.Thumbnails);
+                itemView.ChildItems.Add(itemViewThumbnails);
             }
 
             // Refresh

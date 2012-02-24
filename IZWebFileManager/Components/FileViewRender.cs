@@ -66,9 +66,7 @@ namespace IZ.WebFileManager.Components
 			case FileViewRenderMode.Icons:
 				return new FileViewIconsRender (fileView);
 			case FileViewRenderMode.Thumbnails:
-				if (fileView.Controller.SupportThumbnails)
-					return new FileViewThumbnailsRender (fileView);
-				return new FileViewIconsRender (fileView);
+    			return new FileViewThumbnailsRender (fileView);
 			default:
 				return new FileViewDetailsRender (fileView);
 			}

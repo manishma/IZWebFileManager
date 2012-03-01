@@ -290,7 +290,7 @@ namespace IZ.WebFileManager
 			if (!directoryInfo.Exists)
 				return;
 
-			DirectoryProvider provider = new DirectoryProvider (directoryInfo, SortMode.Name, SortDirection.Ascending);
+			var provider = new DirectoryProvider (directoryInfo, SortMode.Name, SortDirection.Ascending, null);
 
 			foreach (DirectoryInfo dir in provider.GetFileSystemInfos (DirectoryProvider.FileSystemInfosFilter.Directories)) {
 

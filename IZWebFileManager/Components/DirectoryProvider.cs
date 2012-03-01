@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Web.UI.WebControls;
 using System.IO;
@@ -27,54 +28,17 @@ namespace IZ.WebFileManager.Components
 {
 	internal sealed class DirectoryProvider
 	{
-		DirectoryInfo directory;
-		SortMode sort;
-		SortDirection sortDirection;
-		Hashtable groups;
+	    readonly DirectoryInfo directory;
+	    readonly SortMode sort;
+	    readonly SortDirection sortDirection;
+	    private readonly string searchTerm;
 
-		internal DirectoryProvider (DirectoryInfo directory, SortMode sort, SortDirection sortDirection) {
+		internal DirectoryProvider (DirectoryInfo directory, SortMode sort, SortDirection sortDirection, string searchTerm) {
 
 			this.directory = directory;
 			this.sort = sort;
 			this.sortDirection = sortDirection;
-		}
-
-		public GroupInfo [] GetGroups () {
-			groups = new Hashtable ();
-			FileSystemInfo [] fsis = GetFileSystemInfos ();
-
-			ArrayList groupInfos = new ArrayList ();
-
-			switch (sort) {
-			case SortMode.Name:
-				Hashtable letters = new Hashtable ();
-				foreach (FileSystemInfo fsi in fsis) {
-					string l = fsi.Name.Substring (0, 1).ToUpper (CultureInfo.InvariantCulture);
-					GroupInfo gi = (GroupInfo) letters [l];
-					if (gi == null) {
-						gi = new GroupInfo (l);
-						letters [l] = gi;
-					}
-					ArrayList gfsis = (ArrayList) groups [gi];
-					if (gfsis == null) {
-						gfsis = new ArrayList ();
-						groups [gi] = gfsis;
-						groupInfos.Add (gi);
-					}
-					gfsis.Add (fsi);
-				}
-				GroupInfo [] gis = (GroupInfo []) groupInfos.ToArray (typeof (GroupInfo));
-				Array.Sort<GroupInfo> (gis, new Comparison<GroupInfo> (CompareGroupInfos));
-				return gis;
-			case SortMode.Modified:
-				break;
-			case SortMode.Type:
-				break;
-			case SortMode.Size:
-				break;
-			}
-
-			return (GroupInfo []) groupInfos.ToArray (typeof (GroupInfo));
+		    this.searchTerm = searchTerm;
 		}
 
 		public FileSystemInfo [] GetFileSystemInfos () {
@@ -85,42 +49,40 @@ namespace IZ.WebFileManager.Components
 			if (!directory.Exists)
 				return new FileSystemInfo [0];
 
-			FileSystemInfo [] dirs;
-			switch (filter) {
-			case FileSystemInfosFilter.Directories:
-				dirs = directory.GetDirectories ();
-				break;
-			case FileSystemInfosFilter.Files:
-				dirs = directory.GetFiles ();
-				break;
-			default:
-				dirs = directory.GetFileSystemInfos ();
-				break;
-			}
-			Array.Sort<FileSystemInfo> (dirs, new Comparison<FileSystemInfo> (CompareFileSystemInfos));
-			return dirs;
+            FileSystemInfo[] dirs;
+            switch (filter)
+            {
+                case FileSystemInfosFilter.Directories:
+                    dirs = String.IsNullOrEmpty(searchTerm) 
+                        ? directory.GetDirectories()
+                        : directory.GetDirectories(searchTerm, SearchOption.AllDirectories);
+                    break;
+                case FileSystemInfosFilter.Files:
+                    dirs = String.IsNullOrEmpty(searchTerm)
+                        ? directory.GetFiles()
+                        : directory.GetFiles(searchTerm, SearchOption.AllDirectories);
+                    break;
+                default:
+                    dirs = String.IsNullOrEmpty(searchTerm)
+                        ? directory.GetFileSystemInfos()
+                        : SearchFilesAndDirectories();;
+                    break;
+            }
+            Array.Sort<FileSystemInfo>(dirs, new Comparison<FileSystemInfo>(CompareFileSystemInfos));
+            return dirs;
 		}
 
+        private FileSystemInfo[] SearchFilesAndDirectories()
+        {
+            var list = new List<FileSystemInfo>();
+            list.AddRange(directory.GetDirectories(searchTerm, SearchOption.AllDirectories));
+            list.AddRange(directory.GetFiles(searchTerm, SearchOption.AllDirectories));
+            return list.ToArray();
+        }
 
-		public FileSystemInfo [] GetFileSystemInfos (GroupInfo group) {
-			return (FileSystemInfo []) ((ArrayList) groups [group]).ToArray (typeof (FileSystemInfo));
-		}
 
-		int CompareGroupInfos (GroupInfo gi1, GroupInfo gi2) {
-			int res = 0;
-			switch (sort) {
-			case SortMode.Name:
-				res = String.Compare (gi1.Name, gi2.Name);
-				break;
-			}
-
-			if (sortDirection == SortDirection.Descending)
-				res = -res;
-
-			return res;
-		}
-
-		int CompareFileSystemInfos (FileSystemInfo file1, FileSystemInfo file2) {
+	    int CompareFileSystemInfos(FileSystemInfo file1, FileSystemInfo file2)
+        {
 			int res = 0;
 			FileInfo f1 = file1 as FileInfo;
 			FileInfo f2 = file2 as FileInfo;
@@ -153,7 +115,7 @@ namespace IZ.WebFileManager.Components
 			Directories,
 			Files
 		}
-	}
+    }
 	internal sealed class GroupInfo
 	{
 		private string name;

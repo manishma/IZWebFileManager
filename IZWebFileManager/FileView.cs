@@ -184,6 +184,8 @@ namespace IZ.WebFileManager
             }
         }
 
+        internal string SearchTerm { get; set; }
+
         string[] selectedItemsStr;
         FileManagerItemInfo[] selectedItems;
         public override FileManagerItemInfo[] SelectedItems
@@ -317,29 +319,13 @@ namespace IZ.WebFileManager
             if (DesignMode)
                 return;
 
-            DirectoryInfo directoryInfo = GetCurrentDirectory().Directory;
+            var directoryInfo = GetCurrentDirectory().Directory;
 
-            FileViewRender render = FileViewRender.GetRender(this);
-            DirectoryProvider provider = new DirectoryProvider(directoryInfo, Sort, SortDirection);
+            var render = FileViewRender.GetRender(this);
+            var provider = new DirectoryProvider(directoryInfo, Sort, SortDirection, SearchTerm);
 
             render.RenderBeginList(writer);
 
-            //FileViewItem upDirectory = new FileViewUpDirectoryItem(directoryInfo.Parent, this);
-            //render.RenderItem(output, upDirectory);
-
-            //if (ShowInGroups) {
-            //    GroupInfo [] groups = provider.GetGroups ();
-            //    foreach (GroupInfo group in groups) {
-            //        render.RenderBeginGroup (writer, group);
-            //        foreach (FileSystemInfo fsi in provider.GetFileSystemInfos (group)) {
-            //            FileViewItem item = new FileViewItem (fsi, this);
-            //            render.RenderItem (writer, item);
-            //        }
-
-            //        render.RenderEndGroup (writer, group);
-            //    }
-            //}
-            //else {
             foreach (FileSystemInfo fsi in provider.GetFileSystemInfos())
             {
                 FileViewItem item = new FileViewItem(fsi, this);
@@ -349,7 +335,6 @@ namespace IZ.WebFileManager
 
                 render.RenderItem(writer, item);
             }
-            //}
 
             render.RenderEndList(writer);
             RenderInitScript(writer);
@@ -531,6 +516,7 @@ namespace IZ.WebFileManager
             RegisterHiddenField("ShowInGroups", ShowInGroups ? "true" : "false");
             RegisterHiddenField("Directory", FileManagerController.EncodeURIComponent(CurrentDirectory.FileManagerPath));
             RegisterHiddenField("SelectedItems", "");
+            RegisterHiddenField("SearchTerm", "");
 
             return new object[] { base.SaveControlState() };
         }
@@ -544,6 +530,7 @@ namespace IZ.WebFileManager
             SortDirection = (SortDirection)Enum.Parse(typeof(SortDirection), GetValueFromHiddenField("SortDirection"));
             ShowInGroups = bool.Parse(GetValueFromHiddenField("ShowInGroups"));
             Directory = HttpUtility.UrlDecode(GetValueFromHiddenField("Directory"));
+            SearchTerm = HttpUtility.UrlDecode(GetValueFromHiddenField("SearchTerm"));
 
             string[] selectedItemsEncoded = GetValueFromHiddenField("SelectedItems").Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
             ArrayList selectedItemsArray = new ArrayList();

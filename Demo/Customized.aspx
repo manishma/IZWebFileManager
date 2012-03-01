@@ -7,7 +7,7 @@
     protected void FileManager1_ExecuteCommand(object sender, ExecuteCommandEventArgs e)
     {
         e.ClientScript = "alert('Use ExecuteCommand event to handle your custom command.\\nCommandName=" + e.CommandName +
-                         "\\nItem=" + e.Items[0].AbsolutePath + "')";
+                         "\\nItem=" + e.Items[0].AbsolutePath.Replace("'", "\\'") + "')";
     }
 
     protected void CheckBox1_CheckedChanged(object sender, EventArgs e)

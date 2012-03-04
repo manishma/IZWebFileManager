@@ -76,7 +76,7 @@ namespace IZ.WebFileManager.Components
 			if (fileView.UseLinkToOpenItem) {
 				string href = item.IsDirectory ?
 					"javascript:WFM_" + fileView.Controller.ClientID + ".OnExecuteCommand(WFM_" + fileView.ClientID + ",\'0:0\')" :
-                    UrlPathEncode(VirtualPathUtility.AppendTrailingSlash(fileView.CurrentDirectory.VirtualPath) + item.FileSystemInfo.Name);
+                    UrlPathEncode(VirtualPathUtility.AppendTrailingSlash(fileView.CurrentDirectory.VirtualPath) + item.RelativePath.Replace(Path.DirectorySeparatorChar, '/'));
 				if (!item.IsDirectory && !String.IsNullOrEmpty (fileView.LinkToOpenItemTarget))
 					output.AddAttribute (HtmlTextWriterAttribute.Target, fileView.LinkToOpenItemTarget);
 				output.AddAttribute (HtmlTextWriterAttribute.Href, href, true);

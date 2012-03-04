@@ -328,7 +328,7 @@ namespace IZ.WebFileManager
 
             foreach (FileSystemInfo fsi in provider.GetFileSystemInfos())
             {
-                FileViewItem item = new FileViewItem(fsi, this);
+                var item = new FileViewItem(directoryInfo, fsi, this);
 
                 if (!ShowHiddenFilesAndFolders && item.Hidden)
                     continue;
@@ -383,7 +383,7 @@ namespace IZ.WebFileManager
 
             // trace init script 
             _initScript.AppendLine("var " + id + " = document.getElementById('" + id + "');");
-            _initScript.AppendLine(FileManagerController.ClientScriptObjectNamePrefix + ClientID + ".InitItem(" + id + ",'" + FileManagerController.EncodeURIComponent(item.Name) + "'," + (item.IsDirectory ? "true" : "false") + "," + (item.CanBeRenamed ? "true" : "false") + "," + "false" + "," + fileType + ");");
+            _initScript.AppendLine(FileManagerController.ClientScriptObjectNamePrefix + ClientID + ".InitItem(" + id + ",'" + FileManagerController.EncodeURIComponent(item.RelativePath) + "'," + (item.IsDirectory ? "true" : "false") + "," + (item.CanBeRenamed ? "true" : "false") + "," + "false" + "," + fileType + ");");
 
             _itemIndex++;
         }

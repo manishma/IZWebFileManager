@@ -294,7 +294,7 @@ namespace IZ.WebFileManager
 
 			foreach (DirectoryInfo dir in provider.GetFileSystemInfos (DirectoryProvider.FileSystemInfosFilter.Directories)) {
 
-				FileViewItem item = new FileViewItem (dir, this);
+                var item = new FileViewItem(directoryInfo, dir, this);
 				if (!ShowHiddenFilesAndFolders && item.Hidden)
 					continue;
 				

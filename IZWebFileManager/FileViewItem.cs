@@ -32,11 +32,11 @@ namespace IZ.WebFileManager
 		string _type;
 		string _modified;
 		string _cliendID;
-		readonly FileSystemInfo _fsi;
+	    readonly FileSystemInfo _fsi;
 		readonly FileManagerControlBase _fileView;
 		bool? _hidden;
 
-		public FileSystemInfo FileSystemInfo {
+	    public FileSystemInfo FileSystemInfo {
 			get { return _fsi; }
 		}
 
@@ -109,6 +109,8 @@ namespace IZ.WebFileManager
 			get { return _fsi.Name; }
 		}
 
+	    internal string RelativePath { get; private set; }
+
 		public bool Hidden {
 			get {
 				if (!_hidden.HasValue) {
@@ -122,9 +124,10 @@ namespace IZ.WebFileManager
 			}
 		}
 
-		internal FileViewItem (FileSystemInfo fsi, FileManagerControlBase fileView) {
-			this._fsi = fsi;
+		internal FileViewItem (DirectoryInfo parentDirectory, FileSystemInfo fsi, FileManagerControlBase fileView) {
+		    this._fsi = fsi;
 			this._fileView = fileView;
+		    RelativePath = fsi.FullName.Substring(parentDirectory.FullName.TrimEnd(Path.DirectorySeparatorChar).Length + 1);
 		}
 
 		string GetItemType (FileSystemInfo fsi) {

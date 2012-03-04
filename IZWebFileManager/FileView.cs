@@ -516,7 +516,7 @@ namespace IZ.WebFileManager
             RegisterHiddenField("ShowInGroups", ShowInGroups ? "true" : "false");
             RegisterHiddenField("Directory", FileManagerController.EncodeURIComponent(CurrentDirectory.FileManagerPath));
             RegisterHiddenField("SelectedItems", "");
-            RegisterHiddenField("SearchTerm", "");
+            RegisterHiddenField("SearchTerm", SearchTerm);
 
             return new object[] { base.SaveControlState() };
         }

@@ -1486,16 +1486,15 @@ namespace IZ.WebFileManager
                 return GetFileLargeImage((FileInfo)fsi);
         }
 
-        internal string GetItemThumbnailImage(FileSystemInfo fsi, FileManagerItemInfo currentDirectory)
+        internal string GetItemThumbnailImage(FileViewItem item, FileManagerItemInfo currentDirectory)
         {
-            FileInfo file = fsi as FileInfo;
-            if (file == null)
-                return GetFolderLargeImage((DirectoryInfo)fsi);
+            if (item.IsDirectory)
+                return GetFolderLargeImage((DirectoryInfo)item.FileSystemInfo);
 
-            if (IsImage(file))
-                return ResolveUrl("~/" + ThumbnailHandler + "?" + HttpUtility.UrlEncode(currentDirectory.VirtualPath + "/" + file.Name));
+            if (IsImage((FileInfo)item.FileSystemInfo))
+                return ResolveUrl("~/" + ThumbnailHandler + "?" + HttpUtility.UrlEncode(VirtualPathUtility.AppendTrailingSlash(currentDirectory.VirtualPath) + item.RelativePath.Replace(Path.DirectorySeparatorChar, '/')));
 
-            return GetFileLargeImage(file);
+            return GetFileLargeImage((FileInfo)item.FileSystemInfo);
         }
 
         bool IsImage(FileInfo file)

@@ -72,7 +72,7 @@ namespace IZ.WebFileManager
 		public string ThumbnailImage {
 			get {
 				if (_thumbnailImage == null)
-					_thumbnailImage = _fileView.Controller.GetItemThumbnailImage (_fsi, _fileView.CurrentDirectory);
+					_thumbnailImage = _fileView.Controller.GetItemThumbnailImage (this, _fileView.CurrentDirectory);
 				return _thumbnailImage;
 			}
 		}

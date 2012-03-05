@@ -127,7 +127,7 @@ namespace IZ.WebFileManager
 		internal FileViewItem (DirectoryInfo parentDirectory, FileSystemInfo fsi, FileManagerControlBase fileView) {
 		    this._fsi = fsi;
 			this._fileView = fileView;
-		    RelativePath = fsi.FullName.Substring(parentDirectory.FullName.TrimEnd(Path.DirectorySeparatorChar).Length + 1);
+		    RelativePath = fsi.FullName.Substring(parentDirectory.FullName.TrimEnd(Path.DirectorySeparatorChar).Length + 1).Replace(Path.DirectorySeparatorChar, '/');
 		}
 
 		string GetItemType (FileSystemInfo fsi) {

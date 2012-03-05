@@ -90,6 +90,16 @@ namespace IZ.WebFileManager
         [Localizable(false)]
         [DefaultValue(true)]
         [Category("Appearance")]
+        public bool ShowSearchBox
+        {
+            get { return ViewState["ShowSearchBox"] == null ? true : (bool)ViewState["ShowSearchBox"]; }
+            set { ViewState["ShowSearchBox"] = value; }
+        }
+
+        [Themeable(false)]
+        [Localizable(false)]
+        [DefaultValue(true)]
+        [Category("Appearance")]
         public bool ShowUploadBar
         {
             get { return ViewState["ShowUploadBar"] == null ? true : (bool)ViewState["ShowUploadBar"]; }
@@ -201,13 +211,13 @@ namespace IZ.WebFileManager
                     _addressTextBoxStyle = new BorderedPanelStyle();
                     _addressTextBoxStyle.Font.Names = new string[] { "Tahoma", "Verdana", "Geneva", "Arial", "Helvetica", "sans-serif" };
                     _addressTextBoxStyle.Font.Size = FontUnit.Parse("11px", null);
-                    _addressTextBoxStyle.Width = Unit.Percentage(98);
                     _addressTextBoxStyle.BorderStyle = BorderStyle.Solid;
                     _addressTextBoxStyle.BorderWidth = Unit.Pixel(1);
                     _addressTextBoxStyle.BorderColor = Color.FromArgb(0xACA899);
                     _addressTextBoxStyle.PaddingLeft = Unit.Pixel(2);
                     _addressTextBoxStyle.PaddingTop = Unit.Pixel(2);
                     _addressTextBoxStyle.PaddingBottom = Unit.Pixel(2);
+                    _addressTextBoxStyle.BackColor = Color.White;
                     if (IsTrackingViewState)
                         ((IStateManager)_addressTextBoxStyle).TrackViewState();
                 }
@@ -975,18 +985,14 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             writer.RenderBeginTag(HtmlTextWriterTag.Table);
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
 
+            RenderTextBox(writer, "_Address", CurrentDirectory.FileManagerPath);
 
-            writer.RenderBeginTag(HtmlTextWriterTag.Td);
+            if (ShowSearchBox)
+            {
+                writer.AddStyleAttribute(HtmlTextWriterStyle.Width, "100px");
+                RenderTextBox(writer, "_Search", FileView.SearchTerm);
+            }
 
-            writer.AddAttribute(HtmlTextWriterAttribute.Id, _fileView.ClientID + "_Address");
-            writer.AddAttribute(HtmlTextWriterAttribute.Value, CurrentDirectory.FileManagerPath, true);
-            AddressTextBoxStyle.AddAttributesToRender(writer);
-            //writer.AddAttribute(HtmlTextWriterAttribute.ReadOnly, "readonly");
-            writer.RenderBeginTag(HtmlTextWriterTag.Input);
-            writer.RenderEndTag();
-
-
-            writer.RenderEndTag();
             writer.AddStyleAttribute(HtmlTextWriterStyle.Width, "16px");
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             writer.AddAttribute(HtmlTextWriterAttribute.Alt, "");
@@ -1001,6 +1007,32 @@ function FileManager_GetChildByTagName(element, tagName, index) {
 
             writer.RenderEndTag();
         }
+
+        private void RenderTextBox(HtmlTextWriter writer, string name, string value)
+        {
+            writer.AddStyleAttribute(HtmlTextWriterStyle.PaddingRight, "2px");
+            writer.RenderBeginTag(HtmlTextWriterTag.Td);
+
+            AddressTextBoxStyle.AddAttributesToRender(writer);
+            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+            var textBoxStyle = new BorderedPanelStyle();
+            textBoxStyle.Font.MergeWith(AddressTextBoxStyle.Font);
+            writer.AddAttribute(HtmlTextWriterAttribute.Id, _fileView.ClientID + name);
+            writer.AddAttribute(HtmlTextWriterAttribute.Value, value, true);
+            writer.AddStyleAttribute(HtmlTextWriterStyle.BorderWidth, "0");
+            writer.AddStyleAttribute(HtmlTextWriterStyle.Padding, "0");
+            writer.AddStyleAttribute(HtmlTextWriterStyle.Margin, "0");
+            writer.AddStyleAttribute(HtmlTextWriterStyle.Width, "100%");
+            textBoxStyle.AddAttributesToRender(writer);
+            writer.RenderBeginTag(HtmlTextWriterTag.Input);
+            writer.RenderEndTag();
+
+            writer.RenderEndTag(); // div
+
+            writer.RenderEndTag(); // td
+        }
+
         private void RenderFileUploadBar(HtmlTextWriter writer)
         {
             var onclick = "FileManager_UploadFile(this, '" + ClientID + "_Upload" + "');";

@@ -8,6 +8,7 @@ FileView = function(ClientID, ControllerID, RegularItemStyle, SelectedItemStyle,
     this.Element = WebForm_GetElementById(this.ClientID);
     this.Focuser = WebForm_GetElementById(this.ClientID + '_Focus');
     this.Address = WebForm_GetElementById(this.ClientID + '_Address');
+    this.SearchBox = WebForm_GetElementById(this.ClientID + '_Search');
     this.SelectedItems = new Array();
     this.HitInfo = 'FileView';
     this.InProcess = false;
@@ -71,6 +72,17 @@ FileView = function(ClientID, ControllerID, RegularItemStyle, SelectedItemStyle,
             if(e == null) var e = event;
             if(e.keyCode == 13) {
                 This.Navigate(this.value);
+                e.cancelBubble = true;
+                return false;
+            }
+        }
+    }
+
+    if(this.SearchBox) {
+        this.SearchBox.onkeydown = function (e) {
+            if (e == null) var e = event;
+            if (e.keyCode == 13) {
+                This._controller.OnSearch(This, this.value);
                 e.cancelBubble = true;
                 return false;
             }

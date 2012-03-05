@@ -1105,7 +1105,9 @@ namespace IZ.WebFileManager
                 sb.AppendLine("WebForm_GetElementById(context.ClientID+'_Directory').value = dir;");
                 sb.AppendLine("var address = WebForm_GetElementById(context.ClientID+'_Address');");
                 sb.AppendLine("if(address) address.value = decodeURIComponent(dir);");
-                sb.AppendLine("var search = WebForm_GetElementById(context.ClientID+'_SearchTerm');");
+                sb.AppendLine("var searchTerm = WebForm_GetElementById(context.ClientID+'_SearchTerm');");
+                sb.AppendLine("if(searchTerm) searchTerm.value = '';");
+                sb.AppendLine("var search = WebForm_GetElementById(context.ClientID+'_Search');");
                 sb.AppendLine("if(search) search.value = '';");
                 sb.AppendLine(ClientRefreshEventReference);
                 return sb.ToString();

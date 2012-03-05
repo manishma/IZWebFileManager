@@ -71,21 +71,30 @@
     protected void CheckBox4_CheckedChanged (object sender, EventArgs e) {
         FileManager1.RootDirectories[0].ShowRootIndex = ((CheckBox) sender).Checked;
     }
+
+    protected void CheckBox5_CheckedChanged(object sender, EventArgs e)
+    {
+        FileManager1.ShowSearchBox = ((CheckBox)sender).Checked;
+    }
 </script>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div style="margin-top: 8px; margin-bottom: 8px;">
-        Chose Language:
-        <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="True" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged"></asp:DropDownList>&nbsp;&nbsp;
-        <asp:CheckBox ID="CheckBox1" runat="server" AutoPostBack="True" OnCheckedChanged="CheckBox1_CheckedChanged"
-            Checked="True" Text="Show ToolBar" />&nbsp;<asp:CheckBox ID="CheckBox2" runat="server"
-                AutoPostBack="True" OnCheckedChanged="CheckBox2_CheckedChanged" Checked="True"
-                Text="Show AddressBar" />&nbsp;<asp:CheckBox ID="CheckBox3" runat="server" AutoPostBack="True"
-                    OnCheckedChanged="CheckBox3_CheckedChanged" Checked="True" Text="Show UploadBar" />&nbsp;<asp:CheckBox
-                        ID="CheckBox4" runat="server" AutoPostBack="True" OnCheckedChanged="CheckBox4_CheckedChanged"
-                        Checked="True" Text="Show RootIndex" /><br />
-        Customize Toolbar:
-        <asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder>
+        <div style="margin-top: 2px;  margin-bottom: 2px;">
+            Chose Language: 
+            <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="True" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged"></asp:DropDownList>
+        </div>
+        <div style="margin-top: 2px;  margin-bottom: 2px;">
+            <asp:CheckBox runat="server" AutoPostBack="True" OnCheckedChanged="CheckBox1_CheckedChanged"  Checked="True" Text="Show ToolBar" />
+            <asp:CheckBox runat="server" AutoPostBack="True" OnCheckedChanged="CheckBox2_CheckedChanged" Checked="True" Text="Show AddressBar" />
+            <asp:CheckBox runat="server" AutoPostBack="True" OnCheckedChanged="CheckBox5_CheckedChanged" Checked="True" Text="Show SearchBox" />
+            <asp:CheckBox runat="server" AutoPostBack="True" OnCheckedChanged="CheckBox3_CheckedChanged" Checked="True" Text="Show UploadBar" />
+            <asp:CheckBox runat="server" AutoPostBack="True" OnCheckedChanged="CheckBox4_CheckedChanged" Checked="True" Text="Show RootIndex" />
+        </div>
+        <div style="margin-top: 2px;  margin-bottom: 2px;">
+            Customize Toolbar:
+            <asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder>
+        </div>
     </div>
     <div>
         <iz:FileManager ID="FileManager1" runat="server" Height="400" Width="600">

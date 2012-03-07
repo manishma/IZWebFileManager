@@ -8,6 +8,7 @@ FileView = function(ClientID, ControllerID, RegularItemStyle, SelectedItemStyle,
     this.Element = WebForm_GetElementById(this.ClientID);
     this.Focuser = WebForm_GetElementById(this.ClientID + '_Focus');
     this.Address = WebForm_GetElementById(this.ClientID + '_Address');
+    this.AddressGo = WebForm_GetElementById(this.ClientID + '_Address0');
     this.SearchBox = WebForm_GetElementById(this.ClientID + '_Search');
     this.SearchBoxGo = WebForm_GetElementById(this.ClientID + '_Search0');
     this.SearchBoxClear = WebForm_GetElementById(this.ClientID + '_Search1');
@@ -78,6 +79,13 @@ FileView = function(ClientID, ControllerID, RegularItemStyle, SelectedItemStyle,
                 return false;
             }
         }
+        this.AddressGo.style.display = 'block';
+        this.AddressGo.onclick = function (e) {
+            if (e == null) var e = event;
+            This.Navigate(This.Address.value);
+            e.cancelBubble = true;
+            return false;
+        };
     }
 
     if(this.SearchBox) {
@@ -102,11 +110,9 @@ FileView = function(ClientID, ControllerID, RegularItemStyle, SelectedItemStyle,
         this.SearchBoxGo.style.display = 'block';
         this.SearchBoxGo.onclick = function (e) {
             if (e == null) var e = event;
-            if (This.SearchBox.value) {
-                This._controller.OnSearch(This, This.SearchBox.value);
-                e.cancelBubble = true;
-                return false;
-            }
+            This._controller.OnSearch(This, This.SearchBox.value);
+            e.cancelBubble = true;
+            return false;
         };
 
         this.SearchBoxClear.onclick = function(e) {
@@ -114,6 +120,8 @@ FileView = function(ClientID, ControllerID, RegularItemStyle, SelectedItemStyle,
             This.SearchBox.value = '';
             This.SearchBoxClear.style.display = 'none';
             This._controller.OnSearch(This, '');
+            e.cancelBubble = true;
+            return false;
         }
     }
     

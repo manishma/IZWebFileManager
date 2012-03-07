@@ -985,7 +985,8 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             writer.RenderBeginTag(HtmlTextWriterTag.Table);
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
 
-            RenderTextBox(writer, "_Address", CurrentDirectory.FileManagerPath);
+            RenderTextBox(writer, "_Address", CurrentDirectory.FileManagerPath,
+                Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.go.png"));
 
             if (ShowSearchBox)
             {

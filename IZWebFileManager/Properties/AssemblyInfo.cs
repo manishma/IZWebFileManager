@@ -101,3 +101,4 @@ using System.Security;
 
 [assembly: WebResource("IZ.WebFileManager.resources.search.png", "image/png")]
 [assembly: WebResource("IZ.WebFileManager.resources.clear.png", "image/png")]
+[assembly: WebResource("IZ.WebFileManager.resources.go.png", "image/png")]

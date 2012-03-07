@@ -297,6 +297,16 @@ namespace IZ.WebFileManager
             get { return "linkToOpenItem" + ClientID; }
         }
 
+        internal string RegularItemClass
+        {
+            get { return "regularItem" + ClientID; }
+        }
+
+        internal string SelectedItemClass
+        {
+            get { return "selectedItem" + ClientID; }
+        }
+
         #endregion
 
         #region Methods
@@ -548,7 +558,7 @@ namespace IZ.WebFileManager
 
             StringBuilder sb = new StringBuilder();
             string fileView = FileManagerController.ClientScriptObjectNamePrefix + ClientID;
-            sb.AppendLine("var " + fileView + "=new FileView('" + ClientID + "','" + Controller.ClientID + "','" + ItemStyle.RegisteredCssClass + "','" + SelectedItemStyle.RegisteredCssClass + "','" + EditTextBoxStyle.RegisteredCssClass + "');");
+            sb.AppendLine("var " + fileView + "=new FileView('" + ClientID + "','" + Controller.ClientID + "','" + RegularItemClass + "','" + SelectedItemClass + "','" + EditTextBoxStyle.RegisteredCssClass + "');");
             sb.AppendLine(fileView + ".Initialize();");
 
             return sb.ToString();
@@ -564,12 +574,10 @@ namespace IZ.WebFileManager
         {
             base.OnPreRender(e);
 
-            Page.Header.StyleSheet.RegisterStyle(ItemStyle, this);
-            Page.Header.StyleSheet.RegisterStyle(SelectedItemStyle, this);
+            Page.Header.StyleSheet.CreateStyleRule(ItemStyle, this, "." + RegularItemClass);
+            Page.Header.StyleSheet.CreateStyleRule(SelectedItemStyle, this, "." + SelectedItemClass);
             Page.Header.StyleSheet.RegisterStyle(EditTextBoxStyle, this);
 
-            if (UseLinkToOpenItem)
-            {
                 Style linkStyle = new Style();
                 linkStyle.Font.Underline = false;
                 Page.Header.StyleSheet.CreateStyleRule(linkStyle, this, "a." + LinkToOpenItemClass);
@@ -582,14 +590,13 @@ namespace IZ.WebFileManager
                 itemLinkStyle.ForeColor = ItemStyle.ForeColor;
                 if (itemLinkStyle.ForeColor == Color.Empty)
                     itemLinkStyle.ForeColor = ForeColor;
-                Page.Header.StyleSheet.CreateStyleRule(itemLinkStyle, this, "." + ItemStyle.RegisteredCssClass + " a." + LinkToOpenItemClass);
+                Page.Header.StyleSheet.CreateStyleRule(itemLinkStyle, this, "." + RegularItemClass + " a." + LinkToOpenItemClass);
 
                 Style selectedItemLinkStyle = new Style();
                 selectedItemLinkStyle.ForeColor = SelectedItemStyle.ForeColor;
                 if (selectedItemLinkStyle.ForeColor == Color.Empty)
                     selectedItemLinkStyle.ForeColor = ForeColor;
-                Page.Header.StyleSheet.CreateStyleRule(selectedItemLinkStyle, this, "." + SelectedItemStyle.RegisteredCssClass + " a." + LinkToOpenItemClass);
-            }
+                Page.Header.StyleSheet.CreateStyleRule(selectedItemLinkStyle, this, "." + SelectedItemClass + " a." + LinkToOpenItemClass);
 
             Page.ClientScript.RegisterClientScriptResource(typeof(FileView), "IZ.WebFileManager.resources.FileView.js");
             Page.ClientScript.RegisterStartupScript(typeof(FileView), ClientID, GetInitInstanceScript(), true);

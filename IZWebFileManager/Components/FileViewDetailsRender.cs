@@ -237,13 +237,18 @@ namespace IZ.WebFileManager.Components
                 output.AddStyleAttribute(HtmlTextWriterStyle.WhiteSpace, "nowrap");
                 output.RenderBeginTag(HtmlTextWriterTag.Td);
 
+                output.AddAttribute(HtmlTextWriterAttribute.Class, fileView.RegularItemClass);
+                output.RenderBeginTag(HtmlTextWriterTag.Div);
+
                 output.AddAttribute(HtmlTextWriterAttribute.Href, "javascript:WFM_" + fileView.ClientID + ".Navigate(" + FileManagerController.JavaScriptSerializer.Serialize(folderPath) + ")");
+                output.AddAttribute(HtmlTextWriterAttribute.Class, fileView.LinkToOpenItemClass);
                 output.RenderBeginTag(HtmlTextWriterTag.A);
 
                 output.Write(HttpUtility.HtmlEncode(folderPath));
 
-                output.RenderEndTag();
-                output.RenderEndTag();
+                output.RenderEndTag(); // A
+                output.RenderEndTag(); // DIV
+                output.RenderEndTag(); // TD
             }
 
 			output.RenderEndTag ();

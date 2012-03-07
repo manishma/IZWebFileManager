@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Web.Script.Serialization;
 using System.Web.UI.WebControls;
 using System.Web.UI;
 using System.Web;
@@ -227,6 +228,7 @@ namespace IZ.WebFileManager.Components
                 {
                     relativeFolderPath = "/" + item.RelativePath.Substring(0, lastIndexOfSlash);
                 }
+                var folderPath = _folderPathBase + relativeFolderPath;
 
                 output.AddStyleAttribute(HtmlTextWriterStyle.PaddingLeft, "6px");
                 output.AddStyleAttribute(HtmlTextWriterStyle.PaddingRight, "6px");
@@ -234,7 +236,13 @@ namespace IZ.WebFileManager.Components
                 output.AddStyleAttribute(HtmlTextWriterStyle.Cursor, "default");
                 output.AddStyleAttribute(HtmlTextWriterStyle.WhiteSpace, "nowrap");
                 output.RenderBeginTag(HtmlTextWriterTag.Td);
-                output.Write(HttpUtility.HtmlEncode(_folderPathBase + relativeFolderPath));
+
+                output.AddAttribute(HtmlTextWriterAttribute.Href, "javascript:WFM_" + fileView.ClientID + ".Navigate(" + FileManagerController.JavaScriptSerializer.Serialize(folderPath) + ")");
+                output.RenderBeginTag(HtmlTextWriterTag.A);
+
+                output.Write(HttpUtility.HtmlEncode(folderPath));
+
+                output.RenderEndTag();
                 output.RenderEndTag();
             }
 

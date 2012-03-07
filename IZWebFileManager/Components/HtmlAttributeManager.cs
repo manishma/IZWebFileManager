@@ -194,6 +194,51 @@ namespace Legend.Web
             return PaddingRight(padding.ToString());
         }
 
+        public HtmlAttributeManager Position(string position)
+        {
+            return Style(HtmlTextWriterStyle.Position, position);
+        }
+
+        public HtmlAttributeManager Right(Unit position)
+        {
+            return Right(position.ToString());
+        }
+
+        public HtmlAttributeManager Right(string position)
+        {
+            return Style("right", position);
+        }
+
+        public HtmlAttributeManager Bottom(Unit position)
+        {
+            return Bottom(position.ToString());
+        }
+
+        public HtmlAttributeManager Bottom(string position)
+        {
+            return Style("bottom", position);
+        }
+
+        public HtmlAttributeManager Left(Unit position)
+        {
+            return Left(position.ToString());
+        }
+
+        public HtmlAttributeManager Left(string position)
+        {
+            return Style("left", position);
+        }
+
+        public HtmlAttributeManager Top(Unit position)
+        {
+            return Top(position.ToString());
+        }
+
+        public HtmlAttributeManager Top(string position)
+        {
+            return Style("top", position);
+        }
+
         public HtmlAttributeManager Cursor(string cursor)
         {
             return Style(HtmlTextWriterStyle.Cursor, cursor);

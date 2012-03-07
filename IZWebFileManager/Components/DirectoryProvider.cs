@@ -38,6 +38,14 @@ namespace IZ.WebFileManager.Components
 			this.directory = directory;
 			this.sort = sort;
 			this.sortDirection = sortDirection;
+
+            if (searchTerm != null)
+            {
+                searchTerm = searchTerm.Trim();
+                if (!String.IsNullOrEmpty(searchTerm) && !searchTerm.Contains("*"))
+                    searchTerm = "*" + searchTerm + "*";
+            }
+
 		    this.searchTerm = searchTerm;
 		}
 

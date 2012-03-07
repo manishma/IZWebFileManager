@@ -159,6 +159,9 @@
   <data name="File_Folder" xml:space="preserve">
     <value>File Folder</value>
   </data>
+  <data name="Folder_Path" xml:space="preserve">
+    <value>Folder Path</value>
+  </data>
   <data name="Icons" xml:space="preserve">
     <value>Icons</value>
   </data>

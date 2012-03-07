@@ -27,10 +27,16 @@ namespace IZ.WebFileManager.Components
 {
 	class FileViewDetailsRender : FileViewRender
 	{
+	    private readonly bool _renderFolderPath;
+	    private readonly string _folderPathBase;
 
-		internal FileViewDetailsRender (FileView fileView) : base (fileView) { }
+	    internal FileViewDetailsRender (FileView fileView) : base (fileView)
+		{
+		    _renderFolderPath = fileView.SearchTerm != null && fileView.SearchTerm.Trim() != String.Empty;
+		    _folderPathBase = VirtualPathUtility.RemoveTrailingSlash(base.fileView.CurrentDirectory.FileManagerPath);
+		}
 
-		internal override void RenderBeginList (System.Web.UI.HtmlTextWriter output) {
+	    internal override void RenderBeginList (System.Web.UI.HtmlTextWriter output) {
 			BorderedPanel panel = new BorderedPanel ();
 			panel.Page = fileView.Page;
 			if (fileView.DetailsColumnHeaderStyle.HorizontalAlign == HorizontalAlign.NotSet)
@@ -96,7 +102,25 @@ namespace IZ.WebFileManager.Components
 			panel.RenderEndTag (output);
 
 			output.RenderEndTag ();
-			output.RenderEndTag ();
+
+            if (_renderFolderPath)
+            {
+                output.RenderBeginTag(HtmlTextWriterTag.Th);
+
+                output.AddStyleAttribute(HtmlTextWriterStyle.Cursor, "default");
+                output.AddStyleAttribute(HtmlTextWriterStyle.WhiteSpace, "nowrap");
+                output.AddStyleAttribute(HtmlTextWriterStyle.Width, "100%");
+                output.AddAttribute(HtmlTextWriterAttribute.Id, fileView.ClientID + "_Thead_Folder");
+
+                panel.RenderBeginTag(output);
+                output.Write(HttpUtility.HtmlEncode(controller.GetResourceString("Folder_Path", "Folder Path")));
+                panel.RenderEndTag(output);
+
+                output.RenderEndTag();
+
+            }
+
+            output.RenderEndTag ();
 			output.RenderEndTag ();
 
 			output.AddStyleAttribute (HtmlTextWriterStyle.Overflow, "auto");
@@ -195,6 +219,24 @@ namespace IZ.WebFileManager.Components
 			output.Write (HttpUtility.HtmlEncode (item.Modified));
 			output.RenderEndTag ();
 
+            if (_renderFolderPath)
+            {
+                var relativeFolderPath = String.Empty;
+                var lastIndexOfSlash = item.RelativePath.LastIndexOf('/');
+                if (lastIndexOfSlash > 0)
+                {
+                    relativeFolderPath = "/" + item.RelativePath.Substring(0, lastIndexOfSlash);
+                }
+
+                output.AddStyleAttribute(HtmlTextWriterStyle.PaddingLeft, "6px");
+                output.AddStyleAttribute(HtmlTextWriterStyle.PaddingRight, "6px");
+                output.AddStyleAttribute(HtmlTextWriterStyle.PaddingBottom, "1px");
+                output.AddStyleAttribute(HtmlTextWriterStyle.Cursor, "default");
+                output.AddStyleAttribute(HtmlTextWriterStyle.WhiteSpace, "nowrap");
+                output.RenderBeginTag(HtmlTextWriterTag.Td);
+                output.Write(HttpUtility.HtmlEncode(_folderPathBase + relativeFolderPath));
+                output.RenderEndTag();
+            }
 
 			output.RenderEndTag ();
 		}

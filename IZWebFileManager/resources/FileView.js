@@ -25,37 +25,21 @@ FileView = function(ClientID, ControllerID, RegularItemStyle, SelectedItemStyle,
         eval('WFM_' + ControllerID + '.HideTextBox()');
         var top=''+WebForm_GetElementById(ClientID).scrollTop+'px'
         var left=''+WebForm_GetElementById(ClientID).scrollLeft+'px'
-        var tHead = WebForm_GetElementById(ClientID+"_Thead_Name");
-        if(tHead) {
-            tHead.style.position = 'relative';
-            tHead.style.zIndex = 10;
-            tHead.style.top = top;
-            tHead.style.left = '-1px';
-            tHead.style.left = '0px';
-        }
-        var tHead = WebForm_GetElementById(ClientID+"_Thead_Size");
-        if(tHead) {
-            tHead.style.position = 'relative';
-            tHead.style.zIndex = 10;
-            tHead.style.top = top;
-            tHead.style.left = '-1px';
-            tHead.style.left = '0px';
-        }
-        var tHead = WebForm_GetElementById(ClientID+"_Thead_Type");
-        if(tHead) {
-            tHead.style.position = 'relative';
-            tHead.style.zIndex = 10;
-            tHead.style.top = top;
-            tHead.style.left = '-1px';
-            tHead.style.left = '0px';
-        }
-        var tHead = WebForm_GetElementById(ClientID+"_Thead_Modified");
-        if(tHead) {
-            tHead.style.position = 'relative';
-            tHead.style.zIndex = 10;
-            tHead.style.top = top;
-            tHead.style.left = '-1px';
-            tHead.style.left = '0px';
+        var tHeads = [WebForm_GetElementById(ClientID + "_Thead_Name"),
+            WebForm_GetElementById(ClientID + "_Thead_Size"),
+            WebForm_GetElementById(ClientID + "_Thead_Type"),
+            WebForm_GetElementById(ClientID + "_Thead_Modified"),
+            WebForm_GetElementById(ClientID + "_Thead_Folder")];
+        for (var i = 0; i < tHeads.length; i++) {
+            (function(tHead) {
+                if(tHead) {
+                    tHead.style.position = 'relative';
+                    tHead.style.zIndex = 10;
+                    tHead.style.top = top;
+                    tHead.style.left = '-1px';
+                    tHead.style.left = '0px';
+                }
+            })(tHeads[i]);
         }
     }
 

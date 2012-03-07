@@ -989,8 +989,11 @@ function FileManager_GetChildByTagName(element, tagName, index) {
 
             if (ShowSearchBox)
             {
-                writer.AddStyleAttribute(HtmlTextWriterStyle.Width, "100px");
-                RenderTextBox(writer, "_Search", FileView.SearchTerm);
+                writer.AddStyleAttribute(HtmlTextWriterStyle.Width, "130px");
+                RenderTextBox(writer, "_Search", FileView.SearchTerm,
+                    Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.search.png"),
+                    Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.clear.png")
+                    );
             }
 
             writer.AddStyleAttribute(HtmlTextWriterStyle.Width, "16px");
@@ -1008,11 +1011,13 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             writer.RenderEndTag();
         }
 
-        private void RenderTextBox(HtmlTextWriter writer, string name, string value)
+        private void RenderTextBox(HtmlTextWriter writer, string name, string value, params string[] icons)
         {
             writer.AddStyleAttribute(HtmlTextWriterStyle.PaddingRight, "2px");
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
 
+            writer.AddStyleAttribute(HtmlTextWriterStyle.Position, "relative");
+            writer.AddStyleAttribute(HtmlTextWriterStyle.PaddingRight, (16 * icons.Length) + "px");
             AddressTextBoxStyle.AddAttributesToRender(writer);
             writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
@@ -1027,6 +1032,17 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             textBoxStyle.AddAttributesToRender(writer);
             writer.RenderBeginTag(HtmlTextWriterTag.Input);
             writer.RenderEndTag();
+
+            for (var i = 0; i < icons.Length; i++)
+            {
+                var icon = icons[i];
+                var i1 = i;
+                writer
+                    .A(x => x.Id(_fileView.ClientID + name + i1).Width(16).Height(16).Href("javascript:;").Display("none").Position("absolute").Right(16 * i1).Bottom(AddressTextBoxStyle.PaddingBottom))
+                        .Img(x => x.Border(0).Src(icon))
+                        .EndTag()
+                    .EndTag();
+            }
 
             writer.RenderEndTag(); // div
 

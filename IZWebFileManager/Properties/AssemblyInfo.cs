@@ -97,4 +97,7 @@ using System.Security;
 [assembly: WebResource("IZ.WebFileManager.resources.detailscolumnheader_R.gif", "image/gif")]
 [assembly: WebResource("IZ.WebFileManager.resources.detailscolumnheader_RB.gif", "image/gif")]
 [assembly: WebResource ("IZ.WebFileManager.resources.drag_copy.cur", "application/octet-stream")]
-[assembly: WebResource ("IZ.WebFileManager.resources.drag_move.cur", "application/octet-stream")]
+[assembly: WebResource("IZ.WebFileManager.resources.drag_move.cur", "application/octet-stream")]
+
+[assembly: WebResource("IZ.WebFileManager.resources.search.png", "image/png")]
+[assembly: WebResource("IZ.WebFileManager.resources.clear.png", "image/png")]

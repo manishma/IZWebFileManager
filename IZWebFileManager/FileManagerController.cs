@@ -1494,7 +1494,7 @@ namespace IZ.WebFileManager
                 return GetFolderLargeImage((DirectoryInfo)item.FileSystemInfo);
 
             if (IsImage((FileInfo)item.FileSystemInfo))
-                return ResolveUrl("~/" + ThumbnailHandler + "?" + HttpUtility.UrlEncode(VirtualPathUtility.AppendTrailingSlash(currentDirectory.VirtualPath) + item.RelativePath.Replace(Path.DirectorySeparatorChar, '/')));
+                return ResolveUrl("~/" + ThumbnailHandler + "?" + HttpUtility.UrlEncode(VirtualPathUtility.AppendTrailingSlash(currentDirectory.VirtualPath) + item.RelativePath));
 
             return GetFileLargeImage((FileInfo)item.FileSystemInfo);
         }

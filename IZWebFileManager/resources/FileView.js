@@ -82,7 +82,7 @@ FileView = function(ClientID, ControllerID, RegularItemStyle, SelectedItemStyle,
             }
         };
 
-        this.SearchBox.onkeyup = function (e) {
+        this.SearchBox.onkeyup = this.SearchBox.onchange = function (e) {
             if (e == null) var e = event;
             if (this.value) {
                 This.SearchBoxClear.style.display = 'block';

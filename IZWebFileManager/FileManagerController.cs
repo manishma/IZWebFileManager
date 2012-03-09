@@ -869,16 +869,14 @@ namespace IZ.WebFileManager
                         AddFolderTreeRefreshEventReference(sb, srcDir);
                     break;
                 case IZ.WebFileManager.SelectedItemsAction.Move:
-                    destDir.EnsureDirectoryExists();
-                    if (ProcessSelectedItemsMoveTo(destDir, items))
+                    if (destDir.EnsureDirectoryExists() || ProcessSelectedItemsMoveTo(destDir, items))
                     {
                         AddFolderTreeRequireRefreshEventReference(sb, srcDir, destDir);
                         AddFolderTreeNavigateEventReference(sb, srcDir);
                     }
                     break;
                 case IZ.WebFileManager.SelectedItemsAction.Copy:
-                    destDir.EnsureDirectoryExists();
-                    if (ProcessSelectedItemsCopyTo(destDir, items))
+                    if (destDir.EnsureDirectoryExists() || ProcessSelectedItemsCopyTo(destDir, items))
                     {
                         AddFolderTreeRequireRefreshEventReference(sb, srcDir, destDir);
                         AddFolderTreeNavigateEventReference(sb, srcDir);

@@ -68,9 +68,13 @@ namespace IZ.WebFileManager
 			_physicalPath = phisicalPath;
 		}
 
-		internal void EnsureDirectoryExists () {
-			if (!Directory.Exists)
-				Directory.Create ();
+		internal bool EnsureDirectoryExists () {
+            if (!Directory.Exists)
+            {
+                Directory.Create();
+                return true;
+            }
+		    return false;
 		}
 	}
 }

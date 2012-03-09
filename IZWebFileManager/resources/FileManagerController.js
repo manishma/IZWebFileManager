@@ -201,19 +201,15 @@ FileManagerController.prototype.OnNewDocument = function(sender, arg) {
 FileManagerController.prototype.OnFileViewChangeView = function(sender, arg) {
     if(sender.InProcess)
         return;
-    sender.ShowProgress();
     sender.SetView(arg);
-    WebFileManager_InitCallback();
-    WebFileManager_DoCallback(this.UniqueID, sender.ClientID + this.EventArgumentSplitter + 'FileViewChangeView' + this.EventArgumentSplitter + arg, WebFileManager_Render, sender, WebFileManager_OnError);
+    this.OnRefresh(sender, '');
 }
 
 FileManagerController.prototype.OnFileViewSort = function(sender, arg) {
     if(sender.InProcess)
         return;
-    sender.ShowProgress();
     sender.SetSort(arg);
-    WebFileManager_InitCallback();
-    WebFileManager_DoCallback(this.UniqueID, sender.ClientID + this.EventArgumentSplitter + 'FileViewSort' + this.EventArgumentSplitter + arg, WebFileManager_Render, sender, WebFileManager_OnError);
+    this.OnRefresh(sender, '');
 }
 
 FileManagerController.prototype.OnFileViewNavigate = function(sender, arg) {

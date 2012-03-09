@@ -207,15 +207,6 @@ FileManagerController.prototype.OnFileViewChangeView = function(sender, arg) {
     WebFileManager_DoCallback(this.UniqueID, sender.ClientID + this.EventArgumentSplitter + 'FileViewChangeView' + this.EventArgumentSplitter + arg, WebFileManager_Render, sender, WebFileManager_OnError);
 }
 
-FileManagerController.prototype.OnFileViewShowInGroups = function(sender, arg) {
-    if(sender.InProcess)
-        return;
-    sender.ShowProgress();
-    sender.SwitchShowInGroups();
-    WebFileManager_InitCallback();
-    WebFileManager_DoCallback(this.UniqueID, sender.ClientID + this.EventArgumentSplitter + 'FileViewShowInGroups' + this.EventArgumentSplitter + arg, WebFileManager_Render, sender, WebFileManager_OnError);
-}
-
 FileManagerController.prototype.OnFileViewSort = function(sender, arg) {
     if(sender.InProcess)
         return;

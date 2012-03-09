@@ -25,7 +25,6 @@ namespace IZ.WebFileManager
 		FileViewSort,
 		FileViewNavigate,
 		FileViewChangeView,
-		FileViewShowInGroups,
 		SelectedItemsCopyTo,
 		SelectedItemsMoveTo,
 		SelectedItemsDelete,

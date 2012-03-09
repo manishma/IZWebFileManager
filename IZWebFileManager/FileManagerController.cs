@@ -760,9 +760,6 @@ namespace IZ.WebFileManager
                 case FileManagerCommands.FileViewChangeView:
                     _callbackResult = _callbackControl.RenderContents();
                     break;
-                case FileManagerCommands.FileViewShowInGroups:
-                    _callbackResult = _callbackControl.RenderContents();
-                    break;
             }
 
             return _callbackResult;
@@ -788,8 +785,6 @@ namespace IZ.WebFileManager
                 case FileManagerCommands.FileViewSort:
                     break;
                 case FileManagerCommands.FileViewChangeView:
-                    break;
-                case FileManagerCommands.FileViewShowInGroups:
                     break;
                 case FileManagerCommands.FileViewNavigate:
                     _callbackResult = ProcessFileViewNavigate(_callbackControl.ResolveFileManagerItemInfo(DecodeURIComponent(_callbackCommandArgument)));

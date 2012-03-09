@@ -238,6 +238,7 @@ FileManagerController.prototype.OnSearch = function (sender, arg) {
         return;
     var search = WebForm_GetElementById(sender.ClientID + '_SearchTerm');
     if (search) search.value = arg;
+    sender.SetView('Details');
     this.OnRefresh(sender, '');
 };
 

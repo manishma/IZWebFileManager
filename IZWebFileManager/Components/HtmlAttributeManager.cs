@@ -7,6 +7,7 @@
 //THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 
 using System;
+using System.Drawing;
 using System.Web.UI;
 using System.Text;
 using System.Web.UI.WebControls;
@@ -244,6 +245,11 @@ namespace Legend.Web
             return Style(HtmlTextWriterStyle.Cursor, cursor);
         }
 
+        public HtmlAttributeManager ZIndex(int zIndex)
+        {
+            return Style(HtmlTextWriterStyle.ZIndex, zIndex.ToString());
+        }
+
         public HtmlAttributeManager Width(string value)
         {
             return Style(HtmlTextWriterStyle.Width, value);
@@ -272,6 +278,16 @@ namespace Legend.Web
         public HtmlAttributeManager Color(string color)
         {
             return Style(HtmlTextWriterStyle.Color, color);
+        }
+
+        public HtmlAttributeManager Color(Color color)
+        {
+            return Color("#" + color.ToArgb().ToString("X"));
+        }
+
+        public HtmlAttributeManager Italic()
+        {
+            return Style(HtmlTextWriterStyle.FontStyle, "Italic");
         }
 
         public HtmlAttributeManager WhiteSpace(string value)

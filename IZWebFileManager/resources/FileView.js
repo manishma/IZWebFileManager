@@ -92,6 +92,15 @@ FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemStyle
             }
         };
 
+        this.SearchBox.onfocus = function (e) {
+            This.SearchBoxWatermark.style.display = 'none';
+        };
+
+        this.SearchBox.onblur = function (e) {
+            if (!This.SearchBox.value)
+                This.SearchBoxWatermark.style.display = 'inline';
+        };
+
         this.SearchBoxGo.style.display = 'block';
         this.SearchBoxGo.onclick = function (e) {
             if (e == null) var e = event;
@@ -102,8 +111,7 @@ FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemStyle
 
         this.SearchBoxClear.onclick = function (e) {
             if (e == null) var e = event;
-            This.SearchBox.value = '';
-            This.SearchBoxClear.style.display = 'none';
+            This.ClearSearchBox();
             This._controller.OnSearch(This, '');
             e.cancelBubble = true;
             return false;
@@ -139,6 +147,14 @@ FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemStyle
             return false;
         }
         return false;
+    }
+};
+
+FileView.prototype.ClearSearchBox = function () {
+    if (this.SearchBox) {
+        this.SearchBox.value = '';
+        this.SearchBoxClear.style.display = 'none';
+        this.SearchBoxWatermark.style.display = 'inline';
     }
 };
 

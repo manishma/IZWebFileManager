@@ -192,6 +192,9 @@
   <data name="Rename" xml:space="preserve">
     <value>Rename</value>
   </data>
+  <data name="SearchWatermark" xml:space="preserve">
+    <value>Search</value>
+  </data>
   <data name="SelectDestination" xml:space="preserve">
     <value>Select destination directory</value>
   </data>

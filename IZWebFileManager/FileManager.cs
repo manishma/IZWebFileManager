@@ -985,13 +985,13 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             writer.RenderBeginTag(HtmlTextWriterTag.Table);
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
 
-            RenderTextBox(writer, "_Address", CurrentDirectory.FileManagerPath,
+            RenderTextBox(writer, "_Address", CurrentDirectory.FileManagerPath, null,
                 Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.go.png"));
 
             if (ShowSearchBox)
             {
                 writer.AddStyleAttribute(HtmlTextWriterStyle.Width, "130px");
-                RenderTextBox(writer, "_Search", FileView.SearchTerm,
+                RenderTextBox(writer, "_Search", FileView.SearchTerm, Controller.GetResourceString("SearchWatermark", "Search"),
                     Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.search.png"),
                     Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.clear.png")
                     );
@@ -1012,7 +1012,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             writer.RenderEndTag();
         }
 
-        private void RenderTextBox(HtmlTextWriter writer, string name, string value, params string[] icons)
+        private void RenderTextBox(HtmlTextWriter writer, string name, string value, string watermark, params string[] icons)
         {
             writer.AddStyleAttribute(HtmlTextWriterStyle.PaddingRight, "2px");
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
@@ -1031,6 +1031,9 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             writer.AddStyleAttribute(HtmlTextWriterStyle.Margin, "0");
             writer.AddStyleAttribute(HtmlTextWriterStyle.Width, "100%");
             textBoxStyle.AddAttributesToRender(writer);
+            writer.AddStyleAttribute(HtmlTextWriterStyle.Position, "relative");
+            writer.AddStyleAttribute(HtmlTextWriterStyle.ZIndex, "2");
+            writer.AddStyleAttribute(HtmlTextWriterStyle.BackgroundColor, "transparent");
             writer.RenderBeginTag(HtmlTextWriterTag.Input);
             writer.RenderEndTag();
 
@@ -1043,6 +1046,15 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                         .Img(x => x.Border(0).Src(icon))
                         .EndTag()
                     .EndTag();
+            }
+
+            if (!String.IsNullOrEmpty(watermark))
+            {
+                writer
+                    .Span(x => x.Id(_fileView.ClientID + name + "Watermark").Position("absolute").ZIndex(1).Top(AddressTextBoxStyle.PaddingTop).Left(AddressTextBoxStyle.PaddingLeft).Color(AddressTextBoxStyle.BorderColor).Italic())
+                        .Text(watermark)
+                    .EndTag();
+                
             }
 
             writer.RenderEndTag(); // div

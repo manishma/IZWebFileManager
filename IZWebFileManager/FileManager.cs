@@ -1051,7 +1051,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             if (!String.IsNullOrEmpty(watermark))
             {
                 writer
-                    .Span(x => x.Id(_fileView.ClientID + name + "Watermark").Position("absolute").ZIndex(1).Top(AddressTextBoxStyle.PaddingTop).Left(AddressTextBoxStyle.PaddingLeft).Color(AddressTextBoxStyle.BorderColor).Italic())
+                    .Span(x => x.Id(_fileView.ClientID + name + "Watermark").Position("absolute").ZIndex(1).Top(AddressTextBoxStyle.PaddingTop).Left(AddressTextBoxStyle.PaddingLeft).Color(AddressTextBoxStyle.BorderColor).Italic().Cursor("text"))
                         .Text(watermark)
                     .EndTag();
                 

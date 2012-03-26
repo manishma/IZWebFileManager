@@ -92,6 +92,10 @@ FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemStyle
             }
         };
 
+        this.SearchBoxWatermark.onclick = function (e) {
+            This.SearchBox.focus();
+        };
+
         this.SearchBox.onfocus = function (e) {
             This.SearchBoxWatermark.style.display = 'none';
         };

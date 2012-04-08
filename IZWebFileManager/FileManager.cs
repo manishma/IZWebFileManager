@@ -754,7 +754,7 @@ function FileManager_GetChildByTagName(element, tagName, index) {
                     string postBackStatement = null;
                     if (button.PerformPostBack)
                     {
-                        postBackStatement = Page.ClientScript.GetPostBackEventReference(this, "Toolbar:" + i);
+                        postBackStatement = Page.ClientScript.GetPostBackEventReference(this, "Toolbar:" + i) + ";theForm.__EVENTTARGET.value = '';theForm.__EVENTARGUMENT.value = '';";
                     }
                     MenuItem item = new MenuItem()
                     {

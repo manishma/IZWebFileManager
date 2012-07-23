@@ -14,7 +14,8 @@
 			<siteMapNode url="RootDirectories.aspx" title="Root Directories"  description="Dynamically Setting Root Directories" />
 			<siteMapNode url="FileDownload.aspx" title="File Download"  description="Handle FileDownload event" />
 			<siteMapNode url="SelectedItems.aspx" title="Selected Items"  description="Operate with selected items" />
-			<siteMapNode url="CustomUploadBar.aspx" title="Custom Upload Bar"  description="Use your own upload file control" />
+      <siteMapNode url="CustomUploadBar.aspx" title="Custom Upload Bar"  description="Use your own upload file control" />
+      <siteMapNode url="OpenFileDialog.aspx" title="Open File Dialog"  description="Open File Dialog" />
 		</siteMapNode>
 	</siteMapNode>
 </siteMap>

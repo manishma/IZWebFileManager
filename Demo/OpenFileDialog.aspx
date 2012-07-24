@@ -10,21 +10,38 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css" type="text/css" media="all" />
 
 <script type="text/javascript">
-     $(function () {
-         $("#pnuploadimage_main").dialog({
+    $(function () {
+        $("#pnuploadimage_main").dialog({
             title: 'Select image to preview',
             autoOpen: false,
             resizable: false,
             show: "blind",
             hide: "explode",
             width: "auto",
-            height: "auto"
-         });
-         $("#opener").click(function () {
-             $("#pnuploadimage_main").dialog("open");
-             return false;
-         });
-     });
+            height: "auto",
+            open: function () {
+                $('#<%= DialogIsOpen.ClientID %>').val('1');
+            },
+            close: function () {
+                $('#<%= DialogIsOpen.ClientID %>').val('0');
+            }
+        });
+        $("#opener").click(function () {
+            $("#pnuploadimage_main").dialog("open");
+            return false;
+        });
+
+        var uploadBtn = $('#<%= FileManager1.ClientID %>_UploadBar input:button')[0];
+        var f = uploadBtn.onclick;
+        uploadBtn.onclick = function () {
+            $("#pnuploadimage_main").dialog('destroy').appendTo($(theForm));
+            f();
+        };
+
+        if($('#<%= DialogIsOpen.ClientID %>').val() == '1')
+            $("#pnuploadimage_main").dialog("open");
+            
+    });
 
      function OpenItem(path) {
          $('#preview').attr('src', path);
@@ -40,6 +57,7 @@
         <img id="preview" />
     </div>
 
+    <asp:HiddenField runat="server" ID="DialogIsOpen" Value="0" />
     <div id="pnuploadimage_main" class="ModalWindow">
         <iz:FileManager ID="FileManager1" runat="server" Height="400" Width="600" FileViewMode="Thumbnails" ClientOpenItemFunction="OpenItem">
             <RootDirectories>

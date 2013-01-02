@@ -96,7 +96,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="resources\FileView.js" />
+    <TypeScriptCompile Include="resources\FileView.ts" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="resources\FileManagerController.js" />
@@ -244,6 +244,10 @@
   <ItemGroup>
     <EmbeddedResource Include="resources\go.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\FileView.js" />
+    <Content Include="resources\WebForm.d.ts" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -255,4 +259,12 @@
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)*" "$(SolutionDir)Demo\Bin\"</PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptSourceMap> --sourcemap</TypeScriptSourceMap>
+  </PropertyGroup>
+  <Target Name="BeforeBuild">
+    <Message Text="Compiling TypeScript files" />
+    <Message Text="Executing tsc$(TypeScriptSourceMap) @(TypeScriptCompile ->'&quot;%(fullpath)&quot;', ' ')" />
+    <Exec Command="tsc$(TypeScriptSourceMap) @(TypeScriptCompile ->'&quot;%(fullpath)&quot;', ' ')" />
+  </Target>
 </Project>

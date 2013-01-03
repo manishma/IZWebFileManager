@@ -97,9 +97,15 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="resources\FileView.ts" />
+    <EmbeddedResource Include="resources\FileView.js">
+      <DependentUpon>FileView.ts</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="resources\FileManagerController.js" />
+    <TypeScriptCompile Include="resources\FileManagerController.ts" />
+    <EmbeddedResource Include="resources\FileManagerController.js">
+      <DependentUpon>FileManagerController.ts</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseMenu.cs" />
@@ -245,7 +251,6 @@
     <EmbeddedResource Include="resources\go.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="resources\FileView.js" />
     <Content Include="resources\WebForm.d.ts" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

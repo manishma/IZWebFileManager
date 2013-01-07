@@ -186,7 +186,10 @@
     <EmbeddedResource Include="resources\RootFolderSmall.gif" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="resources\BorderedPanel.js" />
+    <TypeScriptCompile Include="resources\BorderedPanel.ts" />
+    <EmbeddedResource Include="resources\BorderedPanel.js">
+      <DependentUpon>BorderedPanel.ts</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="resources\Empty.gif" />
@@ -210,7 +213,10 @@
     <EmbeddedResource Include="resources\Refresh.gif" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="resources\FolderTree.js" />
+    <TypeScriptCompile Include="resources\FolderTree.ts" />
+    <EmbeddedResource Include="resources\FolderTree.js">
+      <DependentUpon>FolderTree.ts</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

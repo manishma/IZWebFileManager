@@ -96,10 +96,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="resources\FileView.js" />
+    <TypeScriptCompile Include="resources\FileView.ts" />
+    <EmbeddedResource Include="resources\FileView.js">
+      <DependentUpon>FileView.ts</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="resources\FileManagerController.js" />
+    <TypeScriptCompile Include="resources\FileManagerController.ts" />
+    <EmbeddedResource Include="resources\FileManagerController.js">
+      <DependentUpon>FileManagerController.ts</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseMenu.cs" />
@@ -180,7 +186,10 @@
     <EmbeddedResource Include="resources\RootFolderSmall.gif" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="resources\BorderedPanel.js" />
+    <TypeScriptCompile Include="resources\BorderedPanel.ts" />
+    <EmbeddedResource Include="resources\BorderedPanel.js">
+      <DependentUpon>BorderedPanel.ts</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="resources\Empty.gif" />
@@ -204,7 +213,10 @@
     <EmbeddedResource Include="resources\Refresh.gif" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="resources\FolderTree.js" />
+    <TypeScriptCompile Include="resources\FolderTree.ts" />
+    <EmbeddedResource Include="resources\FolderTree.js">
+      <DependentUpon>FolderTree.ts</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -244,6 +256,9 @@
   <ItemGroup>
     <EmbeddedResource Include="resources\go.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\WebForm.d.ts" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -255,4 +270,12 @@
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)*" "$(SolutionDir)Demo\Bin\"</PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptSourceMap> --sourcemap</TypeScriptSourceMap>
+  </PropertyGroup>
+  <Target Name="BeforeBuild">
+    <Message Text="Compiling TypeScript files" />
+    <Message Text="Executing tsc$(TypeScriptSourceMap) @(TypeScriptCompile ->'&quot;%(fullpath)&quot;', ' ')" />
+    <Exec Command="tsc$(TypeScriptSourceMap) @(TypeScriptCompile ->'&quot;%(fullpath)&quot;', ' ')" />
+  </Target>
 </Project>

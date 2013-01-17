@@ -30,8 +30,8 @@ namespace IZ.WebFileManager.Components
 		internal override void RenderItem (System.Web.UI.HtmlTextWriter output, FileViewItem item) {
 			output.AddStyleAttribute (HtmlTextWriterStyle.Margin, "2px");
 			output.AddStyleAttribute (HtmlTextWriterStyle.Width, "70px");
-			output.AddStyleAttribute (HtmlTextWriterStyle.Height, "71px");
-			output.AddStyleAttribute ("float", fileView.Controller.CurrentUICulture.TextInfo.IsRightToLeft ? "right" : "left");
+            output.AddStyleAttribute(HtmlTextWriterStyle.Display, "inline-block");
+            output.AddStyleAttribute(HtmlTextWriterStyle.VerticalAlign, "top");
 			output.RenderBeginTag (HtmlTextWriterTag.Div);
 
 			fileView.RenderItemBeginTag (output, item);
@@ -59,7 +59,7 @@ namespace IZ.WebFileManager.Components
 			output.RenderBeginTag (HtmlTextWriterTag.Td);
 			output.AddStyleAttribute (HtmlTextWriterStyle.Cursor, "default");
 			output.AddStyleAttribute (HtmlTextWriterStyle.Width, "70px");
-			output.AddStyleAttribute (HtmlTextWriterStyle.Height, "30px");
+            output.AddStyleAttribute(HtmlTextWriterStyle.PaddingBottom, "2px");
 			output.AddStyleAttribute (HtmlTextWriterStyle.Overflow, "hidden");
 			output.AddStyleAttribute (HtmlTextWriterStyle.TextAlign, "center");
 			output.AddAttribute (HtmlTextWriterAttribute.Id, item.ClientID + "_Name");

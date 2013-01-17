@@ -376,7 +376,9 @@ FileView.prototype.InitItem = function (item, path, isDirectory, canBeRenamed, s
     item.Selected = selected;
     item.CanBeRenamed = canBeRenamed;
     var pathParts = decodeURIComponent(path).split('/');
-    item.Name = pathParts.pop();
+    var name = pathParts.pop();
+    item.Name = name;
+    item.setAttribute("title", name);
     item.ondblclick = function (e) {
         if(e == null) {
             var e = event;

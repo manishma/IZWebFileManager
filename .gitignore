@@ -8,3 +8,4 @@ _ReSharper*
 *.user
 build
 _PrecompiledDemo
+*.js.map

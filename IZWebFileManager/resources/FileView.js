@@ -135,37 +135,27 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
             eval('WFM_' + ControllerID + '.OnExecuteCommand(WFM_' + ClientID + ',\'0:0\')');
             e.cancelBubble = true;
             return false;
-        } else {
-            if(e.keyCode == 38 || e.keyCode == 37) {
-                eval('WFM_' + ClientID + '.GoToPreviousItem(e)');
-                e.cancelBubble = true;
-                return false;
-            } else {
-                if(e.keyCode == 40 || e.keyCode == 39) {
-                    eval('WFM_' + ClientID + '.GoToNextItem(e)');
-                    e.cancelBubble = true;
-                    return false;
-                } else {
-                    if(e.keyCode == 113) {
-                        eval('WFM_' + ControllerID + '.doNotHide = true');
-                        eval('WFM_' + ControllerID + '.OnRename(WFM_' + ClientID + ',\'\')');
-                        e.cancelBubble = true;
-                        return false;
-                    } else {
-                        if(e.keyCode == 116) {
-                            eval('WFM_' + ControllerID + '.OnRefresh(WFM_' + ClientID + ',\'\')');
-                            e.cancelBubble = true;
-                            return false;
-                        } else {
-                            if(e.keyCode == 46) {
-                                eval('WFM_' + ControllerID + '.OnSelectedItemsDelete(WFM_' + ClientID + ',\'\')');
-                                e.cancelBubble = true;
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
+        } else if(e.keyCode == 38 || e.keyCode == 37) {
+            eval('WFM_' + ClientID + '.GoToPreviousItem(e)');
+            e.cancelBubble = true;
+            return false;
+        } else if(e.keyCode == 40 || e.keyCode == 39) {
+            eval('WFM_' + ClientID + '.GoToNextItem(e)');
+            e.cancelBubble = true;
+            return false;
+        } else if(e.keyCode == 113) {
+            eval('WFM_' + ControllerID + '.doNotHide = true');
+            eval('WFM_' + ControllerID + '.OnRename(WFM_' + ClientID + ',\'\')');
+            e.cancelBubble = true;
+            return false;
+        } else if(e.keyCode == 116) {
+            eval('WFM_' + ControllerID + '.OnRefresh(WFM_' + ClientID + ',\'\')');
+            e.cancelBubble = true;
+            return false;
+        } else if(e.keyCode == 46) {
+            eval('WFM_' + ControllerID + '.OnSelectedItemsDelete(WFM_' + ClientID + ',\'\')');
+            e.cancelBubble = true;
+            return false;
         }
         return false;
     };
@@ -529,10 +519,8 @@ FileViewItem.prototype._mouseUp = function (ev) {
     this._pendSelect = false;
     if(this.getController().isDragging()) {
         this.onDrop();
-    } else {
-        if(pendSelect) {
-            this.select(!ev.ctrlKey && !ev.shiftKey);
-        }
+    } else if(pendSelect) {
+        this.select(!ev.ctrlKey && !ev.shiftKey);
     }
     return false;
 };

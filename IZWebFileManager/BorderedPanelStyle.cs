@@ -533,6 +533,11 @@ namespace IZ.WebFileManager
 				attributes.Add (HtmlTextWriterStyle.MarginRight, MarginRight.ToString ());
 			if (MarginBottom != Unit.Empty)
 				attributes.Add (HtmlTextWriterStyle.MarginBottom, MarginBottom.ToString ());
+
+            if(!String.IsNullOrEmpty(BackImageUrl))
+            {
+                attributes.Add(HtmlTextWriterStyle.BackgroundImage, String.Format("url({0})", urlResolver.ResolveClientUrl(BackImageUrl)));
+            }
 		}
 
 		public override void CopyFrom (Style s) {

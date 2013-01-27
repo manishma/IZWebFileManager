@@ -436,6 +436,9 @@ namespace IZ.WebFileManager
         public override void RenderBeginTag(HtmlTextWriter writer)
         {
             RenderBeginOuterBorder(writer);
+
+            if (Page.Header != null) // base class Panel add inline attribut background-image, even if style is registered with header
+                ((BorderedPanelStyle) ControlStyle).BackImageUrl = String.Empty;
             base.RenderBeginTag(writer);
         }
 

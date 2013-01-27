@@ -122,6 +122,9 @@ namespace IZ.WebFileManager
                     _selectedItemStyle = new Style();
                     _selectedItemStyle.ForeColor = Color.White;
                     _selectedItemStyle.BackColor = Color.FromArgb(0x316AC5);
+                    _selectedItemStyle.BorderStyle = BorderStyle.Solid;
+                    _selectedItemStyle.BorderWidth = 1;
+                    _selectedItemStyle.BorderColor = Color.Transparent;
 
                     if (IsTrackingViewState)
                         ((IStateManager)_selectedItemStyle).TrackViewState();
@@ -139,6 +142,9 @@ namespace IZ.WebFileManager
                 if (_itemStyle == null)
                 {
                     _itemStyle = new Style();
+                    _itemStyle.BorderStyle = BorderStyle.Solid;
+                    _itemStyle.BorderWidth = 1;
+                    _itemStyle.BorderColor = Color.Transparent;
 
                     if (IsTrackingViewState)
                         ((IStateManager)_itemStyle).TrackViewState();

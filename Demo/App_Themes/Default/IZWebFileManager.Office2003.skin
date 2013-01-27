@@ -9,6 +9,9 @@
     BackColor="#C1D8F9"
     BorderColor="#002D96"
     ProcessImageUrl="IZWebFileManager.Office2003/Loader.gif"
+    SelectedItemBackColor="#C1D8F9"
+    SelectedItemForeColor="#000000"
+    SelectedItemBorderColor="#002D96"
     >
         <FileViewStyle BorderColor="#002D96" />
         <FolderTreeStyle BorderColor="#002D96" />

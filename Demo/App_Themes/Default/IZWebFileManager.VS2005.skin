@@ -7,6 +7,9 @@
     RenameImageUrl="IZWebFileManager.VS2005/Rename.gif"
     FolderUpImageUrl="IZWebFileManager.VS2005/FolderUp.gif"
     BackColor = "#E5E5D7"
+    SelectedItemBackColor="#C1D2EE"
+    SelectedItemForeColor="#000000"
+    SelectedItemBorderColor="#316AC6"
     >
         <ToolbarStyle 
             BackImageUrl="IZWebFileManager.VS2005/ToolbarBG.gif" 

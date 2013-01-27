@@ -141,6 +141,48 @@ namespace IZ.WebFileManager
             }
         }
 
+        [NotifyParentProperty(true)]
+        [TypeConverter(typeof(WebColorConverter))]
+        [Category("Appearance")]
+        [DefaultValue(typeof(Color), "#316AC5")]
+        public Color SelectedItemBackColor
+        {
+            get { return FileView.SelectedItemStyle.BackColor; }
+            set
+            {
+                FileView.SelectedItemStyle.BackColor = value;
+                FolderTree.SelectedNodeStyle.BackColor = value;
+            }
+        }
+
+        [NotifyParentProperty(true)]
+        [TypeConverter(typeof(WebColorConverter))]
+        [Category("Appearance")]
+        [DefaultValue(typeof(Color), "#FFFFFF")]
+        public Color SelectedItemForeColor
+        {
+            get { return FileView.SelectedItemStyle.ForeColor; }
+            set
+            {
+                FileView.SelectedItemStyle.ForeColor = value;
+                FolderTree.SelectedNodeStyle.ForeColor = value;
+            }
+        }
+
+        [NotifyParentProperty(true)]
+        [TypeConverter(typeof(WebColorConverter))]
+        [Category("Appearance")]
+        [DefaultValue(typeof(Color), "")]
+        public Color SelectedItemBorderColor
+        {
+            get { return FileView.SelectedItemStyle.BorderColor; }
+            set
+            {
+                FileView.SelectedItemStyle.BorderColor = value;
+                FolderTree.SelectedNodeStyle.BorderColor = value;
+            }
+        }
+
         FileView FileView
         {
             get

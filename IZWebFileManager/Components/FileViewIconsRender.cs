@@ -28,7 +28,7 @@ namespace IZ.WebFileManager.Components
 		internal FileViewIconsRender (FileView fileView) : base (fileView) { }
 
 		internal override void RenderItem (System.Web.UI.HtmlTextWriter output, FileViewItem item) {
-			output.AddStyleAttribute (HtmlTextWriterStyle.Margin, "2px");
+			output.AddStyleAttribute (HtmlTextWriterStyle.Margin, "1px");
 			output.AddStyleAttribute (HtmlTextWriterStyle.Width, "70px");
             output.AddStyleAttribute(HtmlTextWriterStyle.Display, "inline-block");
             output.AddStyleAttribute(HtmlTextWriterStyle.VerticalAlign, "top");

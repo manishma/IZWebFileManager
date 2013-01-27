@@ -191,7 +191,7 @@ namespace IZ.WebFileManager
 		[DefaultValue (null)]
 		[Category ("Styles")]
 		[DesignerSerializationVisibility (DesignerSerializationVisibility.Content)]
-		TreeNodeStyle SelectedNodeStyle {
+		internal TreeNodeStyle SelectedNodeStyle {
 			get {
 				if (selectedNodeStyle == null) {
 					selectedNodeStyle = new TreeNodeStyle ();
@@ -272,10 +272,17 @@ namespace IZ.WebFileManager
 			NodeStyle.ForeColor = Color.Black;
 			NodeStyle.Font.Names = new string [] { "Tahoma", "Verdana", "Geneva", "Arial", "Helvetica", "sans-serif" };
 			NodeStyle.Font.Size = FontUnit.Parse ("11px", null);
-			HoverNodeStyle.Font.Underline = true;
+            NodeStyle.BorderStyle = BorderStyle.Solid;
+            NodeStyle.BorderWidth = 1;
+            NodeStyle.BorderColor = Color.Transparent;
+            HoverNodeStyle.Font.Underline = true;
 			SelectedNodeStyle.Font.Underline = false;
 			SelectedNodeStyle.ForeColor = Color.White;
 			SelectedNodeStyle.BackColor = Color.FromArgb (0x316AC5);
+            SelectedNodeStyle.BorderStyle = BorderStyle.Solid;
+            SelectedNodeStyle.BorderWidth = 1;
+            SelectedNodeStyle.BorderColor = Color.Transparent;
+
 		}
 
 		void OnSelectedFolderChanged (object sender, EventArgs e) {

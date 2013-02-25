@@ -580,6 +580,13 @@ function FileManager_GetChildByTagName(element, tagName, index) {
 } 
 
 ", true);
+
+//            Page.ClientScript.RegisterStartupScript(typeof(FileManager), "select-folder", @"
+//window['WFM_" + Controller.ClientID + @"PromptDirectory'] =  function(selectedFolder, callback) {
+//    callback(prompt ('', selectedFolder));
+//    
+//}
+//", true);
         }
 
         private void RegisterLayoutSetupScript()

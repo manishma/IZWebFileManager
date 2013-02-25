@@ -143,6 +143,7 @@ FileManagerController.prototype.OnSelectedItemsDelete = function (sender, arg) {
     }
 };
 FileManagerController.prototype.OnSelectedItemsCopyTo = function (sender, arg) {
+    var _this = this;
     if(sender.InProcess) {
         return;
     }
@@ -150,8 +151,9 @@ FileManagerController.prototype.OnSelectedItemsCopyTo = function (sender, arg) {
         return;
     }
     var directory = decodeURIComponent(sender.GetDirectory());
-    arg = this.PromptDirectory(directory);
-    this._SelectedItemsCopyTo(sender, arg);
+    this.PromptDirectory(directory, function (arg) {
+        return _this._SelectedItemsCopyTo(sender, arg);
+    });
 };
 FileManagerController.prototype._SelectedItemsCopyTo = function (sender, arg) {
     if(arg) {
@@ -161,6 +163,7 @@ FileManagerController.prototype._SelectedItemsCopyTo = function (sender, arg) {
     }
 };
 FileManagerController.prototype.OnSelectedItemsMoveTo = function (sender, arg) {
+    var _this = this;
     if(sender.InProcess) {
         return;
     }
@@ -168,8 +171,9 @@ FileManagerController.prototype.OnSelectedItemsMoveTo = function (sender, arg) {
         return;
     }
     var directory = decodeURIComponent(sender.GetDirectory());
-    arg = this.PromptDirectory(directory);
-    this._SelectedItemsMoveTo(sender, arg);
+    this.PromptDirectory(directory, function (arg) {
+        return _this._SelectedItemsMoveTo(sender, arg);
+    });
 };
 FileManagerController.prototype._SelectedItemsMoveTo = function (sender, arg) {
     if(arg) {
@@ -178,8 +182,13 @@ FileManagerController.prototype._SelectedItemsMoveTo = function (sender, arg) {
         WebFileManager_DoCallback(this.UniqueID, sender.ClientID + this.EventArgumentSplitter + 'SelectedItemsMoveTo' + this.EventArgumentSplitter + encodeURIComponent(arg), WebFileManager_Eval, sender, WebFileManager_OnError);
     }
 };
-FileManagerController.prototype.PromptDirectory = function (directory) {
-    return window.prompt(decodeURIComponent(eval('WFM_' + this.ClientID + 'SelectDestination')), directory);
+FileManagerController.prototype.PromptDirectory = function (directory, callback) {
+    var _this = this;
+    var func = window['WFM_' + this.ClientID + 'PromptDirectory'] || function (dir, cb) {
+        var selectedFolder = window.prompt(decodeURIComponent(eval('WFM_' + _this.ClientID + 'SelectDestination')), dir);
+        cb(selectedFolder);
+    };
+    func(directory, callback);
 };
 FileManagerController.prototype.OnNewFolder = function (sender, arg) {
     if(sender.InProcess) {

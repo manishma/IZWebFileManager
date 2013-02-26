@@ -728,5 +728,10 @@ namespace IZ.WebFileManager
         }
 
         #endregion
+
+        internal virtual string ClientScriptReference
+        {
+            get { return FileManagerController.ClientScriptObjectNamePrefix + ClientID; }
+        }
     }
 }

@@ -112,7 +112,12 @@ FolderTree.prototype = {
 			node._refresh = true;
 		}
 	},
-	
+
+	OnSelect: function (path) {
+	    var func = window['WFM_' + this._clientId + '_OnSelect'];
+	    if (func) func(path);
+	},
+
 	_getNode : function (nodeId) {
 		var id = this._clientId + "_" + nodeId + "_node";
 		return WebForm_GetElementById (id);

@@ -178,7 +178,7 @@ namespace IZ.WebFileManager
 			}
 		}
 
-		string ClientScriptReference {
+	    internal override string ClientScriptReference {
 			get {
 				if (_fileView != null)
 					return FileManagerController.ClientScriptObjectNamePrefix + _fileView.ClientID + "_FolderTree";
@@ -311,8 +311,10 @@ namespace IZ.WebFileManager
 				treeNode.Hidden = item.Hidden;
 				treeNode.ImageUrl = Controller.GetFolderSmallImage (dir);
 				if (_fileView != null)
-					treeNode.NavigateUrl = "javascript:WFM_" + _fileView.ClientID + ".Navigate(\"" + treeNode.ValuePath + "\");";
-			}
+                    treeNode.NavigateUrl = "javascript:" + _fileView.ClientScriptReference + ".Navigate(\"" + treeNode.ValuePath + "\");";
+                else
+                    treeNode.NavigateUrl = "javascript:" + ClientScriptReference + ".OnSelect(\"" + treeNode.ValuePath + "\");";
+            }
 		}
 
 		void BuildTree () {
@@ -325,8 +327,10 @@ namespace IZ.WebFileManager
 				SetText (rootDir, treeNode, i);
 				treeNode.Value = PathSeparator + rootDir.TextInternal;
 				if (_fileView != null)
-					treeNode.NavigateUrl = "javascript:WFM_" + _fileView.ClientID + ".Navigate(\"" + treeNode.ValuePath + "\");";
-			}
+                    treeNode.NavigateUrl = "javascript:" + _fileView.ClientScriptReference + ".Navigate(\"" + treeNode.ValuePath + "\");";
+                else
+                    treeNode.NavigateUrl = "javascript:" + ClientScriptReference + ".OnSelect(\"" + treeNode.ValuePath + "\");";
+            }
 
 			for (int i = 0; i < RootDirectories.Count; i++)
 				ExpandRecursive (Nodes [i], RootDirectories [i].ExpandDepth);

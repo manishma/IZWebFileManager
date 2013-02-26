@@ -37,6 +37,7 @@ namespace IZ.WebFileManager
 
         FileView _fileView;
         FolderTree _folderTree;
+        private FolderTree _selectFolderTree;
         ToolbarMenu _toolBar;
         BorderedPanelStyle _addressBarStyle;
         BorderedPanelStyle _addressTextBoxStyle;
@@ -581,12 +582,26 @@ function FileManager_GetChildByTagName(element, tagName, index) {
 
 ", true);
 
-//            Page.ClientScript.RegisterStartupScript(typeof(FileManager), "select-folder", @"
-//window['WFM_" + Controller.ClientID + @"PromptDirectory'] =  function(selectedFolder, callback) {
-//    callback(prompt ('', selectedFolder));
-//    
-//}
-//", true);
+            Page.ClientScript.RegisterStartupScript(typeof(FileManager), "select-folder", @"
+window['" + _fileView.ClientScriptReference + @"_SelectedFolderPath'] = ['" + String.Join("','", Controller.GetPathHashCodes(GetCurrentDirectory().FileManagerPath)) + @"'];
+window['" + Controller.ClientScriptReference + @"PromptDirectory'] =  function(selectedFolder, callback) {
+
+    window['" + _selectFolderTree.ClientScriptReference + @"_OnSelect'] = function(arg) {
+        callback(arg);
+    };
+
+    var selectFolderTree = window['" + _selectFolderTree.ClientScriptReference + @"']
+    var roots = ['" + String.Join("','", RootDirectories.Cast<RootDirectory>().Select(x => Controller.GetPathHashCode("/" + x.TextInternal)).ToArray()) + @"'];
+    var selected = window['" + _fileView.ClientScriptReference + @"_SelectedFolderPath'];
+
+    for(var i=0; i<roots.length; i++){
+        if(roots[i] != selected[0])
+            selectFolderTree.Refresh(roots[i]);
+    }
+    selectFolderTree.RequireRefresh (selected);
+    selectFolderTree.Navigate (selected, 0);
+}
+", true);
         }
 
         private void RegisterLayoutSetupScript()
@@ -658,6 +673,14 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             base.CreateChildControls();
             CreateFileView();
             CreateFolderTree();
+            CreateSelectFolderDialog();
+        }
+
+        private void CreateSelectFolderDialog()
+        {
+            _selectFolderTree = new FolderTree(Controller);
+            _selectFolderTree.ID = "SelectFolderTree";
+            Controls.Add(_selectFolderTree);
         }
 
         private void CreateFolderTree()
@@ -982,6 +1005,8 @@ function FileManager_GetChildByTagName(element, tagName, index) {
             if (ShowFileUploadBar)
                 RenderFileUploadBar(writer);
             RenderEndOuterTable(writer);
+
+            writer.Div().RenderControl(_selectFolderTree).EndTag();
         }
 
         private bool ShowFileUploadBar

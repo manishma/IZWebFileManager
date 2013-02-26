@@ -267,5 +267,12 @@ namespace Legend.Web
 
             return writer;
         }
+
+        public static HtmlTextWriter RenderControl(this HtmlTextWriter writer, Control control)
+        {
+            control.RenderControl(writer);
+
+            return writer;
+        }
     }
 }

@@ -153,6 +153,7 @@ namespace IZ.WebFileManager
             {
                 FileView.SelectedItemStyle.BackColor = value;
                 FolderTree.SelectedNodeStyle.BackColor = value;
+                SelectFolderTree.SelectedNodeStyle.BackColor = value;
             }
         }
 
@@ -167,6 +168,7 @@ namespace IZ.WebFileManager
             {
                 FileView.SelectedItemStyle.ForeColor = value;
                 FolderTree.SelectedNodeStyle.ForeColor = value;
+                SelectFolderTree.SelectedNodeStyle.ForeColor = value;
             }
         }
 
@@ -181,6 +183,7 @@ namespace IZ.WebFileManager
             {
                 FileView.SelectedItemStyle.BorderColor = value;
                 FolderTree.SelectedNodeStyle.BorderColor = value;
+                SelectFolderTree.SelectedNodeStyle.BorderColor = value;
             }
         }
 
@@ -199,6 +202,15 @@ namespace IZ.WebFileManager
             {
                 EnsureChildControls();
                 return _folderTree;
+            }
+        }
+
+        FolderTree SelectFolderTree
+        {
+            get
+            {
+                EnsureChildControls();
+                return _selectFolderTree;
             }
         }
 
@@ -586,17 +598,31 @@ function FileManager_GetChildByTagName(element, tagName, index) {
 window['" + _fileView.ClientScriptReference + @"_SelectedFolderPath'] = ['" + String.Join("','", Controller.GetPathHashCodes(GetCurrentDirectory().FileManagerPath)) + @"'];
 window['" + Controller.ClientScriptReference + @"PromptDirectory'] =  function(selectedFolder, callback) {
 
+    var selectFolderPanel = document.getElementById('" + ClientID + @"_SelectFolderPanel');
+
     window['" + _selectFolderTree.ClientScriptReference + @"_OnSelect'] = function(arg) {
         selectedFolder = arg;
     };
 
-    document.getElementById('"+ ClientID+ @"_SelectFolder').onclick = function() {
+    document.getElementById('"+ ClientID+ @"_SelectFolderOK').onclick = function() {
         callback(selectedFolder);
+        selectFolderPanel.style.display = 'none';
+    };
+    document.getElementById('" + ClientID + @"_SelectFolderCancel').onclick = function() {
+        callback(null);
+        selectFolderPanel.style.display = 'none';
     };
 
     var selectFolderTree = window['" + _selectFolderTree.ClientScriptReference + @"']
     var roots = ['" + String.Join("','", RootDirectories.Cast<RootDirectory>().Select(x => Controller.GetPathHashCode("/" + x.TextInternal)).ToArray()) + @"'];
     var selected = window['" + _fileView.ClientScriptReference + @"_SelectedFolderPath'];
+
+    var pos = WebForm_GetElementPosition(document.getElementById('" + ClientID + @"'));
+    selectFolderPanel.style.display = 'block';
+    WebForm_SetElementX(selectFolderPanel, pos.x);
+    WebForm_SetElementY(selectFolderPanel, pos.y);
+    WebForm_SetElementHeight(selectFolderPanel, pos.height);
+    WebForm_SetElementWidth(selectFolderPanel, pos.width);
 
     for(var i=0; i<roots.length; i++){
         if(roots[i] != selected[0])
@@ -684,6 +710,8 @@ window['" + Controller.ClientScriptReference + @"PromptDirectory'] =  function(s
         {
             _selectFolderTree = new FolderTree(Controller);
             _selectFolderTree.ID = "SelectFolderTree";
+            _selectFolderTree.Width = 250;
+            _selectFolderTree.Height = 300;
             Controls.Add(_selectFolderTree);
         }
 
@@ -1010,11 +1038,24 @@ window['" + Controller.ClientScriptReference + @"PromptDirectory'] =  function(s
                 RenderFileUploadBar(writer);
             RenderEndOuterTable(writer);
 
-            writer.Div()
-                .RenderControl(_selectFolderTree)
-                .Div()
-                    .Button(attr => attr.Id(ClientID + "_SelectFolder").Attr("type", "button"))
-                        .Text("Select")
+            var style = new Style();
+            style.CopyFrom(ControlStyle);
+            style.Width = Unit.Empty;
+            style.Height = Unit.Empty;
+
+            writer.Div(attr => attr.Id(ClientID + "_SelectFolderPanel").Position("fixed").Display("none").ZIndex(100).BackgroundColor("rgba(0,0,0, 0.2)").Style("filter", "progid:DXImageTransform.Microsoft.gradient(startColorstr=#33000000,endColorstr=#33000000)"))
+                .Div(attr => attr.Style(style).Display("inline-block").Position("relative").Left("30%").Top("10%").Padding(2).Direction(Controller.IsRightToLeft))
+                    .Div(attr => attr.Padding(2))
+                        .Text(GetResourceString("SelectDestination", "Select destination directory"), true)
+                    .EndTag()
+                    .RenderControl(_selectFolderTree)
+                    .Div(attr => attr.Align(Controller.IsRightToLeft ? "left" : "right"))
+                        .Button(attr => attr.Id(ClientID + "_SelectFolderOK").Attr("type", "button"))
+                            .Text(GetResourceString("Select", "Select"), true)
+                        .EndTag()
+                        .Button(attr => attr.Id(ClientID + "_SelectFolderCancel").Attr("type", "button"))
+                            .Text(GetResourceString("Cancel", "Cancel"), true)
+                        .EndTag()
                     .EndTag()
                 .EndTag()
             .EndTag();

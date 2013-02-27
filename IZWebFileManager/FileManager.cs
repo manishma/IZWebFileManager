@@ -587,7 +587,11 @@ window['" + _fileView.ClientScriptReference + @"_SelectedFolderPath'] = ['" + St
 window['" + Controller.ClientScriptReference + @"PromptDirectory'] =  function(selectedFolder, callback) {
 
     window['" + _selectFolderTree.ClientScriptReference + @"_OnSelect'] = function(arg) {
-        callback(arg);
+        selectedFolder = arg;
+    };
+
+    document.getElementById('"+ ClientID+ @"_SelectFolder').onclick = function() {
+        callback(selectedFolder);
     };
 
     var selectFolderTree = window['" + _selectFolderTree.ClientScriptReference + @"']
@@ -1006,7 +1010,14 @@ window['" + Controller.ClientScriptReference + @"PromptDirectory'] =  function(s
                 RenderFileUploadBar(writer);
             RenderEndOuterTable(writer);
 
-            writer.Div().RenderControl(_selectFolderTree).EndTag();
+            writer.Div()
+                .RenderControl(_selectFolderTree)
+                .Div()
+                    .Button(attr => attr.Id(ClientID + "_SelectFolder").Attr("type", "button"))
+                        .Text("Select")
+                    .EndTag()
+                .EndTag()
+            .EndTag();
         }
 
         private bool ShowFileUploadBar

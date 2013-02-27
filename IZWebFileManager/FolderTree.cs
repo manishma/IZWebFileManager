@@ -313,7 +313,7 @@ namespace IZ.WebFileManager
 				if (_fileView != null)
                     treeNode.NavigateUrl = "javascript:" + _fileView.ClientScriptReference + ".Navigate(\"" + treeNode.ValuePath + "\");";
                 else
-                    treeNode.NavigateUrl = "javascript:" + ClientScriptReference + ".OnSelect(\"" + treeNode.ValuePath + "\");";
+                    treeNode.NavigateUrl = "javascript:" + ClientScriptReference + ".OnSelect(\"" + Controller.GetPathHashCode(treeNode.ValuePath) + "\", \"" + treeNode.ValuePath + "\");";
             }
 		}
 
@@ -329,7 +329,7 @@ namespace IZ.WebFileManager
 				if (_fileView != null)
                     treeNode.NavigateUrl = "javascript:" + _fileView.ClientScriptReference + ".Navigate(\"" + treeNode.ValuePath + "\");";
                 else
-                    treeNode.NavigateUrl = "javascript:" + ClientScriptReference + ".OnSelect(\"" + treeNode.ValuePath + "\");";
+                    treeNode.NavigateUrl = "javascript:" + ClientScriptReference + ".OnSelect(\"" + Controller.GetPathHashCode(treeNode.ValuePath) + "\", \"" + treeNode.ValuePath + "\");";
             }
 
 			for (int i = 0; i < RootDirectories.Count; i++)

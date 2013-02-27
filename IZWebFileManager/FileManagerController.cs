@@ -723,6 +723,12 @@ namespace IZ.WebFileManager
         }
 
         internal const string ClientScriptObjectNamePrefix = "WFM_";
+
+        internal string ClientScriptReference
+        {
+            get { return ClientScriptObjectNamePrefix + ClientID; }
+        }
+
         private string GetInitInstanceScript()
         {
             return "var " + ClientScriptObjectNamePrefix + ClientID + "=new FileManagerController('" + ClientID + "','" + UniqueID + "','" + EventArgumentSplitter + "');\r\n";
@@ -1346,7 +1352,8 @@ namespace IZ.WebFileManager
         void AddFolderTreeNavigateEventReference(StringBuilder sb, FileManagerItemInfo itemInfo)
         {
             sb.AppendLine("var folderTree = window['WFM_' + context.ClientID + '_FolderTree'];");
-            sb.AppendLine("if(folderTree) {folderTree.Navigate (['" + String.Join("','", GetPathHashCodes(itemInfo.FileManagerPath)) + "'],0);}");
+            sb.AppendLine("window['WFM_' + context.ClientID + '_SelectedFolderPath'] = ['" + String.Join("','", GetPathHashCodes(itemInfo.FileManagerPath)) + "']");
+            sb.AppendLine("if(folderTree) {folderTree.Navigate (window['WFM_' + context.ClientID + '_SelectedFolderPath'],0);}");
         }
 
         void AddFolderTreeRefreshEventReference(StringBuilder sb, FileManagerItemInfo itemInfo)

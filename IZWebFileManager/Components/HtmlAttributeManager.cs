@@ -125,6 +125,19 @@ namespace Legend.Web
             return this;
         }
 
+        public HtmlAttributeManager Direction(bool isRightToLeft)
+        {
+            Writer.AddAttribute(HtmlTextWriterAttribute.Dir, isRightToLeft ? "rtl" : "ltr");
+            Writer.AddStyleAttribute(HtmlTextWriterStyle.Direction, isRightToLeft ? "rtl" : "ltr");
+            return this;
+        }
+
+        public HtmlAttributeManager Align(string value)
+        {
+            Writer.AddStyleAttribute(HtmlTextWriterStyle.TextAlign, value);
+            return this;
+        }
+
         public HtmlAttributeManager Href(string href)
         {
             return Attr(HtmlTextWriterAttribute.Href, href);
@@ -193,6 +206,11 @@ namespace Legend.Web
         public HtmlAttributeManager PaddingRight(Unit padding)
         {
             return PaddingRight(padding.ToString());
+        }
+        
+        public HtmlAttributeManager Padding(Unit padding)
+        {
+            return Style(HtmlTextWriterStyle.Padding, padding.ToString());
         }
 
         public HtmlAttributeManager Position(string position)
@@ -283,6 +301,11 @@ namespace Legend.Web
         public HtmlAttributeManager Color(Color color)
         {
             return Color("#" + color.ToArgb().ToString("X"));
+        }
+
+        public HtmlAttributeManager Opacity(string value)
+        {
+            return Style("opacity", value);
         }
 
         public HtmlAttributeManager Italic()

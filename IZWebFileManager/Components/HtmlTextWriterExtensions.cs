@@ -274,5 +274,10 @@ namespace Legend.Web
 
             return writer;
         }
+
+        public static HtmlTextWriter Button(this HtmlTextWriter writer, Func<HtmlAttributeManager, HtmlAttributeManager> attributes = null)
+        {
+            return writer.Tag(HtmlTextWriterTag.Button, attributes);
+        }
     }
 }

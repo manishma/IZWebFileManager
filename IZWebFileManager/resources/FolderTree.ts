@@ -113,7 +113,8 @@ FolderTree.prototype = {
 		}
 	},
 
-	OnSelect: function (path) {
+	OnSelect: function (nodeId, path) {
+	    this.SelectNode(nodeId);
 	    var func = window['WFM_' + this._clientId + '_OnSelect'];
 	    if (func) func(path);
 	},

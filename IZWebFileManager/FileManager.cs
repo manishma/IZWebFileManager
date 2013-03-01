@@ -499,6 +499,20 @@ namespace IZ.WebFileManager
 
         [PersistenceMode(PersistenceMode.InnerProperty)]
         [Category("Appearance")]
+        public BorderedPanelStyle DetailsColumnHeaderStyle
+        {
+            get { return FileView.DetailsColumnHeaderStyle; }
+        }
+
+        [PersistenceMode(PersistenceMode.InnerProperty)]
+        [Category("Appearance")]
+        public Style DetailsSortedColumnStyle
+        {
+            get { return FileView.DetailsSortedColumnStyle; }
+        }
+
+        [PersistenceMode(PersistenceMode.InnerProperty)]
+        [Category("Appearance")]
         public Style FolderTreeStyle
         {
             get { return FolderTree.ControlStyle; }

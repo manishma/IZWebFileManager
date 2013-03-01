@@ -154,6 +154,7 @@ namespace IZ.WebFileManager
                 FileView.SelectedItemStyle.BackColor = value;
                 FolderTree.SelectedNodeStyle.BackColor = value;
                 SelectFolderTree.SelectedNodeStyle.BackColor = value;
+                Controller.DynamicHoverStyle.BackColor = value;
             }
         }
 
@@ -169,6 +170,7 @@ namespace IZ.WebFileManager
                 FileView.SelectedItemStyle.ForeColor = value;
                 FolderTree.SelectedNodeStyle.ForeColor = value;
                 SelectFolderTree.SelectedNodeStyle.ForeColor = value;
+                Controller.DynamicHoverStyle.ForeColor = value;
             }
         }
 
@@ -184,6 +186,7 @@ namespace IZ.WebFileManager
                 FileView.SelectedItemStyle.BorderColor = value;
                 FolderTree.SelectedNodeStyle.BorderColor = value;
                 SelectFolderTree.SelectedNodeStyle.BorderColor = value;
+                Controller.DynamicHoverStyle.BorderColor = value;
             }
         }
 
@@ -499,6 +502,13 @@ namespace IZ.WebFileManager
         public Style FolderTreeStyle
         {
             get { return FolderTree.ControlStyle; }
+        }
+
+        [PersistenceMode(PersistenceMode.InnerProperty)]
+        [Category("Appearance")]
+        public Style SelectFolderTreeStyle
+        {
+            get { return SelectFolderTree.ControlStyle; }
         }
 
         [Bindable(true)]

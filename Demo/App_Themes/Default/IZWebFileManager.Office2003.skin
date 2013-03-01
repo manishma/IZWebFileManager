@@ -14,7 +14,8 @@
     SelectedItemBorderColor="#002D96"
     >
         <FileViewStyle BorderColor="#002D96" />
-        <FolderTreeStyle BorderColor="#002D96" />
+        <FolderTreeStyle BackColor="#DAE8FB" BorderColor="Transparent" />
+        <SelectFolderTreeStyle BackColor="#DAE8FB" BorderColor="Transparent" />
         <ToolbarStyle 
             BackColor="#C1D8F9"
             BackImageUrl="IZWebFileManager.Office2003/ToolbarBG.gif" 

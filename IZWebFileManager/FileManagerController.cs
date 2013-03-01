@@ -460,6 +460,9 @@ namespace IZ.WebFileManager
             DynamicMenuItemStyle.ForeColor = Color.Black;
             DynamicMenuItemStyle.Font.Names = new[] { "Tahoma", "Verdana", "Geneva", "Arial", "Helvetica", "sans-serif" };
             DynamicMenuItemStyle.Font.Size = FontUnit.Parse("11px", null);
+            DynamicMenuItemStyle.BorderStyle = BorderStyle.Solid;
+            DynamicMenuItemStyle.BorderWidth = 1;
+            DynamicMenuItemStyle.BorderColor = Color.Transparent;
 
             DynamicHoverStyle = new Style();
             DynamicHoverStyle.ForeColor = Color.White;

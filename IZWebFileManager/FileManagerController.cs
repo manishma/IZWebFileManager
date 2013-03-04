@@ -457,9 +457,6 @@ namespace IZ.WebFileManager
         public FileManagerController()
         {
             DynamicMenuItemStyle = new Style();
-            DynamicMenuItemStyle.ForeColor = Color.Black;
-            DynamicMenuItemStyle.Font.Names = new[] { "Tahoma", "Verdana", "Geneva", "Arial", "Helvetica", "sans-serif" };
-            DynamicMenuItemStyle.Font.Size = FontUnit.Parse("11px", null);
             DynamicMenuItemStyle.BorderStyle = BorderStyle.Solid;
             DynamicMenuItemStyle.BorderWidth = 1;
             DynamicMenuItemStyle.BorderColor = Color.Transparent;
@@ -475,11 +472,17 @@ namespace IZ.WebFileManager
             DynamicMenuStyle.BorderColor = Color.FromArgb(0xACA899);
             DynamicMenuStyle.HorizontalPadding = Unit.Pixel(2);
             DynamicMenuStyle.VerticalPadding = Unit.Pixel(2);
+            DynamicMenuStyle.ForeColor = Color.Black;
+            DynamicMenuStyle.Font.Names = new[] { "Tahoma", "Verdana", "Geneva", "Arial", "Helvetica", "sans-serif" };
+            DynamicMenuStyle.Font.Size = FontUnit.Parse("11px", null);
         }
 
         protected override void OnPreRender(EventArgs e)
         {
             base.OnPreRender(e);
+
+            DynamicMenuItemStyle.Font.CopyFrom(DynamicMenuStyle.Font);
+            DynamicMenuItemStyle.ForeColor = DynamicMenuStyle.ForeColor;
 
             Page.ClientScript.RegisterClientScriptBlock(typeof(FileManagerController), "WebFileManager_DoCallback", GetDoCallbackScript(), true);
             Page.ClientScript.RegisterClientScriptResource(typeof(FileManagerController), "IZ.WebFileManager.resources.FileManagerController.js");

@@ -520,6 +520,13 @@ namespace IZ.WebFileManager
 
         [PersistenceMode(PersistenceMode.InnerProperty)]
         [Category("Appearance")]
+        public SubMenuStyle DynamicMenuStyle
+        {
+            get { return Controller.DynamicMenuStyle; }
+        }
+
+        [PersistenceMode(PersistenceMode.InnerProperty)]
+        [Category("Appearance")]
         public Style SelectFolderTreeStyle
         {
             get { return SelectFolderTree.ControlStyle; }

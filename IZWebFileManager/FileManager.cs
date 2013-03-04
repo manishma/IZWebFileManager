@@ -257,10 +257,14 @@ namespace IZ.WebFileManager
             }
         }
 
-        // TODO
         [PersistenceMode(PersistenceMode.InnerProperty)]
         [Category("Appearance")]
-        internal BorderedPanelStyle AddressTextBoxStyle
+        public Style TextBoxStyle
+        {
+            get { return AddressTextBoxStyle; }
+        }
+
+        private BorderedPanelStyle AddressTextBoxStyle
         {
             get
             {
@@ -1181,6 +1185,7 @@ window['" + Controller.ClientScriptReference + @"PromptDirectory'] =  function(s
 
             var textBoxStyle = new BorderedPanelStyle();
             textBoxStyle.Font.MergeWith(AddressTextBoxStyle.Font);
+            textBoxStyle.ForeColor = AddressTextBoxStyle.ForeColor;
             writer.AddAttribute(HtmlTextWriterAttribute.Id, _fileView.ClientID + name);
             writer.AddAttribute(HtmlTextWriterAttribute.Value, value, true);
             writer.AddStyleAttribute(HtmlTextWriterStyle.BorderWidth, "0");
@@ -1208,7 +1213,7 @@ window['" + Controller.ClientScriptReference + @"PromptDirectory'] =  function(s
             if (!String.IsNullOrEmpty(watermark))
             {
                 writer
-                    .Span(x => x.Id(_fileView.ClientID + name + "Watermark").Position("absolute").ZIndex(1).Top(AddressTextBoxStyle.PaddingTop).Left(AddressTextBoxStyle.PaddingLeft).Color(AddressTextBoxStyle.BorderColor).Italic().Cursor("text"))
+                    .Span(x => x.Id(_fileView.ClientID + name + "Watermark").Position("absolute").ZIndex(1).Top(AddressTextBoxStyle.PaddingTop).Left(AddressTextBoxStyle.PaddingLeft).Color(Color.FromArgb(0xACA899)).Italic().Cursor("text"))
                         .Text(watermark)
                     .EndTag();
                 

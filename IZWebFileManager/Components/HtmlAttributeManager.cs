@@ -300,7 +300,7 @@ namespace Legend.Web
 
         public HtmlAttributeManager Color(Color color)
         {
-            return Color("#" + color.ToArgb().ToString("X"));
+            return Color(ColorTranslator.ToHtml(color));
         }
 
         public HtmlAttributeManager Opacity(string value)

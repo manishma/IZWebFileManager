@@ -1080,7 +1080,7 @@ window['" + Controller.ClientScriptReference + @"PromptDirectory'] =  function(s
 
             writer.Div(attr => attr.Id(ClientID + "_SelectFolderPanel").Position("fixed").Display("none").ZIndex(100).BackgroundColor("rgba(0,0,0, 0.2)").Style("filter", "progid:DXImageTransform.Microsoft.gradient(startColorstr=#33000000,endColorstr=#33000000)"))
                 .Div(attr => attr.Style(style).Display("inline-block").Position("relative").Left("30%").Top("10%").Padding(2).Direction(Controller.IsRightToLeft))
-                    .Div(attr => attr.Padding(2))
+                    .Div(attr => attr.Padding(5))
                         .Text(GetResourceString("SelectDestination", "Select destination directory"), true)
                     .EndTag()
                     .RenderControl(_selectFolderTree)

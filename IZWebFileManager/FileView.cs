@@ -741,22 +741,25 @@ namespace IZ.WebFileManager
                 itemFolder.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.NewFolder, "");
                 itemNew.ChildItems.Add(itemFolder);
 
-                itemNew.ChildItems.Add(new MenuItem("__separator__", "__separator__", null, "javascript: return;"));
-
-                for (int i = 0; i < Templates.Count; i++)
+                if (Templates.Count > 0)
                 {
-                    NewDocumentTemplate template = Templates[i];
-                    MenuItem item = new MenuItem();
-                    item.Text = template.Name;
-                    item.Value = "Template" + i;
-                    if (template.SmallImageUrl.Length > 0)
-                        item.ImageUrl = ResolveUrl(template.SmallImageUrl);
-                    else if (template.MasterFileUrl.Length > 0)
-                        item.ImageUrl = Controller.GetFileSmallImage(new FileInfo(Page.MapPath(template.MasterFileUrl)));
-                    else
-                        item.ImageUrl = Controller.GetFileSmallImage();
-                    item.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.NewDocument, Templates.IndexOf(template));
-                    itemNew.ChildItems.Add(item);
+                    itemNew.ChildItems.Add(new MenuItem("__separator__", "__separator__", null, "javascript: return;"));
+
+                    for (int i = 0; i < Templates.Count; i++)
+                    {
+                        NewDocumentTemplate template = Templates[i];
+                        MenuItem item = new MenuItem();
+                        item.Text = template.Name;
+                        item.Value = "Template" + i;
+                        if (template.SmallImageUrl.Length > 0)
+                            item.ImageUrl = ResolveUrl(template.SmallImageUrl);
+                        else if (template.MasterFileUrl.Length > 0)
+                            item.ImageUrl = Controller.GetFileSmallImage(new FileInfo(Page.MapPath(template.MasterFileUrl)));
+                        else
+                            item.ImageUrl = Controller.GetFileSmallImage();
+                        item.NavigateUrl = String.Format(clientClickFunction, FileManagerCommands.NewDocument, Templates.IndexOf(template));
+                        itemNew.ChildItems.Add(item);
+                    }
                 }
             }
 

@@ -1288,7 +1288,9 @@ namespace IZ.WebFileManager
                 return false;
             }
 
-            string newFileName = GetNotDuplicatedFileName(destDir, fileNameWithoutExtension, extension);
+            string newFileName = AllowOverwrite
+                ? saveName
+                : GetNotDuplicatedFileName(destDir, fileNameWithoutExtension, extension);
             FileManagerItemInfo itemInfo = ResolveFileManagerItemInfo(VirtualPathUtility.AppendTrailingSlash(destDir.FileManagerPath) + newFileName);
 
             uploadedFile.SaveAs(itemInfo.PhysicalPath);

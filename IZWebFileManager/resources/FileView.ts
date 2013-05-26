@@ -302,6 +302,20 @@ FileView.prototype.AddSelectedItem = function (item, clearBefore) {
     this.SaveSelectedItemsState();
 };
 
+FileView.prototype.RemoveSelectedItem = function (item) {
+    for (var i = 0; i < this.SelectedItems.length; i++) {
+        if (this.SelectedItems[i].id == item.id) {
+            this.SelectedItems[i].Selected = false;
+            WebForm_RemoveClassName(this.SelectedItems[i], this.SelectedItemStyle);
+            this.SelectedItems.splice(i,1);
+
+            this.SaveSelectedItemsState();
+
+            return;
+        }
+    }
+};
+
 FileView.prototype.SaveSelectedItemsState = function () {
     var selectedItemsEl = <HTMLInputElement>document.getElementById(this.ClientID + '_SelectedItems');
     var paths = new Array();
@@ -456,7 +470,12 @@ FileViewItem.prototype.setCursor = function (cursor) {
 
 FileViewItem.prototype.isSelected = function () { return this._element.Selected; };
 
-FileViewItem.prototype.select = function (bool) { this._owner.AddSelectedItem(this._element, bool); };
+FileViewItem.prototype.setSelected = function (selected, clearBefore) {
+    if (selected)
+        this._owner.AddSelectedItem(this._element, clearBefore);
+    else
+        this._owner.RemoveSelectedItem(this._element);
+};
 
 FileViewItem.prototype.canDrop = function () {
     return this._element.IsDirectory && !this.isSelected();
@@ -494,7 +513,7 @@ FileViewItem.prototype._mouseDown = function (ev) {
     this._pendDragDrop = true;
     this._moveCounter = 0;
     if (this.isSelected()) this._pendSelect = true;
-    else this.select(!ev.ctrlKey && !ev.shiftKey);
+    else this.setSelected((!ev.ctrlKey && !ev.shiftKey) || !this.isSelected(), !ev.ctrlKey && !ev.shiftKey);
     return false;
 };
 
@@ -508,7 +527,7 @@ FileViewItem.prototype._mouseUp = function (ev) {
         this.onDrop();
     }
     else if (pendSelect) {
-        this.select(!ev.ctrlKey && !ev.shiftKey)
+        this.setSelected((!ev.ctrlKey && !ev.shiftKey) || !this.isSelected(), !ev.ctrlKey && !ev.shiftKey)
     }
     return false;
 };

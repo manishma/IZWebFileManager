@@ -95,6 +95,21 @@ header h2 {
   margin: 0 auto;
 }
 
+#top-menu {
+	position: relative;
+	bottom: -30px;
+	left: 0;
+}
+
+#top-menu a {
+	display: inline-block;
+	background-color: white;
+	margin: 3px;
+	padding: 6px;
+	font-size: 16px;
+	border-radius: .3em;
+}
+
 #content-wrapper {
   border-top: solid 1px #fff;
   padding-top: 30px;
@@ -154,7 +169,7 @@ aside a.button {
   display: block;
   background: transparent url(../images/download-button.png) 0 0 no-repeat;
   margin-bottom: 20px;
-  font-size: 21px;
+  font-size: 19px;
 }
 
 code, pre {

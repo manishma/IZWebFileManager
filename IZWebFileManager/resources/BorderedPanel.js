@@ -47,4 +47,3 @@ function BorderedPanel_RestoreBackImage(ClientID) {
     if (el != null && el.normalBackgroundImage != null)
         el.style.backgroundImage = el.normalBackgroundImage;
 }
-//# sourceMappingURL=BorderedPanel.js.map

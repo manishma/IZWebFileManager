@@ -319,4 +319,3 @@ FolderTreeNode.prototype.onDrop = function () {
     }
     this.setCursor("");
 };
-//# sourceMappingURL=FolderTree.js.map

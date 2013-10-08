@@ -600,4 +600,3 @@ FileViewItem.prototype.onDrop = function () {
     }
     this.setCursor("default");
 };
-//# sourceMappingURL=FileView.js.map

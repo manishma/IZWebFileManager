@@ -1094,17 +1094,7 @@ namespace IZ.WebFileManager
         {
             if (item.Directory.Exists)
             {
-                StringBuilder sb = new StringBuilder();
-                AddFolderTreeNavigateEventReference(sb, item);
-                sb.AppendLine("var dir = '" + EncodeURIComponent(item.FileManagerPath) + "'");
-                sb.AppendLine("WebForm_GetElementById(context.ClientID+'_Directory').value = dir;");
-                sb.AppendLine("var address = WebForm_GetElementById(context.ClientID+'_Address');");
-                sb.AppendLine("if(address) address.value = decodeURIComponent(dir);");
-                sb.AppendLine("var searchTerm = WebForm_GetElementById(context.ClientID+'_SearchTerm');");
-                sb.AppendLine("if(searchTerm) searchTerm.value = '';");
-                sb.AppendLine("window['WFM_' + context.ClientID].ClearSearchBox();");
-                sb.AppendLine(ClientRefreshEventReference);
-                return sb.ToString();
+                return ProcessOpenDirectory(item);
             }
             else if (item.File.Exists)
             {
@@ -1112,6 +1102,28 @@ namespace IZ.WebFileManager
             }
             else
                 return ClientMessageEventReference(GetResourceString("CannotFindFile", "Cannot find file, Make sure the path is correct."));
+        }
+
+        private string ProcessOpenDirectory(FileManagerItemInfo item)
+        {
+            var cancelArg = new SelectedItemsActionCancelEventArgs(WebFileManager.SelectedItemsAction.Open);
+            cancelArg.SelectedItems.Add(item);
+            OnSelectedItemsAction(cancelArg);
+            if (cancelArg.Cancel)
+                return ClientMessageEventReference(cancelArg.ClientMessage);
+
+            var sb = new StringBuilder();
+            AddFolderTreeNavigateEventReference(sb, item);
+            sb.AppendLine("var dir = '" + EncodeURIComponent(item.FileManagerPath) + "'");
+            sb.AppendLine("WebForm_GetElementById(context.ClientID+'_Directory').value = dir;");
+            sb.AppendLine("var address = WebForm_GetElementById(context.ClientID+'_Address');");
+            sb.AppendLine("if(address) address.value = decodeURIComponent(dir);");
+            sb.AppendLine("var searchTerm = WebForm_GetElementById(context.ClientID+'_SearchTerm');");
+            sb.AppendLine("if(searchTerm) searchTerm.value = '';");
+            sb.AppendLine("window['WFM_' + context.ClientID].ClearSearchBox();");
+            sb.AppendLine(ClientRefreshEventReference);
+            return sb.ToString();
+            
         }
 
         internal string[] GetPathHashCodes(string fileManagerPath)
@@ -1143,7 +1155,7 @@ namespace IZ.WebFileManager
                 FileManagerItemInfo item = items[0];
 
                 if (item.Directory.Exists)
-                    return ProcessFileViewNavigate(item);
+                    return ProcessOpenDirectory(item);
 
                 // Default Command
                 if (index == -1)
@@ -1198,7 +1210,13 @@ namespace IZ.WebFileManager
 
         private string ProcessOpenCommand(FileManagerItemInfo item)
         {
-            StringBuilder sb = new StringBuilder();
+            var cancelArg = new SelectedItemsActionCancelEventArgs(WebFileManager.SelectedItemsAction.Open);
+            cancelArg.SelectedItems.Add(item);
+            OnSelectedItemsAction(cancelArg);
+            if (cancelArg.Cancel)
+                return ClientMessageEventReference(cancelArg.ClientMessage);
+
+            var sb = new StringBuilder();
 
             if (ClientOpenItemFunction.Length > 0)
             {

@@ -162,7 +162,7 @@ namespace IZ.WebFileManager
 		}
 	}
 
-	public enum SelectedItemsAction { Move, Copy, Delete }
+	public enum SelectedItemsAction { Move, Copy, Delete, Open }
 
 	public class SelectedItemsActionCancelEventArgs : FileManagerCancelEventArgs
 	{

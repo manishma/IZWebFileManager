@@ -9,3 +9,4 @@ _ReSharper*
 build
 _PrecompiledDemo
 *.js.map
+Demo/WebWorkbench.mswwsettings

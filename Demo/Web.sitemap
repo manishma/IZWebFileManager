@@ -2,8 +2,10 @@
 <siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
 	<siteMapNode url="" title=""  description="">
 		<siteMapNode url="Default.aspx" title="Default"  description="Default IZWebFileManager Configuration" />
-		<siteMapNode url="Customized.aspx" title="Customized"  description="Custom File Types, Templates &amp; Commands" />
-		<siteMapNode url="CustomCommands.aspx" title="Custom Commands"  description="Custom File Types &amp; Commands" />
+    <siteMapNode url="Customized.aspx" title="Customized"  description="Custom File Types, Templates &amp; Commands">
+      <siteMapNode url="CustomCommands.aspx" title="Custom Commands"  description="Custom File Types &amp; Commands" />
+      <siteMapNode url="CancelOpenCommand.aspx" title="Cancel Navigation"  description="Control access to files and folders" />
+    </siteMapNode>
 		<siteMapNode url="Styles.aspx" title="Styles &amp; Icons"  description="Custom or Built-in Styles &amp; Icon sets" >
 			<siteMapNode url="VS2005.aspx" title="VS2005 Style"  description="VS2005 Style" />
 			<siteMapNode url="Office2003.aspx" title="Office2003 Style"  description="Office2003 Style" />

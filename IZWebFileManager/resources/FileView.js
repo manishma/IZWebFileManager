@@ -32,8 +32,7 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
             WebForm_GetElementById(ClientID + "_Thead_Size"),
             WebForm_GetElementById(ClientID + "_Thead_Type"),
             WebForm_GetElementById(ClientID + "_Thead_Modified"),
-            WebForm_GetElementById(ClientID + "_Thead_Folder")
-        ];
+            WebForm_GetElementById(ClientID + "_Thead_Folder")];
         for (var i = 0; i < tHeads.length; i++) {
             (function (tHead) {
                 if (tHead) {
@@ -180,7 +179,7 @@ FileView.prototype.getController = function () {
 FileView.prototype.GetShowContextMenuFunc = function () {
     if (this.HitInfo == 'FileView')
         return window[this.ClientID + '_ShowContextMenu'];
-else
+    else
         return window[this.ClientID + '_ShowSelectedItemsContextMenu'];
 };
 
@@ -360,7 +359,7 @@ FileView.prototype.SetSort = function (arg) {
     if (sort.value == arg) {
         if (sortDirection.value == 'Ascending')
             sortDirection.value = 'Descending';
-else
+        else
             sortDirection.value = 'Ascending';
     } else {
         sort.value = arg;
@@ -484,7 +483,7 @@ FileViewItem.prototype.highlight = function (bool) {
     this._highlight = bool;
     if (bool)
         WebForm_AppendToClassName(this._element, this._owner.SelectedItemStyle);
-else
+    else
         WebForm_RemoveClassName(this._element, this._owner.SelectedItemStyle);
 };
 
@@ -505,7 +504,7 @@ FileViewItem.prototype.isSelected = function () {
 FileViewItem.prototype.setSelected = function (selected, clearBefore) {
     if (selected)
         this._owner.AddSelectedItem(this._element, clearBefore);
-else
+    else
         this._owner.RemoveSelectedItem(this._element);
 };
 
@@ -549,7 +548,7 @@ FileViewItem.prototype._mouseDown = function (ev) {
     this._moveCounter = 0;
     if (this.isSelected())
         this._pendSelect = true;
-else
+    else
         this.setSelected((!ev.ctrlKey && !ev.shiftKey) || !this.isSelected(), !ev.ctrlKey && !ev.shiftKey);
     return false;
 };
@@ -584,7 +583,7 @@ FileViewItem.prototype.onDragInTarget = function (ev) {
         this.highlight(true);
         if (this._dropMove)
             this.setCursor(this.getController()._dropMoveCursor);
-else
+        else
             this.setCursor(this.getController()._dropCopyCursor);
     } else {
         this.setCursor(this.getController()._dropNotAllowedCursor);
@@ -600,3 +599,4 @@ FileViewItem.prototype.onDrop = function () {
     }
     this.setCursor("default");
 };
+//# sourceMappingURL=FileView.js.map

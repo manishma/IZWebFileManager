@@ -523,7 +523,7 @@ namespace IZ.WebFileManager
             if (CopyImageUrl.Length > 0)
                 _toolbarImages[ToolbarImages.Copy] = ResolveUrl(CopyImageUrl);
             else if (isImagesFolder)
-                _toolbarImages[ToolbarImages.Copy] = ResolveUrl(imagesFolder + "Copy.gif");
+                _toolbarImages[ToolbarImages.Copy] =  File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "Copy.png"))) ? ResolveUrl(imagesFolder + "Copy.png")  :  ResolveUrl(imagesFolder + "Copy.gif");
             else
                 _toolbarImages[ToolbarImages.Copy] = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Copy.gif");
 
@@ -531,7 +531,7 @@ namespace IZ.WebFileManager
             if (DeleteImageUrl.Length > 0)
                 _toolbarImages[ToolbarImages.Delete] = ResolveUrl(DeleteImageUrl);
             else if (isImagesFolder)
-                _toolbarImages[ToolbarImages.Delete] = ResolveUrl(imagesFolder + "Delete.gif");
+                _toolbarImages[ToolbarImages.Delete] =  File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "Delete.png"))) ? ResolveUrl(imagesFolder + "Delete.png")  :  ResolveUrl(imagesFolder + "Delete.gif");
             else
                 _toolbarImages[ToolbarImages.Delete] = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Delete.gif");
 
@@ -539,7 +539,7 @@ namespace IZ.WebFileManager
             if (MoveImageUrl.Length > 0)
                 _toolbarImages[ToolbarImages.Move] = ResolveUrl(MoveImageUrl);
             else if (isImagesFolder)
-                _toolbarImages[ToolbarImages.Move] = ResolveUrl(imagesFolder + "Move.gif");
+                _toolbarImages[ToolbarImages.Move] =  File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "Move.png"))) ? ResolveUrl(imagesFolder + "Move.png")  :  ResolveUrl(imagesFolder + "Move.gif");
             else
                 _toolbarImages[ToolbarImages.Move] = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Move.gif");
 
@@ -547,7 +547,7 @@ namespace IZ.WebFileManager
             if (RenameImageUrl.Length > 0)
                 _toolbarImages[ToolbarImages.Rename] = ResolveUrl(RenameImageUrl);
             else if (isImagesFolder)
-                _toolbarImages[ToolbarImages.Rename] = ResolveUrl(imagesFolder + "Rename.gif");
+                _toolbarImages[ToolbarImages.Rename] =  File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "Rename.png"))) ? ResolveUrl(imagesFolder + "Rename.png")  :  ResolveUrl(imagesFolder + "Rename.gif");
             else
                 _toolbarImages[ToolbarImages.Rename] = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Rename.gif");
 
@@ -555,7 +555,7 @@ namespace IZ.WebFileManager
             if (NewFolderImageUrl.Length > 0)
                 _toolbarImages[ToolbarImages.NewFolder] = ResolveUrl(NewFolderImageUrl);
             else if (isImagesFolder)
-                _toolbarImages[ToolbarImages.NewFolder] = ResolveUrl(imagesFolder + "NewFolder.gif");
+                _toolbarImages[ToolbarImages.NewFolder] =  File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "NewFolder.png"))) ? ResolveUrl(imagesFolder + "NewFolder.png")  :  ResolveUrl(imagesFolder + "NewFolder.gif");
             else
                 _toolbarImages[ToolbarImages.NewFolder] = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.NewFolder.gif");
 
@@ -563,7 +563,7 @@ namespace IZ.WebFileManager
             if (ViewImageUrl.Length > 0)
                 _toolbarImages[ToolbarImages.View] = ResolveUrl(ViewImageUrl);
             else if (isImagesFolder)
-                _toolbarImages[ToolbarImages.View] = ResolveUrl(imagesFolder + "View.gif");
+                _toolbarImages[ToolbarImages.View] =  File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "View.png"))) ? ResolveUrl(imagesFolder + "View.png")  :  ResolveUrl(imagesFolder + "View.gif");
             else
                 _toolbarImages[ToolbarImages.View] = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.View.gif");
 
@@ -571,7 +571,7 @@ namespace IZ.WebFileManager
             if (FolderUpImageUrl.Length > 0)
                 _toolbarImages[ToolbarImages.FolderUp] = ResolveUrl(FolderUpImageUrl);
             else if (isImagesFolder)
-                _toolbarImages[ToolbarImages.FolderUp] = ResolveUrl(imagesFolder + "FolderUp.gif");
+                _toolbarImages[ToolbarImages.FolderUp] =  File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "FolderUp.png"))) ? ResolveUrl(imagesFolder + "FolderUp.png")  :  ResolveUrl(imagesFolder + "FolderUp.gif");
             else
                 _toolbarImages[ToolbarImages.FolderUp] = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.FolderUp.gif");
 
@@ -587,7 +587,7 @@ namespace IZ.WebFileManager
             if (RefreshImageUrl.Length > 0)
                 _toolbarImages[ToolbarImages.Refresh] = ResolveUrl(RefreshImageUrl);
             else if (isImagesFolder)
-                _toolbarImages[ToolbarImages.Refresh] = ResolveUrl(imagesFolder + "Refresh.gif");
+                _toolbarImages[ToolbarImages.Refresh] =  File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "Refresh.png"))) ? ResolveUrl(imagesFolder + "Refresh.png")  :  ResolveUrl(imagesFolder + "Refresh.gif");
             else
                 _toolbarImages[ToolbarImages.Refresh] = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Refresh.gif");
         }
@@ -1123,7 +1123,7 @@ namespace IZ.WebFileManager
             sb.AppendLine("window['WFM_' + context.ClientID].ClearSearchBox();");
             sb.AppendLine(ClientRefreshEventReference);
             return sb.ToString();
-            
+
         }
 
         internal string[] GetPathHashCodes(string fileManagerPath)

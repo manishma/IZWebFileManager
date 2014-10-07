@@ -10,4 +10,4 @@ build
 _PrecompiledDemo
 *.js.map
 Demo/WebWorkbench.mswwsettings
-packges/*.*
+packages

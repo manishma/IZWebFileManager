@@ -236,6 +236,20 @@ namespace IZ.WebFileManager
             set { ViewState["SplitterImageUrl"] = value; }
         }
 
+        // ContainerDirectory
+        [DefaultValue("~/userfiles")]
+        [Category("Data")]
+        [Bindable(true)]
+        [Localizable(false)]
+        [Themeable(false)]
+        public string MainDirectory
+        {
+            get { return ViewState["MainDirectory"] == null ? String.Empty : (string)ViewState["MainDirectory"]; }
+            set { ViewState["MainDirectory"] = value; }
+        }
+
+
+
         // TODO
         [PersistenceMode(PersistenceMode.InnerProperty)]
         [Category("Appearance")]

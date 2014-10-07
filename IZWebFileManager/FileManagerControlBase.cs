@@ -214,6 +214,17 @@ namespace IZ.WebFileManager
             set { base.ForeColor = value; }
         }
 
+        [Editor("System.Web.UI.Design.ImageUrlEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [DefaultValue("~/IZWebFileManagerThumbnailHandler.ashx")]
+        [UrlProperty]
+        [Bindable(true)]
+        [Category("Appearance")]
+        public string CustomThumbnailHandler
+        {
+            get { return Controller.CustomThumbnailHandler; }
+            set { Controller.CustomThumbnailHandler = value; }
+        }
+
         #endregion
 
         #region InitControllerEvents

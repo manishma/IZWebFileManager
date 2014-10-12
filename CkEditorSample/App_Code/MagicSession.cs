@@ -6,7 +6,7 @@ using System.Web;
 /// <summary>
 /// Session property to define FileBrowser and allwed privilege
 /// </summary>
-namespace System
+namespace MB.FileBrowser
 {
     public class MagicSession
     {
@@ -90,7 +90,7 @@ namespace System
         {
             get
             {
-                MagicSession session = (MagicSession)HttpContext.Current.Session["__MagicSession__"];
+                MagicSession session = (MagicSession)HttpContext.Current.Session["__FB_MagicSession__"];
                 if (session == null)
                 {
                     session = new MagicSession();

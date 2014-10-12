@@ -10,19 +10,19 @@ namespace MB.FileBrowser
 {
     public partial class FileBrowser : System.Web.UI.Page, System.Web.UI.ICallbackEventHandler
     {
-        public int CKEditorFuncNum { get; set; }
-        protected string returnValue;
         protected AjaxJsonResponse ajaxResponse = new AjaxJsonResponse();
+        public string Opener;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Request.Url.Host.IndexOf("localhost") > -1)
+                MagicSession.Current.Write = true;
 
-            MagicSession.Current.Write = true;
 
             CultureInfo culture;
             try
             {
-                culture = new CultureInfo(Request["lang"]);
+                culture = new CultureInfo(Request["langCode"]);
             }
             catch (Exception)
             {
@@ -42,16 +42,59 @@ namespace MB.FileBrowser
             if (!IsPostBack)
             {
                 /**
-                 * CKEDITOR call FileManager service adding two custom parameters 
+                 * -------- Parameters --------------
+                 * CKEDITOR automatically call FileManager service adding two custom parameters 
                  * CKEditorFuncNum e type.
                  * First parameter allows you to pass choosen file url back to CKEDITOR 
                  * through callback function
-                 * Type paramete is normally used to restrict the file search to a 
-                 * specific
+                 * Type paramete is used to restrict the file search to a 
+                 * specific folder
+                 * 
+                 * Tiny MCE 4 use the type parameter and field parameter wich is 
+                 * the id of the field whose value must be set.
+                 * 
+                 * 
+                 * Other recognized parameters
+                 * caller: 
+                 *      allowed values: ckeditor, tinymce, parent, top
+                 *      default: caller id defaulted to ckeditor if the CKEditor parameter is specified otherwise to parent
+                 *      Idicates the object to wich the callback must be return  
+                 *      
+                 * fn:
+                 *      allowed values: any string
+                 *      default: null
+                 *      Function name to be called.
+                 * 
+                 * langCode:
+                 *      allowed value: a standard language code
+                 *      default: current language
+                 *      CKEdito pass this paramenter automatically
+                 *      
                  */
-                int fn = 0;
-                int.TryParse(Request["CKEditorFuncNum"], out fn);
-                CKEditorFuncNum = fn;
+
+                int fnumber = 0;
+                string caller, fn;
+
+                // the caller is CKEditor
+                if (!string.IsNullOrEmpty(Request["CKEditor"]))
+                {
+                    caller = "ckeditor";
+                }
+                else
+                    caller = (String.IsNullOrEmpty(Request["caller"]) ? "parent" : Request["caller"]);
+
+                HF_Opener.Value = caller;
+
+                fn = Request["fn"];
+
+                if (!String.IsNullOrEmpty(fn))
+                    HF_CallBack.Value = fn;
+
+                if (int.TryParse(Request["CKEditorFuncNum"], out fnumber))
+                    HF_CKEditorFunctionNumber.Value = fnumber.ToString();
+
+                if (!String.IsNullOrEmpty(Request["field"]))
+                    HF_Field.Value = Request["field"];
 
                 string type = "";
                 string mainRoot = "~/userfiles";
@@ -90,6 +133,7 @@ namespace MB.FileBrowser
                 switch (type)
                 {
                     case "images":
+                    case "image":
                         FileManager1.RootDirectories.Clear();
                         images = new RootDirectory();
                         images.ShowRootIndex = false;
@@ -176,7 +220,7 @@ namespace MB.FileBrowser
                 Panel_upload.Visible = false;
                 Panel_deny.Visible = true;
                 Literal content = new Literal();
-                content.Text = "<h1>" + FileManager1.Controller.GetResourceString("Upload_Error_3", "User does not have sufficient privileges.") +"<br/>&nbsp;</h1>";
+                content.Text = "<h1>" + FileManager1.Controller.GetResourceString("Upload_Error_3", "User does not have sufficient privileges.") + "<br/>&nbsp;</h1>";
                 Panel_deny.Controls.Add(content);
             }
             else if (MagicSession.Current.ReadOnly)

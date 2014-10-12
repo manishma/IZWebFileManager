@@ -7,4 +7,5 @@
 	<file>/scripts/plugins/bootstrap/tooltip.js</file>
 	<file>/scripts/plugins/bootstrap/modal.js</file>
 	<file>/scripts/plugins/bootbox.js</file>
+	<file>/scripts/plugins/jquery.mb-waitspinner.js</file>
 </bundle>

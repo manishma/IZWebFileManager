@@ -1,82 +1,38 @@
-CKEditor 4 - Releases
-=====================
+BootstrapCK Skin
+====================
 
-## Releases Code
+The BootstrapCK-Skin is a skin for [CKEditor4](http://ckeditor.com/) based on [Twitter Bootstrap3](http://getbootstrap.com/) styles.
 
-This repository contains the official release versions of [CKEditor](http://ckeditor.com).
+[Sass](http://sass-lang.com/) is used to rewrite the editor's styles and [Grunt](http://gruntjs.com/) to be able to watch, convert and minify the sass into css files. These files aren't really needed for the simple use of the skin, but handy if you want to make some adjustments to it.
 
-There are four versions for each release &mdash; `standard-all`, `basic`, `standard`, and `full`.
-They differ in the number of plugins that are compiled into the main `ckeditor.js` file as well as the toolbar configuration.
-
-See the [comparison](http://ckeditor.com/presets) of the `basic`, `standard`, and `full` installation presets for more details.
-
-The `standard-all` build includes all official CKSource plugins with only those from the `standard` installation preset compiled into the `ckeditor.js` file and enabled in the configuration. 
-
-All versions available in this repository were built using [CKBuilder](http://ckeditor.com/builder), so they are optimized and ready to be used in a production environment.
-
-## Documentation
-
-Developer documentation for CKEditor is available online at: <http://docs.ckeditor.com>.
+For more information about skins, please check the [CKEditor Skin SDK](http://docs.cksource.com/CKEditor_4.x/Skin_SDK)
+documentation.
 
 ## Installation
 
-### Git clone
+**Just skin please**
 
-To install one of the available releases, just clone this repository and switch to the respective branch (see next section):
+Add the whole bootstrapck folder to the skin folder.<br />
+In ckeditor.js and config.js change the skin name to "bootstrapck".<br />
+Done!
 
-	git clone -b <release branch> git://github.com/ckeditor/ckeditor-releases.git
-	
-### Git submodule
+**The whole skin - sass - grunt package**
 
-If you are using git for your project and you want to integrate CKEditor, we recommend to add this repository as a
-[submodule](http://git-scm.com/book/en/Git-Tools-Submodules).
+All the sass files are included in the bootstrapck folder, so first follow the 'just skin please'-steps<br />
+Now add the Gruntfile.js and the package.json to de ckeditor folder.
 
-	git submodule add -b <release branch> git://github.com/ckeditor/ckeditor-releases.git <clone dir>
-	git commit -m "Added CKEditor submodule in <clone dir> directory."
+    npm install
+    grunt build
 
-### Using Package Managers
+You can start tampering now.
 
-See the [Installing CKEditor with Package Managers](http://docs.ckeditor.com/#!/guide/dev_package_managers) article for more details about installing CKEditor with Bower and Composer.
 
-## Repository Structure
+Or if you'd like to adjust the icons, use the bootstrapck-dev folder instead.
 
-### Branches
+## Demo
 
-This repository contains the following branches:
+http://kunstmaan.github.io/BootstrapCK4-Skin/
 
-  - `master` and `latest` &ndash; the latest release of the `standard-all` preset (including betas).
-  - `stable` &ndash; the latest stable release of the `standard-all` preset (non-beta).
-  - `A.B.x` (e.g. `4.3.x`) &ndash; the latest release of the `standard-all` preset in the `A.B` branch.
-  - `(basic|standard|full)/stable` &ndash; the latest stable release tag point (non-beta).
-  - `(basic|standard|full)/latest` &ndash; the latest release tag point (including betas).
-  - `(basic|standard|full)/A.B.x` (e.g. `basic/4.0.x`) &ndash; the latest releases in the `A.B` branch.
+### Previous version
 
-### Tags
-
-**Since version 4.3.3** this repository uses the following tag naming rules:
-
-  - `x.y.z` &ndash; contains the `standard-all` editor build, e.g. `4.3.3`, `4.4.0` etc.
-  - `(basic|standard|full)/x.y.z` &ndash; contains the editor build with a given preset, e.g. `basic/4.3.3`.
-
-The version numbers follow the [Semantic Versioning 2.0.0](http://semver.org/) scheme.
-
-Up to version **4.3.2** the tags were released in the following form `x.y[.z]/(basic|standard|full)`.
-For example: `4.0/basic`, `4.0.1/standard`. This convention was changed in CKEditor 4.3.3 to conform to the Semantic Versioning scheme.
-
-## Checking Your Installation
-
-The editor comes with a few sample pages that can be used to verify if the installation succeeded. Take a look at the `samples` directory.
-
-To test your installation, just call the following page for your website:
-
-	http://<your site>/<CKEditor installation path>/samples/index.html
-
-For example:
-
-	http://www.example.com/ckeditor/samples/index.html
-
-### License
-
-Licensed under the GPL, LGPL, and MPL licenses, at your choice.
-
-Please check the `LICENSE.md` file for more information about the license.
+If you would like to get the Bootstrap2 skin for CKeditor3, [here](https://github.com/Kunstmaan/BootstrapCK-Skin)'s the previous version.

@@ -8,7 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>File Browser</title>
     <link href="../Scripts/plugins/fineuploader/fineuploader.css" rel="stylesheet" />
-    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/style.min.css" rel="stylesheet" />
     <style>
         body
         {
@@ -29,6 +29,10 @@
 <body>
     <form id="form1" runat="server">
         <asp:HiddenField ID="HF_CurrentCulture" runat="server" />
+        <asp:HiddenField ID="HF_CKEditorFunctionNumber" runat="server" />
+        <asp:HiddenField ID="HF_Opener" runat="server" />
+        <asp:HiddenField ID="HF_CallBack" runat="server" />
+        <asp:HiddenField ID="HF_Field" runat="server" />
         <div>
             <iz:FileManager ID="FileManager1" runat="server" Height="480" Width="570" ImagesFolder="~/FileBrowser/img/cmd"
                 ShowAddressBar="false" MainDirectory="~/userfiles" AllowUpload="false" CustomThumbnailHandler="~/FileBrowser/IZWebFileManagerThumbnailHandler.ashx"
@@ -39,33 +43,40 @@
                 </CustomToolbarButtons>
                 <FileTypes>
                     <iz:FileType Extensions=".jpg, .jpeg,.pmg, .gif" SmallImageUrl="img/16/file-picture.png"
-                        LargeImageUrl="img/32/file-picture.png"></iz:FileType>
+                        LargeImageUrl="img/32/file-picture.png">
+                    </iz:FileType>
                     <iz:FileType Extensions=".xls,.xlsx,.ods" SmallImageUrl="img/16/file-excel-alt.png"
-                        LargeImageUrl="img/32/file-excel-alt.png"></iz:FileType>
+                        LargeImageUrl="img/32/file-excel-alt.png">
+                    </iz:FileType>
                     <iz:FileType Extensions=".pdf" SmallImageUrl="img/16/file-pdf-alt.png" LargeImageUrl="img/32/file-pdf-alt.png">
                     </iz:FileType>
                     <iz:FileType Extensions=".psd" SmallImageUrl="img/16/file-photoshop.png" LargeImageUrl="img/32/file-photoshop.png">
                     </iz:FileType>
                     <iz:FileType Extensions=".ppt,.pptx,.pptm, .odp" SmallImageUrl="img/16/file-powerpoint-alt.png"
-                        LargeImageUrl="img/32/file-powerpoint-alt.png"></iz:FileType>
+                        LargeImageUrl="img/32/file-powerpoint-alt.png">
+                    </iz:FileType>
                     <iz:FileType Extensions=".aiff,.mp3,.ogg,.oga,.wav,.wma" SmallImageUrl="img/16/file-sound.png"
-                        LargeImageUrl="img/32/file-sound.png"></iz:FileType>
+                        LargeImageUrl="img/32/file-sound.png">
+                    </iz:FileType>
                     <iz:FileType Extensions=".txt" SmallImageUrl="img/16/file-text.png" LargeImageUrl="img/32/file-text.png">
                     </iz:FileType>
                     <iz:FileType Extensions=".flv,.f4v,.avi,.mov,.qt,.wmv,.mp4,.mpg,.mpeg,.mp2" SmallImageUrl="img/16/file-video.png"
-                        LargeImageUrl="img/32/file-video.png"></iz:FileType>
+                        LargeImageUrl="img/32/file-video.png">
+                    </iz:FileType>
                     <iz:FileType Extensions=".doc,.docx,.odt" SmallImageUrl="img/16/file-word-alt.png"
-                        LargeImageUrl="img/32/file-word.png"></iz:FileType>
+                        LargeImageUrl="img/32/file-word.png">
+                    </iz:FileType>
                     <iz:FileType Extensions=".tar.gz, .7z, .ace, .cab, .rar, .zip, .zipx" SmallImageUrl="img/16/file-zip-alt.png"
-                        LargeImageUrl="img/32/file-zip-alt.png"></iz:FileType>
+                        LargeImageUrl="img/32/file-zip-alt.png">
+                    </iz:FileType>
                 </FileTypes>
             </iz:FileManager>
             <asp:Panel ID="Panel_upload" runat="server" CssClass="upload-group">
-                <a class="btn btn-xs btn-default" data-action="upload" id="Upload_button" runat="server">Click to upload</a>
+                <a class="btn btn-xs btn-default" data-action="upload" id="Upload_button" runat="server">
+                    Click to upload</a>
                 <small id="DND_message" runat="server"></small>
             </asp:Panel>
             <asp:Panel ID="Panel_deny" runat="server" CssClass="alert alert-danger" Visible="false">
-                
             </asp:Panel>
         </div>
         <div class="modal fade " id="modalShowFile">
@@ -98,15 +109,45 @@
         var $filemanager, $fileview, $foldertree;
 
         var fileSelected = function (fileUrl) {
-            if (window.opener) {
-                if (window.opener.CKEDITOR) {
-                    window.opener.CKEDITOR.tools.callFunction('<% = CKEditorFuncNum %>', fileUrl);
-                    window.close();
+            var win;
+            var opener = $('#HF_Opener').val();
+            var fn = $('#HF_CallBack').val();
 
+            switch (opener) {
+                case 'ckeditor':
+                case 'opener':
+                    win = window.opener;
+                    break;
+                case 'parent':
+                    win = window.parent;
+                    break;
+                case 'top':
+                    win = window.top;
+                    break;
+                case 'tinymce4':
+                    var params = window.parent.tinyMCE.activeEditor.windowManager.getParams();
+                    var theField = window.parent.document.getElementById(params.field);
+                    if (theField) {
+                        theField.value = fileUrl;
+                        window.parent.tinyMCE.activeEditor.windowManager.close();
+                        return true;
+                    }
+                    break;
+                default:
+
+            }
+            if (win) {
+                if (win.CKEDITOR) {
+                    win.CKEDITOR.tools.callFunction($('#HF_CKEditorFunctionNumber').val(), fileUrl);
+                } else {
+                    win[fn](fileUrl);
                 }
             }
             else
                 alert(fileUrl);
+
+            if (window.opener)
+                    window.close();
         }
 
         /**
@@ -162,6 +203,14 @@
 
             }
         }
+
+        $(function () {
+            $("body").mb_waitspinner({
+                locked: true,
+                windowColor: "rgba(21,21,21,0.8)",
+                color: "#FFF"
+            })
+        });
 
         // Hiding dran'n drop message if drag 'n drop is'nt supported
         $(function () {

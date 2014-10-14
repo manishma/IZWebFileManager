@@ -4,4 +4,5 @@
   <file>/Scripts/plugins/bootstrap/modal.js</file>
   <file>/Scripts/plugins/bootstrap/transition.js</file>
 	<file>/scripts/plugins/bootstrap/dropdown.js</file>
+	<file>/scripts/plugins/jquery.prettysocial.js</file>
 </bundle>

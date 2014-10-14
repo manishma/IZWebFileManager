@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using MB.FileBrowser
+using MB.FileBrowser;
 
 public partial class MasterPage : System.Web.UI.MasterPage
 {

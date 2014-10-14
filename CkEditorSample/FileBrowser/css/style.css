@@ -201,7 +201,7 @@ html {
 }
 body {
   font-family: "WeblySleek UI Light", "Segoe UI", "Segoe WP", "Helvetica Neue", sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.42857143;
   color: #333333;
   background-color: #ffffff;
@@ -261,8 +261,8 @@ img {
   border-radius: 50%;
 }
 hr {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 22px;
+  margin-bottom: 22px;
   border: 0;
   border-top: 1px solid #eeeeee;
 }
@@ -336,8 +336,8 @@ h2,
 .h2,
 h3,
 .h3 {
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 22px;
+  margin-bottom: 11px;
 }
 h1 small,
 .h1 small,
@@ -359,8 +359,8 @@ h5,
 .h5,
 h6,
 .h6 {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 11px;
+  margin-bottom: 11px;
 }
 h4 small,
 .h4 small,
@@ -378,45 +378,45 @@ h6 .small,
 }
 h1,
 .h1 {
-  font-size: 36px;
+  font-size: 41px;
 }
 h2,
 .h2 {
-  font-size: 30px;
+  font-size: 34px;
 }
 h3,
 .h3 {
-  font-size: 24px;
+  font-size: 28px;
 }
 h4,
 .h4 {
-  font-size: 18px;
+  font-size: 20px;
 }
 h5,
 .h5 {
-  font-size: 14px;
+  font-size: 16px;
 }
 h6,
 .h6 {
-  font-size: 12px;
+  font-size: 14px;
 }
 p {
-  margin: 0 0 10px;
+  margin: 0 0 11px;
 }
 .lead {
-  margin-bottom: 20px;
-  font-size: 16px;
+  margin-bottom: 22px;
+  font-size: 18px;
   font-weight: 300;
   line-height: 1.4;
 }
 @media (min-width: 768px) {
   .lead {
-    font-size: 21px;
+    font-size: 24px;
   }
 }
 small,
 .small {
-  font-size: 85%;
+  font-size: 87%;
 }
 cite {
   font-style: normal;
@@ -515,14 +515,14 @@ a.bg-danger:hover {
   background-color: #d62c1a;
 }
 .page-header {
-  padding-bottom: 9px;
-  margin: 40px 0 20px;
+  padding-bottom: 10px;
+  margin: 44px 0 22px;
   border-bottom: 1px solid #eeeeee;
 }
 ul,
 ol {
   margin-top: 0;
-  margin-bottom: 10px;
+  margin-bottom: 11px;
 }
 ul ul,
 ol ul,
@@ -546,7 +546,7 @@ ol ol {
 }
 dl {
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 dt,
 dd {
@@ -582,9 +582,9 @@ abbr[data-original-title] {
   text-transform: uppercase;
 }
 blockquote {
-  padding: 10px 20px;
-  margin: 0 0 20px;
-  font-size: 17.5px;
+  padding: 11px 22px;
+  margin: 0 0 22px;
+  font-size: 20px;
   border-left: 5px solid #eeeeee;
 }
 blockquote p:last-child,
@@ -634,7 +634,7 @@ blockquote:after {
   content: "";
 }
 address {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   font-style: normal;
   line-height: 1.42857143;
 }
@@ -649,7 +649,7 @@ address {
   border: 1px solid transparent;
   white-space: nowrap;
   padding: 6px 12px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.42857143;
   border-radius: 0px;
   -webkit-user-select: none;
@@ -967,19 +967,19 @@ fieldset[disabled] .btn-link:focus {
 }
 .btn-lg {
   padding: 10px 16px;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.33;
   border-radius: 0px;
 }
 .btn-sm {
   padding: 5px 10px;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.5;
   border-radius: 0px;
 }
 .btn-xs {
   padding: 1px 5px;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.5;
   border-radius: 0px;
 }
@@ -1117,7 +1117,7 @@ input[type="button"].btn-block {
 }
 .close {
   float: right;
-  font-size: 21px;
+  font-size: 24px;
   font-weight: bold;
   line-height: 1;
   color: #000000;
@@ -1142,7 +1142,7 @@ button.close {
 }
 .alert {
   padding: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   border: 1px solid transparent;
   border-radius: 0px;
 }

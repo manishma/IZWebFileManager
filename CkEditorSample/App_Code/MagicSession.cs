@@ -8,76 +8,67 @@ using System.Web;
 /// </summary>
 namespace MB.FileBrowser
 {
+    public enum FileBrowserAccess
+    {
+        DenyAll, ReadOnly, Write, Delete
+    }
     public class MagicSession
     {
+        private FileBrowserAccess _access = FileBrowserAccess.DenyAll;
 
         public Boolean DenyAll
         {
             get
             {
-                return !(ReadOnly || Delete || Write);
+                return _access == FileBrowserAccess.DenyAll;
             }
             set
             {
-                if (value)
-                    ReadOnly = Delete = Write = false;
-                else if (DenyAll)
-                    ReadOnly = true;
+                _access = FileBrowserAccess.DenyAll;
             }
         }
-
-        private Boolean _ReadOnly;
 
         public Boolean ReadOnly
         {
             get
             {
-                return _ReadOnly || (!(_Delete && _Write));
+                return _access == FileBrowserAccess.ReadOnly;
             }
             set
             {
-                _ReadOnly = value;
-                if (value)
-                {
-                    Write = false;
-                    Delete = false;
-                }
+                _access = FileBrowserAccess.ReadOnly;
             }
         }
-
-        private Boolean _Write;
 
         public Boolean Write
         {
             get
             {
-                return (_Write || _Delete) && !_ReadOnly;
+                return (_access == FileBrowserAccess.Write) || (_access == FileBrowserAccess.Delete) ;
             }
             set
             {
-                _Write = value;
+                _access = FileBrowserAccess.Write;
             }
         }
 
-        private Boolean _Delete;
 
         public Boolean Delete
         {
             get
             {
-                return _Delete && _Write && !_ReadOnly;
+                return _access == FileBrowserAccess.Delete;
             }
             set
             {
-                _Delete = value;
-                if (value) _Write = true;
+               _access = FileBrowserAccess.Delete;
             }
         }
 
         public Boolean Upload
         {
             get { return Write; }
-            set { Write = value; }
+            //set { Write = value; }
         }
 
 
@@ -94,7 +85,7 @@ namespace MB.FileBrowser
                 if (session == null)
                 {
                     session = new MagicSession();
-                    HttpContext.Current.Session["__MagicSession__"] = session;
+                    HttpContext.Current.Session["__FB_MagicSession__"] = session;
                 }
                 return session;
             }

@@ -2,29 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using IZ.WebFileManager;
 
 /// <summary>
 /// Session property to define FileBrowser and allwed privilege
 /// </summary>
 namespace MB.FileBrowser
 {
-    public enum FileBrowserAccess
-    {
-        DenyAll, ReadOnly, Write, Delete
-    }
     public class MagicSession
     {
-        private FileBrowserAccess _access = FileBrowserAccess.DenyAll;
+        public AccessMode FileBrowserAccessMode = AccessMode.DenyAll;
 
         public Boolean DenyAll
         {
             get
             {
-                return _access == FileBrowserAccess.DenyAll;
+                return FileBrowserAccessMode == AccessMode.DenyAll;
             }
             set
             {
-                _access = FileBrowserAccess.DenyAll;
+                FileBrowserAccessMode = AccessMode.DenyAll;
             }
         }
 
@@ -32,11 +29,11 @@ namespace MB.FileBrowser
         {
             get
             {
-                return _access == FileBrowserAccess.ReadOnly;
+                return FileBrowserAccessMode == AccessMode.ReadOnly;
             }
             set
             {
-                _access = FileBrowserAccess.ReadOnly;
+                FileBrowserAccessMode = AccessMode.ReadOnly;
             }
         }
 
@@ -44,11 +41,11 @@ namespace MB.FileBrowser
         {
             get
             {
-                return (_access == FileBrowserAccess.Write) || (_access == FileBrowserAccess.Delete) ;
+                return (FileBrowserAccessMode == AccessMode.Write) || (FileBrowserAccessMode == AccessMode.Delete) ;
             }
             set
             {
-                _access = FileBrowserAccess.Write;
+                FileBrowserAccessMode = AccessMode.Write;
             }
         }
 
@@ -57,13 +54,22 @@ namespace MB.FileBrowser
         {
             get
             {
-                return _access == FileBrowserAccess.Delete;
+                return FileBrowserAccessMode == AccessMode.Delete;
             }
             set
             {
-               _access = FileBrowserAccess.Delete;
+               FileBrowserAccessMode = AccessMode.Delete;
             }
         }
+
+        private Boolean _default;
+
+        public Boolean Default
+        {
+            get { return FileBrowserAccessMode == AccessMode.Default; }
+            set { FileBrowserAccessMode = AccessMode.Default; }
+        }
+        
 
         public Boolean Upload
         {
@@ -74,7 +80,7 @@ namespace MB.FileBrowser
 
         private MagicSession()
         {
-            DenyAll = true;
+            FileBrowserAccessMode = AccessMode.Default;
         }
 
         public static MagicSession Current

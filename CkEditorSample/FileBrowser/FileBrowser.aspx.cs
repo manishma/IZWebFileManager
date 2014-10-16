@@ -214,41 +214,51 @@ namespace MB.FileBrowser
                 }
             }
 
-            if (MagicSession.Current.DenyAll)
+            AccessMode fbAccessMode;
+            if (MagicSession.Current.FileBrowserAccessMode == AccessMode.Default)
+                fbAccessMode = FileManager1.DefaultAccessMode;
+            else
+                fbAccessMode = MagicSession.Current.FileBrowserAccessMode;
+
+            Literal content;
+
+            switch (fbAccessMode)
             {
-                FileManager1.Visible = false;
-                Panel_upload.Visible = false;
-                Panel_deny.Visible = true;
-                Literal content = new Literal();
-                content.Text = "<h1>" + FileManager1.Controller.GetResourceString("Upload_Error_3", "User does not have sufficient privileges.") + "<br/>&nbsp;</h1>";
-                Panel_deny.Controls.Add(content);
+                case AccessMode.Delete:
+                    FileManager1.Visible = true;
+                    Panel_upload.Visible = true;
+                    Panel_deny.Visible = false;
+                    FileManager1.ReadOnly = false;
+                    FileManager1.AllowDelete = true;
+                    FileManager1.AllowOverwrite = true;
+                    break;
+                case AccessMode.DenyAll:
+                    FileManager1.Visible = false;
+                    Panel_upload.Visible = false;
+                    Panel_deny.Visible = true;
+                    content = new Literal();
+                    content.Text = "<h1>" + FileManager1.Controller.GetResourceString("Upload_Error_3", "User does not have sufficient privileges.") + "<br/>&nbsp;</h1>";
+                    Panel_deny.Controls.Add(content);
+                    break;
+                case AccessMode.ReadOnly:
+                case AccessMode.Default:
+                    FileManager1.Visible = true;
+                    Panel_upload.Visible = true;
+                    Panel_deny.Visible = false;
+                    FileManager1.ReadOnly = true;
+                    break;
+                case AccessMode.Write:
+                    FileManager1.Visible = true;
+                    Panel_upload.Visible = true;
+                    Panel_deny.Visible = false;
+                    FileManager1.ReadOnly = false;
+                    FileManager1.AllowDelete = false;
+                    FileManager1.AllowOverwrite = false;
+                    break;
+                default:
+                    break;
             }
-            else if (MagicSession.Current.ReadOnly)
-            {
-                FileManager1.Visible = true;
-                Panel_upload.Visible = true;
-                Panel_deny.Visible = false;
-                Literal content = new Literal();
-                FileManager1.ReadOnly = true;
-            }
-            else if (MagicSession.Current.Write && !MagicSession.Current.Delete)
-            {
-                FileManager1.Visible = true;
-                Panel_upload.Visible = true;
-                Panel_deny.Visible = false;
-                FileManager1.ReadOnly = false;
-                FileManager1.AllowDelete = false;
-                FileManager1.AllowOverwrite = false;
-            }
-            else if (MagicSession.Current.Delete)
-            {
-                FileManager1.Visible = true;
-                Panel_upload.Visible = true;
-                Panel_deny.Visible = false;
-                FileManager1.ReadOnly = false;
-                FileManager1.AllowDelete = true;
-                FileManager1.AllowOverwrite = true;
-            }
+
 
         }
         public void RaiseCallbackEvent(String eventArgument)

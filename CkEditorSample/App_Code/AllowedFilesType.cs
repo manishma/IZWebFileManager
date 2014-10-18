@@ -13,7 +13,9 @@ namespace MB.FileBrowser
         const string types = "jpg,jpeg,doc,docx,zip,gif,png,pdf,rar,svg,svgz,xls,xlsx,ppt,pps,pptx";
         public static string[] GetAllowed()
         {
-            return types.Split(new char[] { ',' });
+            string myTypes = (String.IsNullOrEmpty(MagicSession.Current.AllowedFileTypes)) ? types : MagicSession.Current.AllowedFileTypes;
+            return myTypes.Split(new char[] { ',' });
+
         }
-    } 
+    }
 }

@@ -11,7 +11,20 @@ namespace MB.FileBrowser
 {
     public class MagicSession
     {
-        public AccessMode FileBrowserAccessMode = AccessMode.DenyAll;
+        public string AllowedFileTypes { get; set; }
+
+        private AccessMode _FileBrowserAccessMode = AccessMode.DenyAll;
+        public AccessMode FileBrowserAccessMode
+        {
+            get
+            {
+                return _FileBrowserAccessMode;
+            }
+            set
+            {
+                _FileBrowserAccessMode = value;
+            }
+        }
 
         public Boolean DenyAll
         {
@@ -41,7 +54,7 @@ namespace MB.FileBrowser
         {
             get
             {
-                return (FileBrowserAccessMode == AccessMode.Write) || (FileBrowserAccessMode == AccessMode.Delete) ;
+                return (FileBrowserAccessMode == AccessMode.Write) || (FileBrowserAccessMode == AccessMode.Delete);
             }
             set
             {
@@ -58,7 +71,7 @@ namespace MB.FileBrowser
             }
             set
             {
-               FileBrowserAccessMode = AccessMode.Delete;
+                FileBrowserAccessMode = AccessMode.Delete;
             }
         }
 
@@ -69,7 +82,7 @@ namespace MB.FileBrowser
             get { return FileBrowserAccessMode == AccessMode.Default; }
             set { FileBrowserAccessMode = AccessMode.Default; }
         }
-        
+
 
         public Boolean Upload
         {

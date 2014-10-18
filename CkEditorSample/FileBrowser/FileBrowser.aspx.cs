@@ -5,6 +5,7 @@ using System.Security.AccessControl;
 using System.Web;
 using System.Web.UI.WebControls;
 using System.Globalization;
+using MB.FileBrowser;
 
 namespace MB.FileBrowser
 {
@@ -15,8 +16,9 @@ namespace MB.FileBrowser
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             if (Request.Url.Host.IndexOf("localhost") > -1)
-                MagicSession.Current.Write = true;
+                FileManager1.DefaultAccessMode = AccessMode.Write;
 
 
             CultureInfo culture;
@@ -28,7 +30,8 @@ namespace MB.FileBrowser
             {
                 culture = CultureInfo.CurrentCulture;
             }
-
+            FileManager1.ShowAddressBar = false;
+            FileManager1.AllowUpload = false;
 
             String cbReference =
                 Page.ClientScript.GetCallbackEventReference(this,

@@ -251,7 +251,7 @@ FolderTreeNode.prototype.highlight = function (bool) {
     this._highlight = bool;
     if (bool)
         this._owner._appendStyle(this._node, this._owner._selectedClass, this._owner._selectedLinkClass);
-else
+    else
         this._owner._restoreStyle(this._node);
 };
 
@@ -295,7 +295,7 @@ FolderTreeNode.prototype.onDragInTarget = function (ev) {
         this.highlight(true);
         if (this._dropMove)
             this.setCursor(this.getController()._dropMoveCursor);
-else
+        else
             this.setCursor(this.getController()._dropCopyCursor);
     } else {
         this.setCursor(this.getController()._dropNotAllowedCursor);
@@ -319,3 +319,4 @@ FolderTreeNode.prototype.onDrop = function () {
     }
     this.setCursor("");
 };
+//# sourceMappingURL=FolderTree.js.map

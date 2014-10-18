@@ -50,7 +50,7 @@ namespace IZ.WebFileManager
         internal static readonly Unit LargeImageWidth = 32;
         internal static readonly Unit LargeImageHeight = 32;
         static readonly Hashtable _imageExtension;
-        const string ThumbnailHandler = "IZWebFileManagerThumbnailHandler.ashx";
+        const string _ThumbnailHandler = "IZWebFileManagerThumbnailHandler.ashx";
 
         internal static readonly JavaScriptSerializer JavaScriptSerializer = new JavaScriptSerializer();
 
@@ -172,6 +172,19 @@ namespace IZ.WebFileManager
             set { ViewState["ClientOpenItemFunction"] = value; }
         }
 
+        [Editor("System.Web.UI.Design.ImageUrlEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [DefaultValue("~/IZWebFileManagerThumbnailHandler.ashx")]
+        [UrlProperty]
+        [Bindable(true)]
+        [Category("Appearance")]
+        public string CustomThumbnailHandler
+        {
+            get { return ViewState["CustomThumbnailHandler"] == null ? String.Empty : (string)ViewState["CustomThumbnailHandler"]; }
+            set { ViewState["CustomThumbnailHandler"] = value; }
+        }
+
+
+
         [DefaultValue("")]
         [Category("Behavior")]
         [Themeable(false)]
@@ -244,6 +257,7 @@ namespace IZ.WebFileManager
             }
         }
 
+
         [MergableProperty(false)]
         [Category("Behavior")]
         [PersistenceMode(PersistenceMode.InnerProperty)]
@@ -283,6 +297,7 @@ namespace IZ.WebFileManager
         {
             get { return _fileTypeCollection; }
         }
+
 
         [Editor("System.Web.UI.Design.ImageUrlEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
         [DefaultValue("")]
@@ -523,7 +538,7 @@ namespace IZ.WebFileManager
             if (CopyImageUrl.Length > 0)
                 _toolbarImages[ToolbarImages.Copy] = ResolveUrl(CopyImageUrl);
             else if (isImagesFolder)
-                _toolbarImages[ToolbarImages.Copy] = ResolveUrl(imagesFolder + "Copy.gif");
+                _toolbarImages[ToolbarImages.Copy] =  File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "Copy.png"))) ? ResolveUrl(imagesFolder + "Copy.png")  :  ResolveUrl(imagesFolder + "Copy.gif");
             else
                 _toolbarImages[ToolbarImages.Copy] = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Copy.gif");
 
@@ -531,7 +546,7 @@ namespace IZ.WebFileManager
             if (DeleteImageUrl.Length > 0)
                 _toolbarImages[ToolbarImages.Delete] = ResolveUrl(DeleteImageUrl);
             else if (isImagesFolder)
-                _toolbarImages[ToolbarImages.Delete] = ResolveUrl(imagesFolder + "Delete.gif");
+                _toolbarImages[ToolbarImages.Delete] =  File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "Delete.png"))) ? ResolveUrl(imagesFolder + "Delete.png")  :  ResolveUrl(imagesFolder + "Delete.gif");
             else
                 _toolbarImages[ToolbarImages.Delete] = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Delete.gif");
 
@@ -539,7 +554,7 @@ namespace IZ.WebFileManager
             if (MoveImageUrl.Length > 0)
                 _toolbarImages[ToolbarImages.Move] = ResolveUrl(MoveImageUrl);
             else if (isImagesFolder)
-                _toolbarImages[ToolbarImages.Move] = ResolveUrl(imagesFolder + "Move.gif");
+                _toolbarImages[ToolbarImages.Move] =  File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "Move.png"))) ? ResolveUrl(imagesFolder + "Move.png")  :  ResolveUrl(imagesFolder + "Move.gif");
             else
                 _toolbarImages[ToolbarImages.Move] = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Move.gif");
 
@@ -547,7 +562,7 @@ namespace IZ.WebFileManager
             if (RenameImageUrl.Length > 0)
                 _toolbarImages[ToolbarImages.Rename] = ResolveUrl(RenameImageUrl);
             else if (isImagesFolder)
-                _toolbarImages[ToolbarImages.Rename] = ResolveUrl(imagesFolder + "Rename.gif");
+                _toolbarImages[ToolbarImages.Rename] =  File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "Rename.png"))) ? ResolveUrl(imagesFolder + "Rename.png")  :  ResolveUrl(imagesFolder + "Rename.gif");
             else
                 _toolbarImages[ToolbarImages.Rename] = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Rename.gif");
 
@@ -555,7 +570,7 @@ namespace IZ.WebFileManager
             if (NewFolderImageUrl.Length > 0)
                 _toolbarImages[ToolbarImages.NewFolder] = ResolveUrl(NewFolderImageUrl);
             else if (isImagesFolder)
-                _toolbarImages[ToolbarImages.NewFolder] = ResolveUrl(imagesFolder + "NewFolder.gif");
+                _toolbarImages[ToolbarImages.NewFolder] =  File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "NewFolder.png"))) ? ResolveUrl(imagesFolder + "NewFolder.png")  :  ResolveUrl(imagesFolder + "NewFolder.gif");
             else
                 _toolbarImages[ToolbarImages.NewFolder] = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.NewFolder.gif");
 
@@ -563,7 +578,7 @@ namespace IZ.WebFileManager
             if (ViewImageUrl.Length > 0)
                 _toolbarImages[ToolbarImages.View] = ResolveUrl(ViewImageUrl);
             else if (isImagesFolder)
-                _toolbarImages[ToolbarImages.View] = ResolveUrl(imagesFolder + "View.gif");
+                _toolbarImages[ToolbarImages.View] =  File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "View.png"))) ? ResolveUrl(imagesFolder + "View.png")  :  ResolveUrl(imagesFolder + "View.gif");
             else
                 _toolbarImages[ToolbarImages.View] = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.View.gif");
 
@@ -571,7 +586,7 @@ namespace IZ.WebFileManager
             if (FolderUpImageUrl.Length > 0)
                 _toolbarImages[ToolbarImages.FolderUp] = ResolveUrl(FolderUpImageUrl);
             else if (isImagesFolder)
-                _toolbarImages[ToolbarImages.FolderUp] = ResolveUrl(imagesFolder + "FolderUp.gif");
+                _toolbarImages[ToolbarImages.FolderUp] =  File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "FolderUp.png"))) ? ResolveUrl(imagesFolder + "FolderUp.png")  :  ResolveUrl(imagesFolder + "FolderUp.gif");
             else
                 _toolbarImages[ToolbarImages.FolderUp] = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.FolderUp.gif");
 
@@ -587,7 +602,7 @@ namespace IZ.WebFileManager
             if (RefreshImageUrl.Length > 0)
                 _toolbarImages[ToolbarImages.Refresh] = ResolveUrl(RefreshImageUrl);
             else if (isImagesFolder)
-                _toolbarImages[ToolbarImages.Refresh] = ResolveUrl(imagesFolder + "Refresh.gif");
+                _toolbarImages[ToolbarImages.Refresh] =  File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "Refresh.png"))) ? ResolveUrl(imagesFolder + "Refresh.png")  :  ResolveUrl(imagesFolder + "Refresh.gif");
             else
                 _toolbarImages[ToolbarImages.Refresh] = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.Refresh.gif");
         }
@@ -607,43 +622,44 @@ namespace IZ.WebFileManager
 
             if (RootFolderSmallImageUrl.Length > 0)
                 _defaultRootFolderSmallImage = ResolveUrl(RootFolderSmallImageUrl);
-            else if (isImagesFolder)
-                _defaultRootFolderSmallImage = ResolveUrl(imagesFolder + "RootFolderSmall.gif");
+            else if (isImagesFolder) {
+                _defaultRootFolderSmallImage = File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "RootFolderSmall.png"))) ? ResolveUrl(imagesFolder + "RootFolderSmall.png") : ResolveUrl(imagesFolder + "RootFolderSmall.gif");
+            }
             else
                 _defaultRootFolderSmallImage = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.RootFolderSmall.gif");
 
             if (RootFolderLargeImageUrl.Length > 0)
                 _defaultRootFolderLargeImage = ResolveUrl(RootFolderLargeImageUrl);
             else if (isImagesFolder)
-                _defaultRootFolderLargeImage = ResolveUrl(imagesFolder + "RootFolderLarge.gif");
+                _defaultRootFolderLargeImage = File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "RootFolderLarge.png"))) ? ResolveUrl(imagesFolder + "RootFolderLarge.png") : ResolveUrl(imagesFolder + "RootFolderLarge.gif");
             else
                 _defaultRootFolderLargeImage = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.RootFolderLarge.gif");
 
             if (FolderSmallImageUrl.Length > 0)
                 _defaultFolderSmallImage = ResolveUrl(FolderSmallImageUrl);
             else if (isImagesFolder)
-                _defaultFolderSmallImage = ResolveUrl(imagesFolder + "FolderSmall.gif");
+                _defaultFolderSmallImage = File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "FolderSmall.png"))) ? ResolveUrl(imagesFolder + "FolderSmall.png") : ResolveUrl(imagesFolder + "FolderSmall.gif");
             else
                 _defaultFolderSmallImage = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.FolderSmall.gif");
 
             if (FolderLargeImageUrl.Length > 0)
                 _defaultFolderLargeImage = ResolveUrl(FolderLargeImageUrl);
             else if (isImagesFolder)
-                _defaultFolderLargeImage = ResolveUrl(imagesFolder + "FolderLarge.gif");
+                _defaultFolderLargeImage = File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "FolderLarge.png"))) ? ResolveUrl(imagesFolder + "FolderLarge.png") : ResolveUrl(imagesFolder + "FolderLarge.gif");
             else
                 _defaultFolderLargeImage = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.FolderLarge.gif");
 
             if (FileSmallImageUrl.Length > 0)
                 _defaultFileSmallImage = ResolveUrl(FileSmallImageUrl);
             else if (isImagesFolder)
-                _defaultFileSmallImage = ResolveUrl(imagesFolder + "FileSmall.gif");
+                _defaultFileSmallImage = File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "FileSmall.png"))) ? ResolveUrl(imagesFolder + "FileSmall.png") : ResolveUrl(imagesFolder + "FileSmall.gif");
             else
                 _defaultFileSmallImage = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.FileSmall.gif");
 
             if (FileLargeImageUrl.Length > 0)
                 _defaultFileLargeImage = ResolveUrl(FileLargeImageUrl);
             else if (isImagesFolder)
-                _defaultFileLargeImage = ResolveUrl(imagesFolder + "FileLarge.gif");
+                _defaultFileLargeImage = File.Exists(Context.Server.MapPath(ResolveUrl(imagesFolder + "FileLarge.png"))) ? ResolveUrl(imagesFolder + "FileLarge.png") : ResolveUrl(imagesFolder + "FileLarge.gif");
             else
                 _defaultFileLargeImage = Page.ClientScript.GetWebResourceUrl(typeof(FileManagerController), "IZ.WebFileManager.resources.FileLarge.gif");
         }
@@ -1123,7 +1139,7 @@ namespace IZ.WebFileManager
             sb.AppendLine("window['WFM_' + context.ClientID].ClearSearchBox();");
             sb.AppendLine(ClientRefreshEventReference);
             return sb.ToString();
-            
+
         }
 
         internal string[] GetPathHashCodes(string fileManagerPath)
@@ -1509,7 +1525,13 @@ namespace IZ.WebFileManager
                 return GetFolderLargeImage((DirectoryInfo)item.FileSystemInfo);
 
             if (IsImage((FileInfo)item.FileSystemInfo))
-                return ResolveUrl("~/" + ThumbnailHandler + "?" + HttpUtility.UrlEncode(VirtualPathUtility.AppendTrailingSlash(currentDirectory.VirtualPath) + item.RelativePath));
+            {
+                string tHandler = CustomThumbnailHandler;
+                if (String.IsNullOrEmpty(tHandler))
+                    tHandler = "~/" + _ThumbnailHandler;
+                return ResolveUrl(tHandler + "?" + HttpUtility.UrlEncode(VirtualPathUtility.AppendTrailingSlash(currentDirectory.VirtualPath) + item.RelativePath));
+
+            }
 
             return GetFileLargeImage((FileInfo)item.FileSystemInfo);
         }

@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessMode.cs" />
     <Compile Include="Components\DirectoryProvider.cs" />
     <Compile Include="Components\FileViewDetailsRender.cs" />
     <Compile Include="Components\FileViewIconsRender.cs" />
@@ -259,6 +260,7 @@
   <ItemGroup>
     <Content Include="resources\WebForm.d.ts" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -268,7 +270,8 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)*" "$(SolutionDir)Demo\Bin\"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)*" "$(SolutionDir)Demo\Bin\"
+copy "$(TargetDir)*" "$(SolutionDir)CkEditorSample\Bin\"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptSourceMap> --sourcemap</TypeScriptSourceMap>

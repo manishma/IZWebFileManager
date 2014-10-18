@@ -53,6 +53,8 @@ namespace IZ.WebFileManager
         BorderedPanelStyle _defaultToolbarButtonHoverStyle;
         BorderedPanelStyle _defaultToolbarButtonPressedStyle;
 
+        AccessMode _defaultAccessMode = AccessMode.ReadOnly;
+
         private BorderedPanel enabledToolbarButton;
         private BorderedPanel disabledToolbarButton;
 
@@ -235,6 +237,20 @@ namespace IZ.WebFileManager
             get { return ViewState["SplitterImageUrl"] == null ? String.Empty : (string)ViewState["SplitterImageUrl"]; }
             set { ViewState["SplitterImageUrl"] = value; }
         }
+
+        // ContainerDirectory
+        [DefaultValue("~/userfiles")]
+        [Category("Data")]
+        [Bindable(true)]
+        [Localizable(false)]
+        [Themeable(false)]
+        public string MainDirectory
+        {
+            get { return ViewState["MainDirectory"] == null ? String.Empty : (string)ViewState["MainDirectory"]; }
+            set { ViewState["MainDirectory"] = value; }
+        }
+
+
 
         // TODO
         [PersistenceMode(PersistenceMode.InnerProperty)]
@@ -494,6 +510,21 @@ namespace IZ.WebFileManager
             set { FileView.View = value; }
         }
 
+        [Bindable(true)]
+        [Category("Behavior")]
+        [DefaultValue(AccessMode.ReadOnly)]
+        [Localizable(false)]
+        public AccessMode DefaultAccessMode
+        {
+            get { return _defaultAccessMode; }
+            set
+            {
+                if (value == AccessMode.Default)
+                    value = AccessMode.ReadOnly;
+                _defaultAccessMode = value;
+            }
+        }
+
         [PersistenceMode(PersistenceMode.InnerProperty)]
         [Category("Appearance")]
         public Style FileViewStyle
@@ -569,7 +600,7 @@ namespace IZ.WebFileManager
 
             Page.ClientScript.RegisterExpandoAttribute(_fileView.ClientID, "rootControl", ClientID);
 
-            if(ShowFileUploadBar)
+            if (ShowFileUploadBar)
                 Page.ClientScript.RegisterClientScriptBlock(typeof(FileManager), "file-upload-bar",
 @"
 
@@ -639,7 +670,7 @@ window['" + Controller.ClientScriptReference + @"PromptDirectory'] =  function(s
         selectedFolder = arg;
     };
 
-    document.getElementById('"+ ClientID+ @"_SelectFolderOK').onclick = function() {
+    document.getElementById('" + ClientID + @"_SelectFolderOK').onclick = function() {
         callback(selectedFolder);
         selectFolderPanel.style.display = 'none';
     };
@@ -932,7 +963,7 @@ window['" + Controller.ClientScriptReference + @"PromptDirectory'] =  function(s
             {
                 this.owner = owner;
             }
-               
+
             public override string OuterBorderHoverImagesArrayName
             {
                 get { return owner.ClientID + "tbHover"; }
@@ -1216,7 +1247,7 @@ window['" + Controller.ClientScriptReference + @"PromptDirectory'] =  function(s
                     .Span(x => x.Id(_fileView.ClientID + name + "Watermark").Position("absolute").ZIndex(1).Top(AddressTextBoxStyle.PaddingTop).Left(AddressTextBoxStyle.PaddingLeft).Color(Color.FromArgb(0xACA899)).Italic().Cursor("text"))
                         .Text(watermark)
                     .EndTag();
-                
+
             }
 
             writer.RenderEndTag(); // div

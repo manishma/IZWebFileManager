@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bundle minify="true" runOnBuild="true" output="FileManager.js">
+  <!--The order of the <file> elements determines the order of them when bundled.-->
+  <file>/Scripts/plugins/spin/spin.js</file>
+  <file>/Scripts/plugins/spin/jquery.spin.js</file>
+	<file>/scripts/plugins/fineuploader/jquery.fineuploader.js</file>
+	<file>/scripts/plugins/bootstrap/tooltip.js</file>
+	<file>/scripts/plugins/bootstrap/modal.js</file>
+	<file>/scripts/plugins/bootbox.js</file>
+	<file>/scripts/plugins/jquery.mb-waitspinner.js</file>
+</bundle>

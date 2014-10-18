@@ -46,7 +46,7 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
         }
     }
 
-    this.Element.oncontextmenu = function (e) {
+    this.Element.oncontextmenu = function (e: MSEventObj) {
         var func = This.GetShowContextMenuFunc();
         if (func) {
             if (e == null) var e = event;
@@ -58,7 +58,7 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
     }
 
     if (this.Address) {
-        this.Address.onkeydown = function (e) {
+        this.Address.onkeydown = function (e: MSEventObj) {
             if (e == null) var e = event;
             if (e.keyCode == 13) {
                 This.Navigate(this.value);
@@ -67,7 +67,7 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
             }
         }
         this.AddressGo.style.display = 'block';
-        this.AddressGo.onclick = function (e) {
+        this.AddressGo.onclick = function (e: MSEventObj) {
             if (e == null) var e = event;
             This.Navigate(This.Address.value);
             e.cancelBubble = true;
@@ -76,7 +76,7 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
     }
 
     if (this.SearchBox) {
-        this.SearchBox.onkeydown = function (e) {
+        this.SearchBox.onkeydown = function (e: MSEventObj) {
             if (e == null) var e = event;
             if (e.keyCode == 13) {
                 This._controller.OnSearch(This, this.value);
@@ -85,7 +85,7 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
             }
         };
 
-        this.SearchBox.onkeyup = this.SearchBox.onchange = function (e) {
+        this.SearchBox.onkeyup = this.SearchBox.onchange = function (e: MSEventObj) {
             if (e == null) var e = event;
             if (this.value) {
                 This.SearchBoxClear.style.display = 'block';
@@ -108,14 +108,14 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
         };
 
         this.SearchBoxGo.style.display = 'block';
-        this.SearchBoxGo.onclick = function (e) {
+        this.SearchBoxGo.onclick = function (e: MSEventObj) {
             if (e == null) var e = event;
             This._controller.OnSearch(This, This.SearchBox.value);
             e.cancelBubble = true;
             return false;
         };
 
-        this.SearchBoxClear.onclick = function (e) {
+        this.SearchBoxClear.onclick = function (e: MSEventObj) {
             if (e == null) var e = event;
             This.ClearSearchBox();
             This._controller.OnSearch(This, '');
@@ -124,7 +124,7 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
         }
     }
 
-    this.Focuser.onkeydown = function (e) {
+    this.Focuser.onkeydown = function (e: MSEventObj) {
         if (e == null) var e = event;
         if (e.keyCode == 13) {
             eval('WFM_' + ControllerID + '.OnExecuteCommand(WFM_' + ClientID + ',\'0:0\')');
@@ -386,14 +386,14 @@ FileView.prototype.InitItem = function (item, path, isDirectory, canBeRenamed, s
     item.Name = name;
     //item.setAttribute("title", name);
 
-    item.ondblclick = function (e) {
+    item.ondblclick = function (e: MSEventObj) {
         if (e == null) var e = event;
         eval('WFM_' + ControllerID + '.OnExecuteCommand(WFM_' + ClientID + ',\'0:0\')');
         e.cancelBubble = true;
         return false;
     };
 
-    item.oncontextmenu = function (e) {
+    item.oncontextmenu = function (e: MSEventObj) {
         if (e == null) var e = event;
         if (!this.Selected)
             This.AddSelectedItem(this, true);

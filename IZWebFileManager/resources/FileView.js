@@ -32,8 +32,7 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
             WebForm_GetElementById(ClientID + "_Thead_Size"),
             WebForm_GetElementById(ClientID + "_Thead_Type"),
             WebForm_GetElementById(ClientID + "_Thead_Modified"),
-            WebForm_GetElementById(ClientID + "_Thead_Folder")
-        ];
+            WebForm_GetElementById(ClientID + "_Thead_Folder")];
         for (var i = 0; i < tHeads.length; i++) {
             (function (tHead) {
                 if (tHead) {
@@ -50,8 +49,7 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
     this.Element.oncontextmenu = function (e) {
         var func = This.GetShowContextMenuFunc();
         if (func) {
-            if (e == null)
-                var e = event;
+            e = e || event;
             This.ShowContextMenu(func, e);
             This.HitInfo = 'FileView';
             e.cancelBubble = true;
@@ -61,8 +59,7 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
 
     if (this.Address) {
         this.Address.onkeydown = function (e) {
-            if (e == null)
-                var e = event;
+            e = e || event;
             if (e.keyCode == 13) {
                 This.Navigate(this.value);
                 e.cancelBubble = true;
@@ -71,8 +68,7 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
         };
         this.AddressGo.style.display = 'block';
         this.AddressGo.onclick = function (e) {
-            if (e == null)
-                var e = event;
+            e = e || event;
             This.Navigate(This.Address.value);
             e.cancelBubble = true;
             return false;
@@ -81,8 +77,7 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
 
     if (this.SearchBox) {
         this.SearchBox.onkeydown = function (e) {
-            if (e == null)
-                var e = event;
+            e = e || event;
             if (e.keyCode == 13) {
                 This._controller.OnSearch(This, this.value);
                 e.cancelBubble = true;
@@ -91,8 +86,7 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
         };
 
         this.SearchBox.onkeyup = this.SearchBox.onchange = function (e) {
-            if (e == null)
-                var e = event;
+            e = e || event;
             if (this.value) {
                 This.SearchBoxClear.style.display = 'block';
             } else {
@@ -115,16 +109,14 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
 
         this.SearchBoxGo.style.display = 'block';
         this.SearchBoxGo.onclick = function (e) {
-            if (e == null)
-                var e = event;
+            e = e || event;
             This._controller.OnSearch(This, This.SearchBox.value);
             e.cancelBubble = true;
             return false;
         };
 
         this.SearchBoxClear.onclick = function (e) {
-            if (e == null)
-                var e = event;
+            e = e || event;
             This.ClearSearchBox();
             This._controller.OnSearch(This, '');
             e.cancelBubble = true;
@@ -133,8 +125,7 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
     }
 
     this.Focuser.onkeydown = function (e) {
-        if (e == null)
-            var e = event;
+        e = e || event;
         if (e.keyCode == 13) {
             eval('WFM_' + ControllerID + '.OnExecuteCommand(WFM_' + ClientID + ',\'0:0\')');
             e.cancelBubble = true;
@@ -180,7 +171,7 @@ FileView.prototype.getController = function () {
 FileView.prototype.GetShowContextMenuFunc = function () {
     if (this.HitInfo == 'FileView')
         return window[this.ClientID + '_ShowContextMenu'];
-else
+    else
         return window[this.ClientID + '_ShowSelectedItemsContextMenu'];
 };
 
@@ -360,7 +351,7 @@ FileView.prototype.SetSort = function (arg) {
     if (sort.value == arg) {
         if (sortDirection.value == 'Ascending')
             sortDirection.value = 'Descending';
-else
+        else
             sortDirection.value = 'Ascending';
     } else {
         sort.value = arg;
@@ -407,16 +398,14 @@ FileView.prototype.InitItem = function (item, path, isDirectory, canBeRenamed, s
 
     //item.setAttribute("title", name);
     item.ondblclick = function (e) {
-        if (e == null)
-            var e = event;
+        e = e || event;
         eval('WFM_' + ControllerID + '.OnExecuteCommand(WFM_' + ClientID + ',\'0:0\')');
         e.cancelBubble = true;
         return false;
     };
 
     item.oncontextmenu = function (e) {
-        if (e == null)
-            var e = event;
+        e = e || event;
         if (!this.Selected)
             This.AddSelectedItem(this, true);
         This.HitInfo = 'SelectedItems';
@@ -484,7 +473,7 @@ FileViewItem.prototype.highlight = function (bool) {
     this._highlight = bool;
     if (bool)
         WebForm_AppendToClassName(this._element, this._owner.SelectedItemStyle);
-else
+    else
         WebForm_RemoveClassName(this._element, this._owner.SelectedItemStyle);
 };
 
@@ -505,7 +494,7 @@ FileViewItem.prototype.isSelected = function () {
 FileViewItem.prototype.setSelected = function (selected, clearBefore) {
     if (selected)
         this._owner.AddSelectedItem(this._element, clearBefore);
-else
+    else
         this._owner.RemoveSelectedItem(this._element);
 };
 
@@ -549,7 +538,7 @@ FileViewItem.prototype._mouseDown = function (ev) {
     this._moveCounter = 0;
     if (this.isSelected())
         this._pendSelect = true;
-else
+    else
         this.setSelected((!ev.ctrlKey && !ev.shiftKey) || !this.isSelected(), !ev.ctrlKey && !ev.shiftKey);
     return false;
 };
@@ -584,7 +573,7 @@ FileViewItem.prototype.onDragInTarget = function (ev) {
         this.highlight(true);
         if (this._dropMove)
             this.setCursor(this.getController()._dropMoveCursor);
-else
+        else
             this.setCursor(this.getController()._dropCopyCursor);
     } else {
         this.setCursor(this.getController()._dropNotAllowedCursor);

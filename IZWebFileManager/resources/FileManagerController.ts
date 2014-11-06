@@ -102,13 +102,13 @@ FileManagerController.prototype.OnRename = function(sender, arg) {
     this.TextBox.Item = item;
     this.TextBox.Control = sender;
     
-    this.TextBox.onclick = function(e) {
-        if(e == null) var e = event;
+    this.TextBox.onclick = function(e:any) {
+        e = e || event;
         e.cancelBubble = true;
     }
     
-    this.TextBox.onkeydown = function(e) {
-        if(e == null) var e = event;
+    this.TextBox.onkeydown = function(e:any) {
+        e = e || event;
         if(e.keyCode == 27) {
             eval('WFM_' + ClientID + '.doRename = false');
             eval(this.HideFunction);
@@ -187,10 +187,10 @@ FileManagerController.prototype._SelectedItemsMoveTo = function(sender, arg) {
 FileManagerController.prototype.PromptDirectory = function (directory, callback: (selectedFolder: string) => void ) {
 
     var func = window['WFM_' + this.ClientID + 'PromptDirectory']
-        || (dir, cb) => {
+        || ((dir, cb) => {
             var selectedFolder = window.prompt(decodeURIComponent(eval('WFM_' + this.ClientID + 'SelectDestination')), dir);
             cb(selectedFolder);
-        };
+        });
 
     func(directory, callback);
 }

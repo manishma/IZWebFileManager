@@ -1,4 +1,5 @@
 /// <reference path="WebForm.d.ts" />
+
 var FileManagerController = function (ClientID, UniqueID, EventArgumentSplitter) {
     this.ClientID = ClientID;
     this.UniqueID = UniqueID;
@@ -98,14 +99,12 @@ FileManagerController.prototype.OnRename = function (sender, arg) {
     this.TextBox.Control = sender;
 
     this.TextBox.onclick = function (e) {
-        if (e == null)
-            var e = event;
+        e = e || event;
         e.cancelBubble = true;
     };
 
     this.TextBox.onkeydown = function (e) {
-        if (e == null)
-            var e = event;
+        e = e || event;
         if (e.keyCode == 27) {
             eval('WFM_' + ClientID + '.doRename = false');
             eval(this.HideFunction);
@@ -189,10 +188,10 @@ FileManagerController.prototype._SelectedItemsMoveTo = function (sender, arg) {
 
 FileManagerController.prototype.PromptDirectory = function (directory, callback) {
     var _this = this;
-    var func = window['WFM_' + this.ClientID + 'PromptDirectory'] || function (dir, cb) {
+    var func = window['WFM_' + this.ClientID + 'PromptDirectory'] || (function (dir, cb) {
         var selectedFolder = window.prompt(decodeURIComponent(eval('WFM_' + _this.ClientID + 'SelectDestination')), dir);
         cb(selectedFolder);
-    };
+    });
 
     func(directory, callback);
 };
@@ -287,7 +286,7 @@ FileManagerController.prototype.drop = function (target, move) {
     this.stopDragDrop();
     if (move)
         this._SelectedItemsMoveTo(dragSource, target.getFullPath());
-else
+    else
         this._SelectedItemsCopyTo(dragSource, target.getFullPath());
 };
 

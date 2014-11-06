@@ -46,10 +46,10 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
         }
     }
 
-    this.Element.oncontextmenu = function (e) {
+    this.Element.oncontextmenu = function (e:any) {
         var func = This.GetShowContextMenuFunc();
         if (func) {
-            if (e == null) var e = event;
+            e = e || event;
             This.ShowContextMenu(func, e);
             This.HitInfo = 'FileView';
             e.cancelBubble = true;
@@ -58,8 +58,8 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
     }
 
     if (this.Address) {
-        this.Address.onkeydown = function (e) {
-            if (e == null) var e = event;
+        this.Address.onkeydown = function (e:any) {
+            e = e || event;
             if (e.keyCode == 13) {
                 This.Navigate(this.value);
                 e.cancelBubble = true;
@@ -67,8 +67,8 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
             }
         }
         this.AddressGo.style.display = 'block';
-        this.AddressGo.onclick = function (e) {
-            if (e == null) var e = event;
+        this.AddressGo.onclick = function (e:any) {
+            e = e || event;
             This.Navigate(This.Address.value);
             e.cancelBubble = true;
             return false;
@@ -76,8 +76,8 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
     }
 
     if (this.SearchBox) {
-        this.SearchBox.onkeydown = function (e) {
-            if (e == null) var e = event;
+        this.SearchBox.onkeydown = function (e:any) {
+            e = e || event;
             if (e.keyCode == 13) {
                 This._controller.OnSearch(This, this.value);
                 e.cancelBubble = true;
@@ -85,8 +85,8 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
             }
         };
 
-        this.SearchBox.onkeyup = this.SearchBox.onchange = function (e) {
-            if (e == null) var e = event;
+        this.SearchBox.onkeyup = this.SearchBox.onchange = function (e:any) {
+            e = e || event;
             if (this.value) {
                 This.SearchBoxClear.style.display = 'block';
             } else {
@@ -108,15 +108,15 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
         };
 
         this.SearchBoxGo.style.display = 'block';
-        this.SearchBoxGo.onclick = function (e) {
-            if (e == null) var e = event;
+        this.SearchBoxGo.onclick = function (e:any) {
+            e = e || event;
             This._controller.OnSearch(This, This.SearchBox.value);
             e.cancelBubble = true;
             return false;
         };
 
-        this.SearchBoxClear.onclick = function (e) {
-            if (e == null) var e = event;
+        this.SearchBoxClear.onclick = function (e:any) {
+            e = e || event;
             This.ClearSearchBox();
             This._controller.OnSearch(This, '');
             e.cancelBubble = true;
@@ -124,8 +124,8 @@ var FileView = function (ClientID, ControllerID, RegularItemStyle, SelectedItemS
         }
     }
 
-    this.Focuser.onkeydown = function (e) {
-        if (e == null) var e = event;
+    this.Focuser.onkeydown = function (e:any) {
+        e = e || event;
         if (e.keyCode == 13) {
             eval('WFM_' + ControllerID + '.OnExecuteCommand(WFM_' + ClientID + ',\'0:0\')');
             e.cancelBubble = true;
@@ -386,15 +386,15 @@ FileView.prototype.InitItem = function (item, path, isDirectory, canBeRenamed, s
     item.Name = name;
     //item.setAttribute("title", name);
 
-    item.ondblclick = function (e) {
-        if (e == null) var e = event;
+    item.ondblclick = function (e:any) {
+        e = e || event;
         eval('WFM_' + ControllerID + '.OnExecuteCommand(WFM_' + ClientID + ',\'0:0\')');
         e.cancelBubble = true;
         return false;
     };
 
-    item.oncontextmenu = function (e) {
-        if (e == null) var e = event;
+    item.oncontextmenu = function (e:any) {
+        e = e || event;
         if (!this.Selected)
             This.AddSelectedItem(this, true);
         This.HitInfo = 'SelectedItems';
